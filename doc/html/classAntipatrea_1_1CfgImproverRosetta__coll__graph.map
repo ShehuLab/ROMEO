@@ -1,0 +1,5 @@
+<map id="Antipatrea::CfgImproverRosetta" name="Antipatrea::CfgImproverRosetta">
+<area shape="rect" id="node2" href="$classAntipatrea_1_1CfgImprover.html" title="Interface for modifying a configuration to further improve it, e.g., via energy minimization. " alt="" coords="5,162,167,189"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="8,80,164,107"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="23,5,149,32"/>
+</map>

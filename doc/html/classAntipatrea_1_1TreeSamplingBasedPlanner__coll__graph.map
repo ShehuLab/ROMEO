@@ -1,0 +1,16 @@
+<map id="Antipatrea::TreeSamplingBasedPlanner" name="Antipatrea::TreeSamplingBasedPlanner">
+<area shape="rect" id="node2" href="$classAntipatrea_1_1SamplingBasedPlanner.html" title="Interface for a sampling&#45;based planner which explores the configuration space by sampling acceptable ..." alt="" coords="837,433,1017,474"/>
+<area shape="rect" id="node20" href="$classAntipatrea_1_1Proximity.html" title="Antipatrea::Proximity\l\&lt; int, Antipatrea::Sampling\lBasedPlanner * \&gt;" alt="" coords="1155,461,1332,517"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Planner.html" title="Interface for a planner which takes a planning problem, tries to solve it, and, if successful..." alt="" coords="498,105,631,132"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="197,157,353,184"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="5,157,132,184"/>
+<area shape="rect" id="node7" href="$classAntipatrea_1_1Reader.html" title="Interface for reading from an input stream. " alt="" coords="209,56,340,83"/>
+<area shape="rect" id="node8" href="$classAntipatrea_1_1Writer.html" title="Interface for writing to an output stream. " alt="" coords="213,107,337,133"/>
+<area shape="rect" id="node24" href="$classAntipatrea_1_1PlannerGraphSearchInfo.html" title="Wrapper for the planner graph so that it can be used with the graph searching alogrithms, e.g., DFS, BFS, A*, Dijkstra. " alt="" coords="481,222,649,263"/>
+<area shape="rect" id="node17" href="$classAntipatrea_1_1Cfg.html" title="Configuration representation. " alt="" coords="509,707,620,733"/>
+<area shape="rect" id="node18" href="$classAntipatrea_1_1ProximityDefault.html" title="Antipatrea::ProximityDefault\l\&lt; int, Antipatrea::SamplingBased\lPlanner * \&gt;" alt="" coords="1804,421,2019,477"/>
+<area shape="rect" id="node19" href="$classAntipatrea_1_1ProximityGNAT.html" title="Antipatrea::ProximityGNAT\l\&lt; int, Antipatrea::SamplingBased\lPlanner * \&gt;" alt="" coords="1540,461,1755,517"/>
+<area shape="rect" id="node21" href="$classAntipatrea_1_1ProximityGNAT_1_1Node.html" title="Antipatrea::ProximityGNAT\l\&lt; Key, DistFnData \&gt;::Node" alt="" coords="1152,646,1335,687"/>
+<area shape="rect" id="node22" href="$classAntipatrea_1_1GraphSearch.html" title="Antipatrea::GraphSearch\l\&lt; int \&gt;" alt="" coords="482,157,647,198"/>
+<area shape="rect" id="node23" href="$classAntipatrea_1_1GraphSearchInfo.html" title="Antipatrea::GraphSearchInfo\l\&lt; int \&gt;" alt="" coords="181,215,368,257"/>
+</map>

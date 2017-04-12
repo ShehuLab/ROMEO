@@ -1,0 +1,7 @@
+\form#0:$\mu, \sigma \in R$
+\form#1:$\sigma \not = 0$
+\form#2:$(\mu, \sigma^2)$
+\form#3:\[ P(x) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}. \]
+\form#4:$\mu = 0$
+\form#5:$\sigma^2 = 1$
+\form#6:\[ \begin{array}{rcl} y_1 & = & \sqrt{-2 \ln x_1} \cos(2\pi x_2) \ \ y_2 & = & \sqrt{-2 \ln x_1} \sin(2\pi x_2).\ \ \end{array} \]

@@ -1,0 +1,8 @@
+<map id="Antipatrea::GManagerRunPlanner2D" name="Antipatrea::GManagerRunPlanner2D">
+<area shape="rect" id="node2" href="$classAntipatrea_1_1GManagerRunPlanner.html" title="GUI for running a planner. " alt="" coords="771,293,988,320"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1GManager.html" title="Antipatrea::GManager" alt="" coords="519,191,668,217"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1GCamera.html" title="Antipatrea::GCamera" alt="" coords="215,5,361,32"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1Setup.html" title="Facilitate setting up the planning problem as well as the planner and its components. " alt="" coords="532,452,655,479"/>
+<area shape="rect" id="node6" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="210,56,366,83"/>
+<area shape="rect" id="node7" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="5,56,132,83"/>
+</map>

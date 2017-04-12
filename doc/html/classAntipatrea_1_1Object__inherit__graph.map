@@ -1,0 +1,50 @@
+<map id="Antipatrea::Object" name="Antipatrea::Object">
+<area shape="rect" id="node2" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="180,1003,336,1030"/>
+<area shape="rect" id="node49" href="$classAntipatrea_1_1Grid.html" title="Antipatrea::Grid" alt="" coords="201,1054,315,1081"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1CfgAcceptor.html" title="Interface for determining whether or not a given configuration is acceptable. " alt="" coords="414,137,577,163"/>
+<area shape="rect" id="node8" href="$classAntipatrea_1_1CfgDistance.html" title="Interface for computing the distance between two configurations. " alt="" coords="414,258,577,285"/>
+<area shape="rect" id="node10" href="$classAntipatrea_1_1CfgEnergyEvaluator.html" title="Interface for computing the energy value of a configuration. " alt="" coords="392,330,599,357"/>
+<area shape="rect" id="node12" href="$classAntipatrea_1_1CfgForwardKinematics.html" title="Interface for computing the forward kinematics corresponding to the specified configuration values..." alt="" coords="384,414,607,441"/>
+<area shape="rect" id="node15" href="$classAntipatrea_1_1CfgImprover.html" title="Interface for modifying a configuration to further improve it, e.g., via energy minimization. " alt="" coords="415,538,576,565"/>
+<area shape="rect" id="node18" href="$classAntipatrea_1_1CfgManager.html" title="Motion&#45;planning component for managing configurations. " alt="" coords="415,669,575,695"/>
+<area shape="rect" id="node19" href="$classAntipatrea_1_1CfgOffspringGenerator.html" title="Generate an offspring configuration near the parent configuration. " alt="" coords="414,720,577,761"/>
+<area shape="rect" id="node24" href="$classAntipatrea_1_1CfgProjector.html" title="Motion&#45;planning component for managing and defining configuration projections. " alt="" coords="414,923,577,950"/>
+<area shape="rect" id="node29" href="$classAntipatrea_1_1CfgSampler.html" title="Interface for configuration sampling. " alt="" coords="416,1003,575,1030"/>
+<area shape="rect" id="node33" href="$classAntipatrea_1_1EdgeCostEvaluator.html" title="Interface for evaluating the direct and reverse cost of a path. " alt="" coords="394,1054,597,1081"/>
+<area shape="rect" id="node36" href="$classAntipatrea_1_1Planner.html" title="Interface for a planner which takes a planning problem, tries to solve it, and, if successful..." alt="" coords="429,1105,562,1131"/>
+<area shape="rect" id="node39" href="$classAntipatrea_1_1PlannerGraph.html" title="Representation of the undirected graph (roadmap or tree) constructed by a sampling&#45;based motion plann..." alt="" coords="411,1155,579,1182"/>
+<area shape="rect" id="node40" href="$classAntipatrea_1_1PlannerProblem.html" title="The planning problem is defined by the initial configuration and a goal acceptor. ..." alt="" coords="405,1206,586,1233"/>
+<area shape="rect" id="node41" href="$classAntipatrea_1_1PlannerSolution.html" title="Data structure to store the solution obtained by a motion planner. " alt="" coords="405,1257,585,1283"/>
+<area shape="rect" id="node42" href="$classAntipatrea_1_1Scene2D.html" title="Scene2D is defined by its bounding box and the 2D obstacles it contains. " alt="" coords="424,1307,567,1334"/>
+<area shape="rect" id="node43" href="$classAntipatrea_1_1Setup.html" title="Facilitate setting up the planning problem as well as the planner and its components. " alt="" coords="434,1397,557,1423"/>
+<area shape="rect" id="node46" href="$classAntipatrea_1_1SignedDistanceBetweenTwoValues.html" title="Interface to define the signed distance between two values. " alt="" coords="405,1499,586,1540"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1CfgAcceptorBasedOnDistance.html" title="Motion&#45;planning component which accepts a configuration only if it is within a user&#45;defined distance ..." alt="" coords="665,5,864,47"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1CfgAcceptorBasedOnEnergy.html" title="Motion&#45;planning component which accepts a configuration only if its energy is below a user&#45;defined th..." alt="" coords="665,71,864,112"/>
+<area shape="rect" id="node6" href="$classAntipatrea_1_1CfgAcceptorChain2D.html" title="CfgAcceptorChain2D accepts a configuration iff the chain avoids self collisions and collisions with t..." alt="" coords="658,137,871,163"/>
+<area shape="rect" id="node7" href="$classAntipatrea_1_1CfgAcceptorPoint2D.html" title="CfgAcceptorPoints2D accepts a configuration iff the point robot avoids collisions with the obstacles ..." alt="" coords="660,187,869,214"/>
+<area shape="rect" id="node9" href="$classAntipatrea_1_1CfgDistanceLp.html" title="Defines the distance between two configurations as the Lp norm of the pairwise distances between conf..." alt="" coords="677,238,853,265"/>
+<area shape="rect" id="node11" href="$classAntipatrea_1_1CfgEnergyEvaluatorRosetta.html" title="Use Rosetta to evaluate the energy of the configuration. " alt="" coords="661,289,868,331"/>
+<area shape="rect" id="node13" href="$classAntipatrea_1_1Chain2D.html" title="Forward kinematics for a chain in a 2D environment. " alt="" coords="695,355,835,382"/>
+<area shape="rect" id="node14" href="$classAntipatrea_1_1MolecularStructureRosetta.html" title="Forward kinematics for a molecular structure. " alt="" coords="665,407,864,448"/>
+<area shape="rect" id="node16" href="$classAntipatrea_1_1CfgImproverDoNothing.html" title="It does nothing; so no improvement – useful for settings where an improvement cannot be defined..." alt="" coords="675,472,854,513"/>
+<area shape="rect" id="node17" href="$classAntipatrea_1_1CfgImproverRosetta.html" title="Use Rosetta to improve the energetic value of the configuration. " alt="" coords="661,538,868,565"/>
+<area shape="rect" id="node20" href="$classAntipatrea_1_1CfgOffspringGeneratorByGaussianPerturbation.html" title="Generate an offspring configuration near the parent configuration by perturbing one or more values..." alt="" coords="655,589,875,631"/>
+<area shape="rect" id="node21" href="$classAntipatrea_1_1CfgOffspringGeneratorRosetta.html" title="Use Rosetta/library to generate an offspring near the parent configuration. " alt="" coords="683,655,846,696"/>
+<area shape="rect" id="node22" href="$classAntipatrea_1_1CfgOffspringGeneratorTowardTarget.html" title="Interface for generating an offspring near a parent configuration and toward a target configuration..." alt="" coords="683,720,846,761"/>
+<area shape="rect" id="node23" href="$classAntipatrea_1_1CfgOffspringGeneratorToTarget.html" title="Generate an offspring configuration along a path that starts at the parent configuration and reaches ..." alt="" coords="923,720,1085,761"/>
+<area shape="rect" id="node25" href="$classAntipatrea_1_1CfgProjectorChain2D.html" title="CfgProjectorChain2D computes the projection as the position of the end effector of the chain..." alt="" coords="683,785,846,827"/>
+<area shape="rect" id="node26" href="$classAntipatrea_1_1CfgProjectorDeltaR.html" title="Use Rosetta to compute the DeltaR projection of the configuration values. " alt="" coords="683,851,846,892"/>
+<area shape="rect" id="node27" href="$classAntipatrea_1_1CfgProjectorPoint2D.html" title="CfgProjectorPoint2D computes the projection as the position of the point robot. " alt="" coords="683,916,846,957"/>
+<area shape="rect" id="node28" href="$classAntipatrea_1_1CfgProjectorUSR.html" title="Use Rosetta to compute the USR projection of the configuration values. " alt="" coords="669,982,860,1009"/>
+<area shape="rect" id="node30" href="$classAntipatrea_1_1CfgSamplerPoint2D.html" title="Sample a point uniformly at random inside the bounding box of the scene. " alt="" coords="662,1033,867,1059"/>
+<area shape="rect" id="node31" href="$classAntipatrea_1_1CfgSamplerRosetta.html" title="Use Rosetta to sample values for the configuration. " alt="" coords="663,1083,867,1110"/>
+<area shape="rect" id="node32" href="$classAntipatrea_1_1CfgUniformSamplerInJointSpace.html" title="Sample a configuration by sampling each value at random from [&#45;PI, PI]. " alt="" coords="663,1135,867,1176"/>
+<area shape="rect" id="node34" href="$classAntipatrea_1_1EdgeCostEvaluatorBasedOnDistance.html" title="Edge cost is defined as the distance between the start and end configurations. " alt="" coords="663,1200,866,1241"/>
+<area shape="rect" id="node35" href="$classAntipatrea_1_1EdgeCostEvaluatorBasedOnEnergy.html" title="Edge cost is defined as the change in energy between the start and end configurations. " alt="" coords="663,1265,866,1307"/>
+<area shape="rect" id="node37" href="$classAntipatrea_1_1SamplingBasedPlanner.html" title="Interface for a sampling&#45;based planner which explores the configuration space by sampling acceptable ..." alt="" coords="675,1331,855,1372"/>
+<area shape="rect" id="node38" href="$classAntipatrea_1_1PRM.html" title="Probabilistic RoadMap Method (PRM). " alt="" coords="945,1338,1063,1365"/>
+<area shape="rect" id="node44" href="$classAntipatrea_1_1Setup2D.html" title="Facilitate setting up planning problems in 2D workspaces as well as the planner and its components..." alt="" coords="695,1397,835,1423"/>
+<area shape="rect" id="node45" href="$classAntipatrea_1_1SetupRosetta.html" title="Setup the planning problem for a molecular structure based on Rosetta representation as well as the p..." alt="" coords="680,1447,849,1474"/>
+<area shape="rect" id="node47" href="$classAntipatrea_1_1SignedDistanceBetweenTwoAngles.html" title="Interprets the values as angles and defines the signed distance as the signed length of the shortest ..." alt="" coords="674,1499,855,1540"/>
+<area shape="rect" id="node48" href="$classAntipatrea_1_1SignedDistanceBetweenTwoNumbers.html" title="Interprets the values as numbers and defines the signed distance as their difference. " alt="" coords="674,1564,855,1605"/>
+</map>

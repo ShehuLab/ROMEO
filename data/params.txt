@@ -1,0 +1,140 @@
+#########################################################################
+# Lines that start with hashtag are considered comments
+#
+# Parameter commonly defined by Keyword Value pair.
+# Use [ ] to associate a keyword with a vector of values.
+# Use { } to associate a keyword with a group of parameters.
+# 
+# Make sure to leave at least one empty space before and after
+# a bracket or a curly brace.
+#
+# See src/Utils/Params.hpp for details on the format of the parameter
+# file.
+########################################################################
+
+#Supported setups:
+# SetupPoint2D : motion planning for a point robot in 2D
+# SetupChain2D : motion planning for a kinematic chain in 2D
+# SetupRosetta : motion planning for a molecular structure
+#                (still in development)
+
+#Supported planners:
+# Roadmap-based: PRM
+# Tree-based: RRT, EST, PGT
+
+UseSetup SetupChain2D
+UsePlanner PGT
+UseCfgManager CfgManager
+UseCfgAcceptor CfgAcceptorBasedOnDistance
+UseGoalAcceptor GoalAcceptorBasedOnDistance
+UseCfgOffspringGenerator CfgOffspringGeneratorToTargetByLinearInterpolation
+UseCfgDistance CfgDistanceLp
+UseSignedDistanceBetweenTwoValues SignedDistanceBetweenTwoAngles
+UseEdgeCostEvaluator EdgeCostEvaluatorBasedOnDistance
+UseCfgSampler CfgUniformSamplerInJointSpace
+UseCfgImprover CfgImproverDoNothing
+
+#Components/CfgAcceptors
+
+CfgAcceptor { }
+CfgAcceptorBasedOnDistance { DistanceThreshold 0.2 }
+CfgAcceptorBasedOnEnergy   { EnergyThreshold 0.0 }
+
+GoalAcceptor { }
+GoalAcceptorBasedOnDistance { DistanceThreshold 0.2 }
+GoalAcceptorBasedOnEnergy { EnergyThreshold -100.0 }
+
+#Components/CfgDistances
+
+CfgDistance { }
+CfgDistanceLp { Exponent 2 }
+
+SignedDistanceBetweenTwoValues { }
+SignedDistanceBetweenTwoAngles { }
+SignedDistanceBetweenTwoNumbers { }
+
+#Components/CfgEnergyEvaluators
+CfgEnergyEvaluator { }
+
+#Components/CfgForwardKinematics
+CfgForwardKinematics { }
+
+#Components/CfgImprovers { }
+CfgImprover { }
+CfgImproverDoNothing { }
+
+#Components/CfgManagers
+CfgManager { Dim 0 }
+
+#Components/CfgOffspringGenerators
+CfgOffspringGenerator { Step 0.1 }
+CfgOffspringGeneratorByGaussianPerturbation
+{
+  Consecutive false
+  MinNrValuesToPerturb 1
+  MaxNrValuesToPerturb 10000
+}
+CfgOffspringGeneratorTowardTarget { }
+CfgOffspringGeneratorToTarget { }
+CfgOffspringGeneratorToTargetByLinearInterpolation { }
+
+#Components/CfgProjectors
+CfgProjector { Dim 0 }
+
+#Components/CfgSamplers
+CfgSampler { }
+CfgUniformSamplerInJointSpace { }
+
+#Components/EdgeCostEvaluators
+EdgeCostEvaluator { }
+EdgeCostEvaluatorBasedOnDistance { }
+EdgeCostEvaluatorBasedOnEnergy { }
+
+#Plugin2D
+Scene2D { UseFile data/scene.txt }
+CfgAcceptorPoint2D { }
+CfgProjectorPoint2D { }
+CfgSamplerPoint2D { }
+
+Chain2D { NrLinks 8 LinkLength 1.0 }
+CfgAcceptorChain2D { }
+CfgProjectorChain2D { }
+
+#Planners
+PlannerGraph
+{
+UseFile data/PlannerGraph.txt
+ReadWhenPlannerStarts false
+PrintWhenPlannerEnds false
+}
+
+SamplingBasedPlanner { OneStepDistance 0.1 } 
+PRM
+{
+  NrNeighbors 10
+  BatchSizeToGenerateVertices 100
+  ProbAllowCycles 0.0
+}
+TreeSamplingBasedPlanner
+{
+  ExtendMaxNrSteps 100
+  ExtendReachedTargetDistanceThreshold 0.1
+  GoalBias 0.05
+}
+RRT { }
+EST { NeighborhoodRadius 2.0 }
+PGT
+{
+   Grid
+   {
+      Dims [ 32 37 ]
+      Min [ -10 -10 ]
+      Max [ 10  10 ]
+   }
+}
+
+#PluginRosetta
+RosettaMolecularStructure
+{
+}
+

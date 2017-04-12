@@ -1,0 +1,6 @@
+<map id="Antipatrea::CfgImprover" name="Antipatrea::CfgImprover">
+<area shape="rect" id="node4" href="$classAntipatrea_1_1CfgImproverDoNothing.html" title="It does nothing; so no improvement – useful for settings where an improvement cannot be defined..." alt="" coords="5,229,184,271"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1CfgImproverRosetta.html" title="Use Rosetta to improve the energetic value of the configuration. " alt="" coords="209,237,415,263"/>
+<area shape="rect" id="node2" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="125,80,281,107"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="139,5,266,32"/>
+</map>

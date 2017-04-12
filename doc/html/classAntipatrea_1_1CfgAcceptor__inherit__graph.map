@@ -1,0 +1,8 @@
+<map id="Antipatrea::CfgAcceptor" name="Antipatrea::CfgAcceptor">
+<area shape="rect" id="node4" href="$classAntipatrea_1_1CfgAcceptorBasedOnDistance.html" title="Motion&#45;planning component which accepts a configuration only if it is within a user&#45;defined distance ..." alt="" coords="602,5,801,47"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1CfgAcceptorBasedOnEnergy.html" title="Motion&#45;planning component which accepts a configuration only if its energy is below a user&#45;defined th..." alt="" coords="602,71,801,112"/>
+<area shape="rect" id="node6" href="$classAntipatrea_1_1CfgAcceptorChain2D.html" title="CfgAcceptorChain2D accepts a configuration iff the chain avoids self collisions and collisions with t..." alt="" coords="595,137,808,163"/>
+<area shape="rect" id="node7" href="$classAntipatrea_1_1CfgAcceptorPoint2D.html" title="CfgAcceptorPoints2D accepts a configuration iff the point robot avoids collisions with the obstacles ..." alt="" coords="597,187,806,214"/>
+<area shape="rect" id="node2" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="180,107,336,134"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="5,107,132,134"/>
+</map>

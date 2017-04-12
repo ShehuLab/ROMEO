@@ -1,0 +1,5 @@
+<map id="Antipatrea::EdgeCostEvaluatorBasedOnDistance" name="Antipatrea::EdgeCostEvaluatorBasedOnDistance">
+<area shape="rect" id="node2" href="$classAntipatrea_1_1EdgeCostEvaluator.html" title="Interface for evaluating the direct and reverse cost of a path. " alt="" coords="5,155,208,181"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="29,80,185,107"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="43,5,170,32"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="Antipatrea::Setup" name="Antipatrea::Setup">
+<area shape="rect" id="node20" href="$classAntipatrea_1_1Setup2D.html" title="Facilitate setting up planning problems in 2D workspaces as well as the planner and its components..." alt="" coords="627,401,767,428"/>
+<area shape="rect" id="node23" href="$classAntipatrea_1_1SetupRosetta.html" title="Setup the planning problem for a molecular structure based on Rosetta representation as well as the p..." alt="" coords="612,452,781,479"/>
+<area shape="rect" id="node2" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="209,5,365,32"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="5,5,132,32"/>
+<area shape="rect" id="node21" href="$classAntipatrea_1_1SetupChain2D.html" title="Setup the planning problem for a robot kinematic chain operating in a 2D scene as well as the planner..." alt="" coords="829,376,1004,403"/>
+<area shape="rect" id="node22" href="$classAntipatrea_1_1SetupPoint2D.html" title="Setup the planning problem for a point robot operating in a 2D scene as well as the planner and its c..." alt="" coords="831,427,1002,453"/>
+</map>

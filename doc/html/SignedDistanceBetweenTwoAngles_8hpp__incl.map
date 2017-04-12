@@ -1,0 +1,14 @@
+<map id="SignedDistanceBetweenTwoAngles.hpp" name="SignedDistanceBetweenTwoAngles.hpp">
+<area shape="rect" id="node2" href="$SignedDistanceBetweenTwoValues_8hpp.html" title="Components/CfgDistances\l/SignedDistanceBetweenTwoValues.hpp" alt="" coords="701,95,959,136"/>
+<area shape="rect" id="node23" href="$Algebra2D_8hpp.html" title="Utils/Algebra2D.hpp" alt="" coords="1154,184,1293,211"/>
+<area shape="rect" id="node3" href="$Component_8hpp.html" title="Components/Component.hpp" alt="" coords="646,184,838,211"/>
+<area shape="rect" id="node4" href="$Object_8hpp.html" title="Utils/Object.hpp" alt="" coords="149,259,265,285"/>
+<area shape="rect" id="node10" href="$Params_8hpp.html" title="Utils/Params.hpp" alt="" coords="681,259,803,285"/>
+<area shape="rect" id="node5" href="$Definitions_8hpp.html" title="Utils/Definitions.hpp" alt="" coords="816,483,956,509"/>
+<area shape="rect" id="node7" href="$Logger_8hpp.html" title="Utils/Logger.hpp" alt="" coords="149,333,266,360"/>
+<area shape="rect" id="node11" href="$Reader_8hpp.html" title="Utils/Reader.hpp" alt="" coords="530,333,650,360"/>
+<area shape="rect" id="node13" href="$Writer_8hpp.html" title="Utils/Writer.hpp" alt="" coords="341,333,455,360"/>
+<area shape="rect" id="node14" href="$Misc_8hpp.html" title="Utils/Misc.hpp" alt="" coords="973,333,1079,360"/>
+<area shape="rect" id="node15" href="$PseudoRandom_8hpp.html" title="Utils/PseudoRandom.hpp" alt="" coords="1031,408,1202,435"/>
+<area shape="rect" id="node24" href="$Constants_8hpp.html" title="Utils/Constants.hpp" alt="" coords="1154,259,1293,285"/>
+</map>

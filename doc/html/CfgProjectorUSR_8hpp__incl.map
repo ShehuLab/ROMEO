@@ -1,0 +1,19 @@
+<map id="CfgProjectorUSR.hpp" name="CfgProjectorUSR.hpp">
+<area shape="rect" id="node2" href="$CfgProjector_8hpp.html" title="Components/CfgProjectors\l/CfgProjector.hpp" alt="" coords="575,259,755,300"/>
+<area shape="rect" id="node27" href="$MolecularStructureRosetta_8hpp.html" title="PluginRosetta/MolecularStructure\lRosetta.hpp" alt="" coords="1274,80,1491,121"/>
+<area shape="rect" id="node3" href="$Cfg_8hpp.html" title="Components/CfgManagers\l/Cfg.hpp" alt="" coords="231,348,409,389"/>
+<area shape="rect" id="node5" href="$Component_8hpp.html" title="Components/Component.hpp" alt="" coords="755,355,947,382"/>
+<area shape="rect" id="node24" href="$Defaults_8hpp.html" title="Setup/Defaults.hpp" alt="" coords="434,355,569,382"/>
+<area shape="rect" id="node26" href="$Allocator_8hpp.html" title="Utils/Allocator.hpp" alt="" coords="601,355,730,382"/>
+<area shape="rect" id="node6" href="$Object_8hpp.html" title="Utils/Object.hpp" alt="" coords="279,437,395,464"/>
+<area shape="rect" id="node11" href="$Params_8hpp.html" title="Utils/Params.hpp" alt="" coords="789,437,912,464"/>
+<area shape="rect" id="node7" href="$Definitions_8hpp.html" title="Utils/Definitions.hpp" alt="" coords="362,661,502,688"/>
+<area shape="rect" id="node8" href="$Logger_8hpp.html" title="Utils/Logger.hpp" alt="" coords="237,512,355,539"/>
+<area shape="rect" id="node12" href="$Reader_8hpp.html" title="Utils/Reader.hpp" alt="" coords="1049,512,1169,539"/>
+<area shape="rect" id="node14" href="$Writer_8hpp.html" title="Utils/Writer.hpp" alt="" coords="513,512,626,539"/>
+<area shape="rect" id="node15" href="$Misc_8hpp.html" title="Utils/Misc.hpp" alt="" coords="1244,512,1351,539"/>
+<area shape="rect" id="node16" href="$PseudoRandom_8hpp.html" title="Utils/PseudoRandom.hpp" alt="" coords="979,587,1149,613"/>
+<area shape="rect" id="node28" href="$CfgForwardKinematics_8hpp.html" title="Components/CfgForwardKinematics\l/CfgForwardKinematics.hpp" alt="" coords="1189,169,1422,211"/>
+<area shape="rect" id="node29" href="$CfgManager_8hpp.html" title="Components/CfgManagers\l/CfgManager.hpp" alt="" coords="852,259,1031,300"/>
+<area shape="rect" id="node30" href="$Flags_8hpp.html" title="Utils/Flags.hpp" alt="" coords="1250,266,1361,293"/>
+</map>

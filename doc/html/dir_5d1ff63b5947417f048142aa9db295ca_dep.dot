@@ -1,0 +1,16 @@
+digraph "CfgAllocators" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_c610c8504d46288da7634b3c0b18263f {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Components" fontname="Helvetica", fontsize="10", URL="dir_c610c8504d46288da7634b3c0b18263f.html"]
+  dir_5d1ff63b5947417f048142aa9db295ca [shape=box, label="CfgAllocators", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_5d1ff63b5947417f048142aa9db295ca.html"];
+  }
+  dir_a7363e98f9e0bdd87618633653859815 [shape=box label="Utils" URL="dir_a7363e98f9e0bdd87618633653859815.html"];
+  dir_d255330d476a03f00d6031c109b5ab10 [shape=box label="Setup" URL="dir_d255330d476a03f00d6031c109b5ab10.html"];
+  dir_5d1ff63b5947417f048142aa9db295ca->dir_a7363e98f9e0bdd87618633653859815 [headlabel="1", labeldistance=1.5 headhref="dir_000003_000001.html"];
+  dir_5d1ff63b5947417f048142aa9db295ca->dir_d255330d476a03f00d6031c109b5ab10 [headlabel="1", labeldistance=1.5 headhref="dir_000003_000013.html"];
+  dir_d255330d476a03f00d6031c109b5ab10->dir_a7363e98f9e0bdd87618633653859815 [headlabel="3", labeldistance=1.5 headhref="dir_000013_000001.html"];
+  dir_d255330d476a03f00d6031c109b5ab10->dir_5d1ff63b5947417f048142aa9db295ca [headlabel="1", labeldistance=1.5 headhref="dir_000013_000003.html"];
+}

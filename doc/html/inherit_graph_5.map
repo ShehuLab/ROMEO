@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classAntipatrea_1_1GManager.html" title="Antipatrea::GManager" alt="" coords="5,46,155,73"/>
+<area shape="rect" id="node2" href="$classAntipatrea_1_1GManagerRunPlanner.html" title="GUI for running a planner. " alt="" coords="203,46,420,73"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1GManagerRunPlanner2D.html" title="GUI for running a planner operating in a 2D scene. " alt="" coords="468,46,703,73"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1GManagerRunPlannerChain2D.html" title="GUI for running a planner for a chain operating in a 2D scene. " alt="" coords="751,5,968,47"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1GManagerRunPlannerPoint2D.html" title="GUI for running a planner for a point robot operating in a 2D scene. " alt="" coords="751,71,968,112"/>
+</map>

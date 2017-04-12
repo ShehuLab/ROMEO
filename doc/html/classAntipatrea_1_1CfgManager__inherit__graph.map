@@ -1,0 +1,5 @@
+<map id="Antipatrea::CfgManager" name="Antipatrea::CfgManager">
+<area shape="rect" id="node2" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="5,80,161,107"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="20,5,147,32"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1Allocator.html" title="Facilitates creating, deleting, and copying an array of values. " alt="" coords="185,80,325,107"/>
+</map>

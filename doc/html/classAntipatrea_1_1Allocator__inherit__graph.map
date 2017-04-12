@@ -1,0 +1,8 @@
+<map id="Antipatrea::Allocator" name="Antipatrea::Allocator">
+<area shape="rect" id="node2" href="$classAntipatrea_1_1CfgManager.html" title="Motion&#45;planning component for managing configurations. " alt="" coords="195,61,355,87"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1CfgProjector.html" title="Motion&#45;planning component for managing and defining configuration projections. " alt="" coords="193,111,356,138"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1CfgProjectorChain2D.html" title="CfgProjectorChain2D computes the projection as the position of the end effector of the chain..." alt="" coords="418,5,581,47"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1CfgProjectorDeltaR.html" title="Use Rosetta to compute the DeltaR projection of the configuration values. " alt="" coords="418,71,581,112"/>
+<area shape="rect" id="node6" href="$classAntipatrea_1_1CfgProjectorPoint2D.html" title="CfgProjectorPoint2D computes the projection as the position of the point robot. " alt="" coords="418,136,581,177"/>
+<area shape="rect" id="node7" href="$classAntipatrea_1_1CfgProjectorUSR.html" title="Use Rosetta to compute the USR projection of the configuration values. " alt="" coords="404,202,595,229"/>
+</map>

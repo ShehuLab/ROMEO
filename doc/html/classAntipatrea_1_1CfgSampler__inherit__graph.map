@@ -1,0 +1,7 @@
+<map id="Antipatrea::CfgSampler" name="Antipatrea::CfgSampler">
+<area shape="rect" id="node4" href="$classAntipatrea_1_1CfgSamplerPoint2D.html" title="Sample a point uniformly at random inside the bounding box of the scene. " alt="" coords="591,5,796,32"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1CfgSamplerRosetta.html" title="Use Rosetta to sample values for the configuration. " alt="" coords="591,56,795,83"/>
+<area shape="rect" id="node6" href="$classAntipatrea_1_1CfgUniformSamplerInJointSpace.html" title="Sample a configuration by sampling each value at random from [&#45;PI, PI]. " alt="" coords="591,107,795,149"/>
+<area shape="rect" id="node2" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="180,56,336,83"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="5,56,132,83"/>
+</map>

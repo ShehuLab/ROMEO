@@ -1,0 +1,122 @@
+/**
+ *@mainpage Introduction
+ *@author Erion Plaku, Amarda Shehu
+ *
+ *@section sec_CodeStructure Code structure
+ * - The source code is organized as follows:
+ *   - src/Utils
+ *      - Code for general-purpose utilities.
+ *   - src/Components
+ *      - Code for motion-planning components.
+ *   - src/Planners
+ *      - Code for motion planners.
+ *   - src/Setup
+ *      - Code to facilitate setting up the planner problem, planning
+ *        components, and the planner that should be used to solve the planning
+ *        problem.
+ *   - src/Programs
+ *      - Code for various programs, such as running a motion planner.
+ *   - src/Plugin2D
+ *      - Code for implementing components that are specific to
+ *        planning in 2D environments.
+ *      - It also provides components for a kinematic chain and a point robot.
+ *   - src/PluginRosetta
+ *      - Code for implementing components that are specific to
+ *        planning for molecular structures using the Rosetta package.
+ *      - Code is in development.
+ *
+ * - Each component provides some specific function that could be
+ *   useful to a planner. For example, the component CfgDistance computes
+ *   the distance between two configurations. As another example, the
+ *   component CfgAcceptor determines whether or not a configuration is
+ *   acceptable.
+ * - For each component/planner, there is a base class that plays
+ *   the role of an interface, and more specific classes that extend the
+ *   base class to provide more concrete functionality. For example,
+ *   CfgDistanceLp extends CfgDistance to provide a concrete
+ *   implementation of the distance based on the Lp norm. Similarly,
+ *   CfgAcceptorBasedOnEnergy extends CfgAcceptor to provide a
+ *   concrete implementation that accepts a configuration only if its
+ *   energy is below a certain user-defined threshold.
+ * - The implementation of one component may require access to other
+ *   components. For example, CfgAcceptorBasedOnEnergy requires
+ *   access to a component that evaluates the energy of a configuration.
+ *   As another example, CfgDistanceLp requires access to CfgManager,
+ *   which provides the dimension of the configuration.
+ * - Setup is used to facilitate setting up for each component/planner the
+ *   pointers to the other components that it needs to access.
+ *   Setup takes as argument user-specified parameters that indicate
+ *   which components should be used. 
+ *
+ *@section sec_Compiling Compiling the code
+ * - Code uses CMake to facilitate cross-platform compilation. See CMakeLists.txt.
+ * - Code requires a compiler that supports c++-11 language features, e.g., g++.
+ * - To compile the code in release mode:
+ @verbatim
+    cmake -DCMAKE_BUILD_TYPE="Release"
+    make
+ @endverbatim
+ * - To compile the code in debug mode:
+ @verbatim
+    cmake -DCMAKE_BUILD_TYPE="Debug"
+    make
+ @endverbatim
+ *
+ *@section sec_RunCode Running the code
+ * - To run a planner using the graphical interface:
+ @verbatim
+ ./bin/Runner GRunPlanner data/params.txt
+ @endverbatim
+ * - To run a planner without a graphical interface:
+ @verbatim
+ ./bin/Runner RunPlanner data/params.txt
+ @endverbatim
+ * - params.txt is a text file with parameter values. See data/params.txt
+ *
+ *@section sec_AddingNew Adding support for a new planning problem
+ * - Plugin2D provides examples of how one can add support for a new
+ *   planning problem. There you can find two examples: (i)  point
+ *   robot, and (ii) kinematic chain.
+ * - When adding support for a new planning problem, you will need to
+ *   provide implementations for some components since the
+ *   implementations found in Components may not be appropriate or
+ *   sufficient.
+ *     - For example, for a point robot, the components
+ *       CfgAcceptorPoint2D, CfgProjectorPoint2D, CfgSamplerPoint2D
+ *       were implemented by extending CfgAcceptor, CfgProjector, and
+ *       CfgSampler. Such components were specific to a point robot
+ *       and there were no appropriate components already implemented
+ *       in Components. Specifically, CfgAcceptorPoint2D was
+ *       implemented to accept a configuration only if the point was not
+ *       inside an obstacle. CfgProjectorPoint2D computes the
+ *       configuration projection as the point itself. CfgSamplerPoint2D
+ *       samples a point uniformly at random from inside the bounding box of
+ *       the scene.
+ *     - As another example, for a kinematic chain, the components
+ *       Chain2D, CfgAcceptorChain2D, and CfgProjectorChain2D were
+ *       implemented by extending CfgForwardKinematics, CfgAcceptor,
+ *       and CfgProjector. Specifically, Chain2D takes joint values
+ *       and computes the forward kinematics of the chain. CfgAcceptorChain2D
+ *       accepts a configuration iff there are no self collisions and no
+ *       collisions with obstacles. CfgProjectorChain2D computes the
+ *       projection as the endpoint of the chain.
+ * - You may also have to extend Setup to properly setup the pointers
+ *   for the planning problem, planning components, and the planner.
+ *   See Plugin2D/Setup2D, Plugin2D/SetupPoint2D, and Plugin2D/SetupChain2D for examples.
+ *  
+ * - It is strongly recommended that problem-specific implementations
+ *   are placed in a Plugin directory and that they extend the
+ *   appropriate classes found in Components/.
+ *
+ *@section sec_CodeStyle Code style
+ *
+ * - Names for namespaces, classes, and functions start each
+ *   word with a capital letter, e.g., GetNrNeighbors.
+ * - Variable names start the first word with a lower case letter,
+ *   and each subsequent word with a capital letter, e.g., , nrNeighbors.
+ * - The prefix <tt>m_</tt> is used for variables inside a
+ *   class to indicate that they are member variables, e.g., m_dim.
+ * - Avoid the use of underscores in namespaces, classes, functions, variables.
+ * - ifndef for files has the form Namespace_ClassName_HPP, e.g., Antipatrea_Params_HPP.
+ * - One class per file.
+ */

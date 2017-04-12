@@ -1,0 +1,6 @@
+<map id="Antipatrea::SignedDistanceBetweenTwoValues" name="Antipatrea::SignedDistanceBetweenTwoValues">
+<area shape="rect" id="node4" href="$classAntipatrea_1_1SignedDistanceBetweenTwoAngles.html" title="Interprets the values as angles and defines the signed distance as the signed length of the shortest ..." alt="" coords="613,5,795,47"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1SignedDistanceBetweenTwoNumbers.html" title="Interprets the values as numbers and defines the signed distance as their difference. " alt="" coords="613,71,795,112"/>
+<area shape="rect" id="node2" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="180,46,336,73"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="5,46,132,73"/>
+</map>

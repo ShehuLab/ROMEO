@@ -1,0 +1,11 @@
+<map id="GManager.hpp" name="GManager.hpp">
+<area shape="rect" id="node2" href="$GCamera_8hpp.html" title="Utils/GCamera.hpp" alt="" coords="595,80,729,107"/>
+<area shape="rect" id="node3" href="$Params_8hpp.html" title="Utils/Params.hpp" alt="" coords="395,155,518,181"/>
+<area shape="rect" id="node19" href="$GDraw_8hpp.html" title="Utils/GDraw.hpp" alt="" coords="903,80,1021,107"/>
+<area shape="rect" id="node21" href="$Flags_8hpp.html" title="Utils/Flags.hpp" alt="" coords="1045,80,1156,107"/>
+<area shape="rect" id="node4" href="$Reader_8hpp.html" title="Utils/Reader.hpp" alt="" coords="251,229,371,256"/>
+<area shape="rect" id="node6" href="$Writer_8hpp.html" title="Utils/Writer.hpp" alt="" coords="447,229,560,256"/>
+<area shape="rect" id="node8" href="$Misc_8hpp.html" title="Utils/Misc.hpp" alt="" coords="585,229,691,256"/>
+<area shape="rect" id="node9" href="$PseudoRandom_8hpp.html" title="Utils/PseudoRandom.hpp" alt="" coords="761,304,931,331"/>
+<area shape="rect" id="node10" href="$Definitions_8hpp.html" title="Utils/Definitions.hpp" alt="" coords="812,379,952,405"/>
+</map>

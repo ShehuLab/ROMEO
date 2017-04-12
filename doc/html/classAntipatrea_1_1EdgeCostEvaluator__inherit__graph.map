@@ -1,0 +1,6 @@
+<map id="Antipatrea::EdgeCostEvaluator" name="Antipatrea::EdgeCostEvaluator">
+<area shape="rect" id="node4" href="$classAntipatrea_1_1EdgeCostEvaluatorBasedOnDistance.html" title="Edge cost is defined as the distance between the start and end configurations. " alt="" coords="635,5,837,47"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1EdgeCostEvaluatorBasedOnEnergy.html" title="Edge cost is defined as the change in energy between the start and end configurations. " alt="" coords="635,71,837,112"/>
+<area shape="rect" id="node2" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="180,46,336,73"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="5,46,132,73"/>
+</map>

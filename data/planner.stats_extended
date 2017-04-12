@@ -1,0 +1,6 @@
+Runtime_PlannerSolve           0.000059773000
+Runtime_PRM_GenerateEdges      0.000072405000
+Runtime_PlannerStart           0.000030335000
+Runtime_PlannerSolve           0.000217012000
+Runtime_PRM_GenerateEdges      0.000215284000
+Runtime_PlannerStart           0.000055046000

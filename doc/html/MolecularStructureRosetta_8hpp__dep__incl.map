@@ -1,0 +1,9 @@
+<map id="MolecularStructureRosetta.hpp" name="MolecularStructureRosetta.hpp">
+<area shape="rect" id="node2" href="$CfgEnergyEvaluatorRosetta_8hpp.html" title="CfgEnergyEvaluatorRosetta.hpp" alt="" coords="5,80,216,107"/>
+<area shape="rect" id="node3" href="$SetupRosetta_8hpp.html" title="SetupRosetta.hpp" alt="" coords="529,155,655,181"/>
+<area shape="rect" id="node4" href="$CfgImproverRosetta_8hpp.html" title="CfgImproverRosetta.hpp" alt="" coords="291,80,456,107"/>
+<area shape="rect" id="node5" href="$CfgOffspringGeneratorRosetta_8hpp.html" title="CfgOffspringGeneratorRosetta.hpp" alt="" coords="480,80,704,107"/>
+<area shape="rect" id="node6" href="$CfgProjectorDeltaR_8hpp.html" title="CfgProjectorDeltaR.hpp" alt="" coords="727,80,889,107"/>
+<area shape="rect" id="node7" href="$CfgProjectorUSR_8hpp.html" title="CfgProjectorUSR.hpp" alt="" coords="913,80,1063,107"/>
+<area shape="rect" id="node8" href="$CfgSamplerRosetta_8hpp.html" title="CfgSamplerRosetta.hpp" alt="" coords="1087,80,1249,107"/>
+</map>

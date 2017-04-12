@@ -1,0 +1,5 @@
+<map id="Antipatrea::CfgDistanceLp" name="Antipatrea::CfgDistanceLp">
+<area shape="rect" id="node2" href="$classAntipatrea_1_1CfgDistance.html" title="Interface for computing the distance between two configurations. " alt="" coords="398,5,561,32"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="180,5,336,32"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="5,5,132,32"/>
+</map>

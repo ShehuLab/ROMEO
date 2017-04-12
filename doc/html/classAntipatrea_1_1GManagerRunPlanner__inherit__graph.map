@@ -1,0 +1,6 @@
+<map id="Antipatrea::GManagerRunPlanner" name="Antipatrea::GManagerRunPlanner">
+<area shape="rect" id="node3" href="$classAntipatrea_1_1GManagerRunPlanner2D.html" title="GUI for running a planner operating in a 2D scene. " alt="" coords="117,155,351,181"/>
+<area shape="rect" id="node2" href="$classAntipatrea_1_1GManager.html" title="Antipatrea::GManager" alt="" coords="159,5,309,32"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1GManagerRunPlannerChain2D.html" title="GUI for running a planner for a chain operating in a 2D scene. " alt="" coords="5,229,223,271"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1GManagerRunPlannerPoint2D.html" title="GUI for running a planner for a point robot operating in a 2D scene. " alt="" coords="247,229,464,271"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="Scene2D.hpp" name="Scene2D.hpp">
+<area shape="rect" id="node2" href="$CfgAcceptorChain2D_8hpp.html" title="CfgAcceptorChain2D.hpp" alt="" coords="5,80,176,107"/>
+<area shape="rect" id="node5" href="$CfgAcceptorPoint2D_8hpp.html" title="CfgAcceptorPoint2D.hpp" alt="" coords="337,80,503,107"/>
+<area shape="rect" id="node8" href="$CfgSamplerPoint2D_8hpp.html" title="CfgSamplerPoint2D.hpp" alt="" coords="528,80,691,107"/>
+<area shape="rect" id="node9" href="$Setup2D_8hpp.html" title="Setup2D.hpp" alt="" coords="213,80,312,107"/>
+<area shape="rect" id="node3" href="$SetupChain2D_8hpp.html" title="SetupChain2D.hpp" alt="" coords="18,155,150,181"/>
+<area shape="rect" id="node4" href="$GManagerRunPlannerChain2D_8hpp.html" title="GManagerRunPlannerChain2\lD.hpp" alt="" coords="67,229,258,271"/>
+<area shape="rect" id="node6" href="$SetupPoint2D_8hpp.html" title="SetupPoint2D.hpp" alt="" coords="391,155,519,181"/>
+<area shape="rect" id="node7" href="$GManagerRunPlannerPoint2D_8hpp.html" title="GManagerRunPlannerPoint2\lD.hpp" alt="" coords="321,229,508,271"/>
+<area shape="rect" id="node10" href="$GManagerRunPlanner2D_8hpp.html" title="GManagerRunPlanner2D.hpp" alt="" coords="175,155,367,181"/>
+</map>
