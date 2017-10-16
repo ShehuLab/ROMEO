@@ -198,6 +198,16 @@ namespace Antipatrea
 	}	    
 	
 // utils operations
+
+	static inline double DegreesToRadians(const double theta)
+	{
+	    return (M_PI/180 * theta);
+	}
+
+	static inline double RadiansToDegrees(const double theta)
+	{
+	    return(180/M_PI * theta);
+	}
 	static inline double AngleNormalize(const double theta, const double low) 
 	{
 	    return theta - 2 * M_PI * floor((theta - low) / (2 * M_PI));

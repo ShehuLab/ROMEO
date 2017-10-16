@@ -53,15 +53,15 @@ namespace Antipatrea
 	virtual void SetupFromParams(Params & params);
 	
 	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Use Rosetta to sample values for the configuration.
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief  Sample from -PI to PI for phi/psi, omega is set to PI
 	 */
 	virtual bool Sample(Cfg & cfg);
 		
     };
 
     /**
-     *@author Erion Plaku, Amarda Shehu
+     *@author Kevin Molloy, Erion Plaku, Amarda Shehu
      *@brief Get/set methods for components that need access to CfgSamplerRosetta.
      */
     ClassContainer(CfgSamplerRosetta, m_cfgSamplerRosetta);

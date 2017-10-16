@@ -102,6 +102,7 @@ namespace Antipatrea
 	{
 	    if(cfg.IsEnergySet() == false)
 		cfg.SetEnergy(GetCfgEnergyEvaluator()->EvaluateEnergy(cfg));
+
 	    return GetEnergyThreshold() >= cfg.GetEnergy();
 	}
 

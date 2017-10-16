@@ -3,20 +3,259 @@
 
 #include "Components/CfgOffspringGenerators/CfgOffspringGenerator.hpp"
 #include "PluginRosetta/MolecularStructureRosetta.hpp"
+#include <vector>
+#include <string>
+#include <iostream>
+#include <unordered_map>
 
 namespace Antipatrea
 {
     /**
-     *@author Erion Plaku, Amarda Shehu
+      *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+      *@brief Store a single molecular fragment.  A Fragment is a
+      *       contiguous piece exised from an imaged protein (NMR or
+      *       X-ray usually) where the represented consists of the
+      *       PHI, PSI, and OMEGA backbone dihedral angles (an ideal
+      *       geometry is assumed).  An example use of a fragment would
+      *       be to randomly perturb a known good (energetically feasible)
+      *       protein by selecting a fragment from a library/db and
+      *       substituting in the backbone angles and adjusting the
+      *       protein (forward kinematics).
+      *
+      */
+    class Fragment
+    {
+    public:
+        Fragment(std::string pdbID,
+                 unsigned int pdbAAOffset,
+                 std::vector<double> phiAngles,
+                 std::vector<double> psiAngles,
+		 std::vector<double> omegaAngles)
+   	{
+   	    m_pdbID = pdbID;
+   	    m_pdbAAOffset = pdbAAOffset;
+   	    m_phiAngles = phiAngles;
+   	    m_psiAngles = psiAngles;
+   	    m_omegaAngles = omegaAngles;
+   	}
+
+	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief Return the entire set of fragment angles
+	 *
+  	 */
+
+   	void GetAngles(std::vector<double> &phiAngles,
+   		       std::vector<double> &psiAngles,
+		       std::vector<double> &omegaAngles);
+	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief Return a specific PHI angle
+	 *
+  	 */
+   	virtual double GetPhi(unsigned int offset)
+   	{
+   	    return(m_phiAngles[offset]);
+   	}
+
+   	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief Return a specific PSI angle
+	 *
+  	 */
+   	virtual double GetPsi(unsigned int offset)
+   	{
+   	    return(m_psiAngles[offset]);
+   	}
+
+	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief Return a specific OMEGA angle
+	 *
+  	 */
+   	virtual double GetOmega(unsigned int offset)
+   	{
+            return(m_omegaAngles[offset]);
+   	}
+
+	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief Return a the number of positions in this fragment
+	 *
+  	 */
+   	unsigned int GetLength()
+   	{
+   	    return m_phiAngles.size();
+   	};
+
+    protected:
+	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief PDB from which the fragment was extracted.
+	 */
+        std::string m_pdbID;
+
+        /**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief Offset within the PDB that the fragment was extracted
+	 */
+   	unsigned int m_pdbAAOffset;
+
+	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief PHI backbone dihedral angles for the fragment
+	 */
+
+   	std::vector<double> m_phiAngles;
+
+   	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief PSI backbone dihedral angles for the fragment
+	 */
+   	std::vector<double> m_psiAngles;
+
+   	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief OMEGA backbone dihedral angles for the fragment
+	 */
+   	std::vector<double> m_omegaAngles;
+
+   };
+
+   /**
+     *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+     *@brief Store a set of Rosetta fragments (all of the same
+     *       length and for the same position within the protein).
+     */
+
+    class RosettaFragment: public Fragment
+    {
+    public:
+        RosettaFragment(std::string pdbID,
+  	 	 	unsigned int pdbAAOffset,
+		        std::vector<double> phiAngles,
+  		        std::vector<double> psiAngles,
+		        std::vector<double> omegaAngles)
+		:Fragment(pdbID,pdbAAOffset,phiAngles,psiAngles,omegaAngles)
+	{
+
+	}
+   };
+
+   /**
+    *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+    *@brief DB of Rosetta fragments for a set of a protein
+    */
+
+    class FragmentDB
+    {
+    public:
+	/**
+	  *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief Insert a new fragment
+        */
+        void Insert(unsigned int pos,
+                    Fragment &f)
+        {
+            if (m_fragments.size() >= pos)
+                m_fragments.resize(pos+1);
+
+            m_fragments[pos].push_back(f);
+   	}
+
+	/**
+	  *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief Number of positions  (protein positons) in the DB
+        */
+        unsigned int NumberOfPositions() const
+	{
+	    return (m_fragments.size());
+	}
+
+	/**
+	  *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief Number of fragments for a given position
+        */
+        unsigned int NumberOfSamples(unsigned int pos)
+	{
+	    if (pos < m_fragments.size())
+                return (m_fragments[pos].size());
+	}
+	/**
+	  *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief Return the PHI angle for a specific position, fragment,
+	  *       and offset within the fragment
+        */
+
+        double GetFragmentPhi(unsigned int pos,
+        		      unsigned int fragmentNumber,
+			      unsigned int fragmentOffset)
+	{
+            return (m_fragments[pos][fragmentNumber].GetPhi(fragmentOffset));
+	}
+
+        double GetFragmentPsi(unsigned int pos,
+        		      unsigned int fragmentNumber,
+			      unsigned int fragmentOffset)
+        {
+	    return (m_fragments[pos][fragmentNumber].GetPsi(fragmentOffset));
+	}
+
+        double GetFragmentOmega(unsigned int pos,
+        		        unsigned int fragmentNumber,
+				unsigned int fragmentOffset)
+	{
+	    return (m_fragments[pos][fragmentNumber].GetOmega(fragmentOffset));
+	}
+
+    protected:
+	/**
+	  *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief Number of positions/amino acids within a single fragment
+        */
+        unsigned int m_fragmentSize;
+
+        // first dim is (amino acid) position within the protein (0..n-1)
+        // second dimension is an array of fragments for that position
+        std::vector<std::vector <Fragment> >  m_fragments;
+   };
+
+
+
+    /**
+     *@author Kevin Molloy, Erion Plaku, Amarda Shehu
      *@brief Use Rosetta/library to generate an offspring near the parent configuration.
      *
-     *@par Notes for Kevin
-     * - Add all the necessary components that you need to implement this class.
-     * - Base class already contains CfgManager, so it is not added here.
-     */    
+     *
+     */
     class CfgOffspringGeneratorRosetta : public CfgOffspringGenerator,
 					 public MolecularStructureRosettaContainer
     {
+    protected:
+	/**
+	  *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief A map of fragment databases organized by the fragment length.
+	  *
+        */
+        std::unordered_map<unsigned int,FragmentDB> m_fragmentMap;
+
+	/**
+	  *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief Number of positions  (protein positons) in the DB
+        */
+    	std::string m_fragmentFileName;
+
+    	/**
+          *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+          *@brief Read in a Rosetta fragment file.  These files
+          *       can be generated from the website
+          *       http://robetta.bakerlab.org.  The files are organized by
+          *       having the position and neighbors(fragments) header, followed
+          *       by the number of neighbors/fragments.
+          *
+          */
+        void LoadFragmentLibrary();
+
     public:
 	CfgOffspringGeneratorRosetta(void) : CfgOffspringGenerator(),
 					     MolecularStructureRosettaContainer()
@@ -25,6 +264,15 @@ namespace Antipatrea
 	
 	virtual ~CfgOffspringGeneratorRosetta(void)
 	{
+	}
+
+	virtual void PrintSummary() const
+	{
+	    for (std::unordered_map<unsigned int,FragmentDB>::const_iterator
+	         it = m_fragmentMap.cbegin(); it !=m_fragmentMap.cend(); ++it)
+		     std::cout << it->first << " has data for "
+		         << it->second.NumberOfPositions() << std::endl;
+
 	}
 
 	virtual bool CheckSetup(void) const
@@ -64,7 +312,9 @@ namespace Antipatrea
      *@brief Get/set methods for components that need access to CfgOffspringGeneratorRosetta.
      */
     ClassContainer(CfgOffspringGeneratorRosetta, m_cfgOffspringGeneratorRosetta);
+
     
+
 }
 
 #endif

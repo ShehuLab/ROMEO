@@ -4,6 +4,7 @@
 #include "Utils/Stats.hpp"
 #include "Utils/Logger.hpp"
 
+#include "Components/CfgAcceptors/CfgAcceptorBasedOnMMC.hpp"
 namespace Antipatrea
 {
     void PRM::Start(void)
@@ -17,6 +18,7 @@ namespace Antipatrea
 
     bool PRM::Solve(const double tmax)
     {
+
 	Timer::Clock clk;
 
 	Timer::Start(clk);
@@ -27,6 +29,7 @@ namespace Antipatrea
 	    if(m_nrRemainingToCompleteBatch > 0)
 	    {
 		const int n = GenerateVertices(m_nrRemainingToCompleteBatch, tmax - Timer::Elapsed(clk));
+
 		m_nrRemainingToCompleteBatch -= n;
 		if(m_nrRemainingToCompleteBatch < 0)
 		    m_nrRemainingToCompleteBatch = 0;
@@ -139,6 +142,9 @@ namespace Antipatrea
 	if(dynamic_cast<CfgOffspringGeneratorTowardTarget*>(cfgOffspringGenerator))
 	    dynamic_cast<CfgOffspringGeneratorTowardTarget*>(cfgOffspringGenerator)->SetTargetCfg(v2->GetCfg());
 
+	// MMC Acceptors require the starting configuration
+	if (dynamic_cast<CfgAcceptorBasedOnMMC*>(cfgAcceptor))
+	    dynamic_cast<CfgAcceptorBasedOnMMC*>(cfgAcceptor)->SetSourceCfg(v1->GetCfg());
 	
 	if(dynamic_cast<CfgOffspringGeneratorToTarget*>(cfgOffspringGenerator))
 	{
@@ -153,7 +159,11 @@ namespace Antipatrea
 		    return false;
 		}
 		edge->GetIntermediateCfgs()->push_back(cfg);
+
+		if (dynamic_cast<CfgAcceptorBasedOnMMC*>(cfgAcceptor))
+			    dynamic_cast<CfgAcceptorBasedOnMMC*>(cfgAcceptor)->SetSourceCfg(cfg);
 		cfg = cfgManager->NewCfg();
+
 	    }
 	    cfgManager->DeleteCfg(cfg);
 	}

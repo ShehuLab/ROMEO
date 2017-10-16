@@ -1,5 +1,6 @@
 #include "Planners/TreeSamplingBasedPlanner.hpp"
 #include "Components/CfgOffspringGenerators/CfgOffspringGeneratorTowardTarget.hpp"
+#include "Components/CfgAcceptors/CfgAcceptorBasedOnMMC.hpp"
 
 #include "Utils/Timer.hpp"
 
@@ -82,9 +83,15 @@ namespace Antipatrea
 	
 	if(dynamic_cast<CfgOffspringGeneratorTowardTarget*>(cfgOffspringGenerator))
 	    dynamic_cast<CfgOffspringGeneratorTowardTarget*>(cfgOffspringGenerator)->SetTargetCfg(&cfgTo);
+
+
 	
 	for(int nrSteps = 0; nrSteps < m_extendMaxNrSteps; ++nrSteps)
 	{
+	    // MMC Configuration Acceptors require the source config
+	    if (dynamic_cast<CfgAcceptorBasedOnMMC*>(cfgAcceptor))
+	        dynamic_cast<CfgAcceptorBasedOnMMC*>(cfgAcceptor)->SetSourceCfg(cfgCurr);
+
 	    cfgOffspringGenerator->SetParentCfg(cfgCurr);
 	    cfgOffspringGenerator->SetStep(std::min(1.0, GetOneStepDistance() / d));
 	    cfgOffspringGenerator->GenerateOffspringCfg(*cfgNew);

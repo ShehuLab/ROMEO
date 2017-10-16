@@ -5,6 +5,8 @@
 
 namespace Antipatrea
 {
+    typedef int Id;
+
     void Grid::Info(const char prefix[]) const
     {
 	Object::Info(prefix);
@@ -164,6 +166,20 @@ namespace Antipatrea
 
     }
     
+    int Grid::GetCellIdFromPoint(const double * const p) const
+    {
+    	const int n       = m_dims.size();
+    	Id      factor  = 1;
+    	Id      id      = 0;;
+
+    	for(int i = 0; i < n; ++i)
+    	{
+    	    id     += factor * GetCoord(p[i], m_min[i], m_max[i], m_units[i], m_dims[i]);
+    	    factor *= m_dims[i];
+    	}
+    	return id;
+    }
+
     void Grid::GetCellCenterFromId(const int id, double c[]) const
     {
 	int factor  = id;

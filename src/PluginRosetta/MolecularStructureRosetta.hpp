@@ -5,8 +5,16 @@
 #include "Utils/Misc.hpp"
 #include <vector>
 
+#include <core/pose/Pose.hh>
+#include <core/import_pose/import_pose.hh>
+#include <core/scoring/ScoreFunction.hh>
+
+#include "Utils/point.hpp"
+
 namespace Antipatrea
 {
+
+
     /**
      *@author Erion Plaku, Amarda Shehu
      *@brief Forward kinematics for a molecular structure.
@@ -14,8 +22,6 @@ namespace Antipatrea
      *
      * Gets joints, computes FK
      *
-     *@remarks
-     *  - The start position of the first link is <tt>(0, 0)</tt>.
      */
     class MolecularStructureRosetta : public CfgForwardKinematics
     {
@@ -36,10 +42,61 @@ namespace Antipatrea
 	
 	/**
 	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Draw the molecular structure in the current configuration.
+	 *@brief Drawing a molecular configuration is not implemented.
 	 */
 	virtual void Draw(void);
-		
+
+	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief Load the Rosetta pose from a PDB file
+  	 */
+	virtual void LoadPDBFile(const char fileName[]);
+
+	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief Return the number of residues/amino acids
+	 *       within the loaded protein
+  	 */
+	virtual int GetNrResidues(void) const
+	{
+	    return m_pose.total_residue();
+	}
+
+	/**
+          *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief  Export phi, psi, omega angles from current pose
+	  *
+	  */
+	virtual void SetCfgDOFs(Cfg &cfgToSet);
+
+	/**
+          *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief  Create a Rosetta scoring/energy function
+	  *
+	  */
+	virtual void CreateEnergyFunction();
+
+	/**
+          *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief  Export the configuration into the pose object
+	  *        and evaluate its energy
+	  */
+	virtual double EvaluateEnergy(Cfg &cfg);
+
+	/**
+          *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief  Export the configuration into the pose object
+	  */
+
+	virtual void LoadPose(const Cfg &cfg);
+
+	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief Return the set of 3-d coordinates corresponding to the
+	 *       heavy backbone atoms (N-CA-C-O) of the protein.
+  	 */
+	virtual std::vector<point>  GetAtomPositions(const Cfg &cfg);
+
     protected:
 	/**
 	 *@author Erion Plaku, Amarda Shehu
@@ -47,19 +104,28 @@ namespace Antipatrea
 	 *
 	 *@remarks
 	 * - This function always computes the forward kinematics, ignoring flag values.
-	 * - Use the values in m_joints as the joint values.
+	 * - Since FK are implmeneted by Rosetta as a byproduct of setting the
+	 * - the proteins dihedral angles, this function does not have to do any work.
 	 */
 	virtual void DoFK(void);
 
+
 	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Pointer to Rosetta pose.
+	 *@author Erion Plaku, Amarda Shehu, Kevin Molloy
+	 *@brief Rosetta pose.
 	 *
 	 *@remarks
-	 * - Make sure to set it up correctly before doing any forward kinematics
+	 * - Make sure to load it within the desired cfg before
+	 *   evaluating any forward kinematics
 	 */
-	//Rosetta::Pose *m_pose;
+	core::pose::Pose m_pose;
 	
+	/**
+          *@author Erion Plaku, Amarda Shehu, Kevin Molloy
+	  *@brief Rosetta Scoring (energy) function.
+	  *
+	  */
+	core::scoring::ScoreFunctionOP m_scoreFn;
     };
 
     /**

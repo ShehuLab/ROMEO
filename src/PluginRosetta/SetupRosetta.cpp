@@ -1,6 +1,11 @@
 #include "PluginRosetta/SetupRosetta.hpp"
 #include "Components/CfgAcceptors/CfgAcceptorBasedOnDistance.hpp"
+#include "PluginRosetta/CfgDistanceAtomRMSD.hpp"
 #include <fstream>
+#include <iostream>
+
+// rosetta include files
+#include <devel/init.hh>
 
 extern "C" Antipatrea::Setup* CreateSetupRosetta(void)
 {
@@ -11,40 +16,83 @@ namespace Antipatrea
 {
     void SetupRosetta::Prepare(Params & params)
     {
-	//overwrite user-defined parameter values
-	//Note for Kevin: change these values to your Rosetta plugins once you implement
-	//them
-	params.SetValue(Constants::KW_UseCfgAcceptor, Constants::KW_CfgAcceptorBasedOnEnergy);
-	params.SetValue(Constants::KW_UseGoalAcceptor, Constants::KW_GoalAcceptorBasedOnDistance);
-	params.SetValue(Constants::KW_UseSignedDistanceBetweenTwoValues, Constants::KW_SignedDistanceBetweenTwoAngles);
-	params.SetValue(Constants::KW_UseCfgForwardKinematics, Constants::KW_MolecularStructureRosetta);
-	params.SetValue(Constants::KW_UseCfgEnergyEvaluator, Constants::KW_CfgEnergyEvaluatorRosetta);
-	params.SetValue(Constants::KW_UseCfgImprover, Constants::KW_CfgImproverRosetta);
-	params.SetValue(Constants::KW_UseCfgOffspringGenerator, Constants::KW_CfgOffspringGeneratorToTargetByLinearInterpolation); //change to Constants::KW_CfgOffspringGeneratorRosetta
-	params.SetValue(Constants::KW_UseCfgSampler, Constants::KW_CfgUniformSamplerInJointSpace); //change to Constants::KW_CfgSamplerRosetta
+		params.SetValue(Constants::KW_UseGoalAcceptor, Constants::KW_GoalAcceptorBasedOnDistance);
+		params.SetValue(Constants::KW_UseSignedDistanceBetweenTwoValues, Constants::KW_SignedDistanceBetweenTwoAngles);
+		params.SetValue(Constants::KW_UseCfgForwardKinematics, Constants::KW_MolecularStructureRosetta);
+		params.SetValue(Constants::KW_UseCfgEnergyEvaluator, Constants::KW_CfgEnergyEvaluatorRosetta);
+		params.SetValue(Constants::KW_UseCfgImprover, Constants::KW_CfgImproverRosetta);
 
-	NewInstances(params);
-	SetupPointers();
-	SetupFromParams(params);
+		params.SetValue(Constants::KW_UseCfgSampler,Constants::KW_CfgSamplerRosetta);
+
+		NewInstances(params);
+		SetupPointers();
+		SetupFromParams(params);
+
+		auto data = params.GetData(Constants::KW_MolecularStructureRosetta);
+		if (!data || ! data->m_params)
+		{
+			Logger::m_out << "keyword required in parameter file:"
+					  << Constants::KW_MolecularStructureRosetta << std::endl;
+			exit(125);
+		}
+
+		const char *rosettaDBDir = data->m_params->GetValue(Constants::KW_MolecularStructureRosetta_DBDir);
+
+		RosettaInit(rosettaDBDir);
+		const char  *startPDBFileName = data->m_params->GetValue(Constants::KW_MolecularStructureRosetta_CfgStart);
+
+		auto mol = GetMolecularStructureRosetta();
+
+		auto energyEval = GetCfgEnergyEvaluator();
+
+		mol->CreateEnergyFunction();
+
+		//set start & goal
+		Cfg *cfgInit = NULL;
+
+		Cfg *cfgGoal = NULL;
+
+		if (startPDBFileName)
+		{
+			Logger::m_out << "Loading file:" << startPDBFileName << std::endl;
+			GetMolecularStructureRosetta()->LoadPDBFile(startPDBFileName);
+			GetCfgManager()->SetDim(GetMolecularStructureRosetta()->GetNrResidues() * 3);
+			cfgInit = GetCfgManager()->NewCfg();
+			GetMolecularStructureRosetta()->SetCfgDOFs(*cfgInit);
+
+			double energy = energyEval->EvaluateEnergy(*cfgInit);
+			cfgInit->SetEnergy(energy);
+			Logger::m_out << "energy of start pdb is:" << cfgInit->GetEnergy() << std::endl;
+		}
+
+		const char  *goalPDBFileName = data->m_params->GetValue(Constants::KW_MolecularStructureRosetta_CfgGoal);
+		if (goalPDBFileName)
+		{
+			Logger::m_out << "Loading file:" << startPDBFileName << std::endl;
+			GetMolecularStructureRosetta()->LoadPDBFile(goalPDBFileName);
+			cfgGoal = GetCfgManager()->NewCfg();
+			GetMolecularStructureRosetta()->SetCfgDOFs(*cfgGoal);
+
+			double energy = energyEval->EvaluateEnergy(*cfgGoal);
+			cfgGoal->SetEnergy(energy);
+			Logger::m_out << "energy of goal pdb is:" << cfgGoal->GetEnergy() << std::endl;
+		}
+
+		GetPlannerProblem()->SetInitialCfg(cfgInit);
+		auto goalAcceptor = dynamic_cast<GoalAcceptorBasedOnDistance*>(GetGoalAcceptor());
+		if(goalAcceptor)
+			goalAcceptor->SetTargetCfg(cfgGoal);
+
+		auto d = GetCfgDistance();
+
+		if (! d->CheckSetup())
+		{
+			Logger::m_out <<" error in distance setup" << std::endl;
+		}
 	
-	//set start & goal
-	Cfg *cfgInit = GetCfgManager()->NewCfg();
-	Cfg *cfgGoal = GetCfgManager()->NewCfg();
-
-	const char *fname = params.GetValue(Constants::KW_ReadInitAndGoalCfgsFromFile);
-	if(fname != NULL)
-	{
-	    std::ifstream in(fname);
-	    GetCfgManager()->ReadCfg(in, *cfgInit);
-	    GetCfgManager()->ReadCfg(in, *cfgGoal);
-	    in.close();
-	}
-	
-	GetPlannerProblem()->SetInitialCfg(cfgInit);
-	auto goalAcceptor = dynamic_cast<GoalAcceptorBasedOnDistance*>(GetGoalAcceptor());
-	if(goalAcceptor)
-	    goalAcceptor->SetTargetCfg(cfgGoal);
-
+		double startGoalDistance = d->Distance(*cfgInit,*cfgGoal);
+		Logger::m_out << "Distance between start and goal structures is:"
+				  << startGoalDistance << std::endl;
     }
 
     void SetupRosetta::Test(void)
@@ -53,5 +101,20 @@ namespace Antipatrea
 	//add code here to test whatever you would like
 	//at this point, all the components have been setup so you can use them
     }
-    
+
+    void SetupRosetta::RosettaInit(const char DBDir[])
+    {
+      // Rosetta init call takes a C function style call list
+
+      char ** rosetta_argv = (char **) malloc(sizeof(char*) * 3);
+      char DBDirCopy[350];
+      strcpy(DBDirCopy,DBDir);
+      rosetta_argv[0] = (char*)"";
+      rosetta_argv[1] = (char*)"-database";
+      rosetta_argv[2] = DBDirCopy;
+
+      devel::init(3,rosetta_argv);
+      // free (rosetta_argv);
+
+    }
 }

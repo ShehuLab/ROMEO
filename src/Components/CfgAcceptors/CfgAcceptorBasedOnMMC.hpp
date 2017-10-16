@@ -25,21 +25,22 @@ namespace Antipatrea
      *@remarks
      *  - This class requires access to CfgEnergyEvaluator component in order to evaluate the
      *    energy of the configuration.
-     *  - The user should also set the energy threshold.
+     *  - The initial temperature and adjustment factor are user parameters.
      */
     class CfgAcceptorBasedOnMMC : public CfgAcceptor,
-				     	 	 	 	 public CfgEnergyEvaluatorContainer
+				  public CfgEnergyEvaluatorContainer
     {
     public:
     	CfgAcceptorBasedOnMMC(void) : CfgAcceptor(),
-										 CfgEnergyEvaluatorContainer()
+     				      CfgEnergyEvaluatorContainer()
 	{
-	    m_temperature = Constants::VAL_CfgAcceptorBasedOnEnergy_Temperature;
-	    m_temperatureRate = 0.1;
+	    m_temperature = Constants::VAL_CfgAcceptorBasedOnMMC_Temperature ;
+	    m_temperatureAdjRate = Constants::VAL_CfgAcceptorBasedOnMMC_TemperatureAdjRate;
 
 	    m_maxEnergy = -1. * std::numeric_limits<double>::max();
 	    m_minEnergy = std::numeric_limits<double>::max();
-	    std::cout << "in MMC constructor." << std::endl;
+	    m_testSuccessCount = 0;
+	    m_testFailCount = 0;
 	}
 
 	virtual ~CfgAcceptorBasedOnMMC(void)
@@ -49,15 +50,16 @@ namespace Antipatrea
 	virtual bool CheckSetup(void)
 	{
 	    return
-	    		CfgAcceptor::CheckSetup() &&
-				GetCfgEnergyEvaluator() != NULL &&
-				GetCfgEnergyEvaluator()->CheckSetup();
+	    	CfgAcceptor::CheckSetup() &&
+			GetCfgEnergyEvaluator() != NULL &&
+		        GetCfgEnergyEvaluator()->CheckSetup();
 	}
 
 	virtual void Info(const char prefix[]) const
 	{
 	    CfgAcceptor::Info(prefix);
-	    Logger::m_out << prefix << " EnergyThreshold    = " << GetTemperature() << std::endl
+	    Logger::m_out << prefix << " MMC Temperature    = " << GetTemperature() << std::endl
+			  << prefix << " MMC Temperature adj = "
 	                  << prefix << " CfgEnergyEvaluator = " << Name(GetCfgEnergyEvaluator()) << std::endl;
 	}
 
@@ -79,7 +81,12 @@ namespace Antipatrea
 
 	    auto data = params.GetData(Constants::KW_CfgAcceptorBasedOnMMC);
 	    if(data && data->m_params)
-	    	SetTemperature(data->m_params->GetValueAsDouble(Constants::KW_MCCTemperature));
+	    {
+	    	SetTemperature(data->m_params->GetValueAsDouble(Constants::KW_MCCTemperature,m_temperature));
+
+	    	SetTemperatureAdjRate(
+	    	    data->m_params->GetValueAsDouble(Constants::KW_MCCTemperatureAdjRate,m_temperatureAdjRate));
+	    }
 	}
 
 	/**
@@ -98,6 +105,15 @@ namespace Antipatrea
 	virtual void SetTemperature(const double temperature)
 	{
 	    m_temperature = temperature;
+	}
+
+	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief Name says it all.
+	 */
+	virtual void SetTemperatureAdjRate(const double temperatureAdjRate)
+	{
+	    m_temperatureAdjRate = temperatureAdjRate;
 	}
 
 	/**
@@ -139,6 +155,7 @@ namespace Antipatrea
 	{
 	    if(cfg.IsEnergySet() == false)
 	    	cfg.SetEnergy(GetCfgEnergyEvaluator()->EvaluateEnergy(cfg));
+
 	    // Metropolis-test
 	    if (cfg.GetEnergy() > m_maxEnergy)
 	    	m_maxEnergy = cfg.GetEnergy();
@@ -156,20 +173,24 @@ namespace Antipatrea
 
 	    	if (acceptProb < RandomUniformReal())
 	    	{
-	    		passMMC = false;
-	    		/* adjust temperature up to increase change of success */
-	    		m_temperature *= pow(2, m_temperatureRate);
+	    	    passMMC = false;
+	    	    /* adjust temperature up to increase change of success */
+	    	    m_temperature *= pow(2, m_temperatureAdjRate);
 	    	}
 	    	else
 	    	{
-	    		/* decrease the temperature */
-	    		// m_temperature /= pow(2, (deltaE) / (0.1 * m_maxEnergy - m_minEnergy));
-	    		m_temperature /= 1.05;
+	    	    /* decrease the temperature */
+	    	    // m_temperature /= pow(2, (deltaE) / (0.1 * m_maxEnergy - m_minEnergy));
+	    	    m_temperature /= m_temperatureAdjRate;
 	    	}
-
 	    }
-	    std::cout << "passMMC:" << passMMC << " old temp:" << priorTemp
-	              << " new temp:" << m_temperature  << " deltaE:" << deltaE << std::endl;
+
+	    (passMMC) ? ++m_testSuccessCount : ++m_testFailCount;
+
+	    Logger::m_out  << "MMCTest passMMC:" << passMMC
+			   << " old temp:" << priorTemp
+	                   << " new temp:" << m_temperature
+			   << " deltaE:" << deltaE << std::endl;
 	    return (passMMC);
 	}
 
@@ -181,28 +202,39 @@ namespace Antipatrea
 	double m_temperature;
 
 	/**
-		 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
-		 *@brief Rate at which temperature increases after a failed MMC test.
+          *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief Rate at which temperature increases after a failed MMC test.
 	*/
-	double m_temperatureRate;
+	double m_temperatureAdjRate;
 
 	/**
-		 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
-		 *@brief max energy encountered so far.
+	  *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief max energy encountered so far.
 	*/
 
 	double m_maxEnergy;
 
 	/**
-		 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
-		 *@brief min energy encountered so far.
+	  *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief min energy encountered so far.
 	*/
-
 	double m_minEnergy;
 
 	/**
+	  *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief  Count of number of passed MMC tests.
+	*/
+	unsigned int m_testSuccessCount;
+
+	/**
+	  *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	  *@brief  Count of number of failed MMC tests.
+	*/
+	unsigned int m_testFailCount;
+
+	/**
 	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Pointer to target/goal cfg.
+	 *@brief Pointer to prior/source cfg.
 	*/
 	Cfg *m_cfgSource;
 

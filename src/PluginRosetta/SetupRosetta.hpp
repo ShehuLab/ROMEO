@@ -7,14 +7,15 @@
 #include "PluginRosetta/CfgImproverRosetta.hpp"
 #include "PluginRosetta/CfgOffspringGeneratorRosetta.hpp"
 #include "PluginRosetta/CfgSamplerRosetta.hpp"
-#include "PluginRosetta/CfgProjectorUSR.hpp"
+#include "PluginRosetta/CfgProjectorUSREnergy.hpp"
 #include "PluginRosetta/CfgProjectorDeltaR.hpp"
+#include "PluginRosetta/CfgDistanceAtomRMSD.hpp"
 
 
 namespace Antipatrea
 {
     /**
-     *@author Erion Plaku, Amarda Shehu
+     *@author Erion Plaku, Amarda Shehu, Kevin Molloy
      *@brief Setup the planning problem for a molecular structure based on Rosetta representation 
      *       as well as the planner and its components.
      *
@@ -63,7 +64,6 @@ namespace Antipatrea
 	
 	virtual void Prepare(Params & params);
 
-	
 	/**
 	 *@author Erion Plaku, Amarda Shehu
 	 *@brief Write whatever you would like for testing purposes.
@@ -92,11 +92,11 @@ namespace Antipatrea
 	    auto name = params.GetValue(Constants::KW_UseCfgEnergyEvaluator);
 	    if(StrSameContent(name, Constants::KW_CfgEnergyEvaluatorRosetta))
 	    {
-		SetCfgEnergyEvaluator(new CfgEnergyEvaluatorRosetta());
-		OnNewInstance(GetCfgEnergyEvaluator());
+			SetCfgEnergyEvaluator(new CfgEnergyEvaluatorRosetta());
+			OnNewInstance(GetCfgEnergyEvaluator());
 	    }
 	    else
-		Setup::NewCfgEnergyEvaluator(params);
+	    	Setup::NewCfgEnergyEvaluator(params);
 	}
 	
 	virtual void NewCfgImprover(Params & params)
@@ -140,18 +140,18 @@ namespace Antipatrea
 	virtual void NewCfgProjector(Params & params)
 	{
 	    auto name = params.GetValue(Constants::KW_UseCfgProjector);
-	    if(StrSameContent(name, Constants::KW_CfgProjectorUSR))
+	    if(StrSameContent(name, Constants::KW_CfgProjectorUSREnergy))
 	    {
-		SetCfgProjector(new CfgProjectorUSR());
-		OnNewInstance(GetCfgProjector());
+			SetCfgProjector(new CfgProjectorUSREnergy());
+			OnNewInstance(GetCfgProjector());
 	    }
 	    else if(StrSameContent(name, Constants::KW_CfgProjectorDeltaR))
 	    {
-		SetCfgProjector(new CfgProjectorDeltaR());
-		OnNewInstance(GetCfgProjector());
+			SetCfgProjector(new CfgProjectorDeltaR());
+			OnNewInstance(GetCfgProjector());
 	    }
 	    else
-		Setup::NewCfgProjector(params);
+			Setup::NewCfgProjector(params);
 	}
 	
 	virtual void SetupPointersCfgEnergyEvaluator(void)
@@ -160,8 +160,8 @@ namespace Antipatrea
 	    
 	    if(dynamic_cast<CfgEnergyEvaluatorRosetta*>(GetCfgEnergyEvaluator()))
 	    {
-		dynamic_cast<CfgEnergyEvaluatorRosetta*>(GetCfgEnergyEvaluator())->SetCfgManager(GetCfgManager());
-		dynamic_cast<CfgEnergyEvaluatorRosetta*>(GetCfgEnergyEvaluator())->SetMolecularStructureRosetta(GetMolecularStructureRosetta());
+			dynamic_cast<CfgEnergyEvaluatorRosetta*>(GetCfgEnergyEvaluator())->SetCfgManager(GetCfgManager());
+			dynamic_cast<CfgEnergyEvaluatorRosetta*>(GetCfgEnergyEvaluator())->SetMolecularStructureRosetta(GetMolecularStructureRosetta());
 	    }
 	}
 
@@ -171,8 +171,8 @@ namespace Antipatrea
 	    
 	    if(dynamic_cast<CfgImproverRosetta*>(GetCfgImprover()))
 	    {
-		dynamic_cast<CfgImproverRosetta*>(GetCfgImprover())->SetCfgManager(GetCfgManager());
-		dynamic_cast<CfgImproverRosetta*>(GetCfgImprover())->SetMolecularStructureRosetta(GetMolecularStructureRosetta());
+			dynamic_cast<CfgImproverRosetta*>(GetCfgImprover())->SetCfgManager(GetCfgManager());
+			dynamic_cast<CfgImproverRosetta*>(GetCfgImprover())->SetMolecularStructureRosetta(GetMolecularStructureRosetta());
 	    }
 	}
 
@@ -202,19 +202,31 @@ namespace Antipatrea
 	virtual void SetupPointersCfgProjector(void)
 	{
 	    Setup::SetupPointersCfgProjector();
-	    
-	    if(dynamic_cast<CfgProjectorUSR*>(GetCfgProjector()))
+
+	    if(dynamic_cast<CfgProjectorUSREnergy*>(GetCfgProjector()))
 	    {
-		dynamic_cast<CfgProjectorUSR*>(GetCfgProjector())->SetCfgManager(GetCfgManager());
-		dynamic_cast<CfgProjectorUSR*>(GetCfgProjector())->SetMolecularStructureRosetta(GetMolecularStructureRosetta());
+			dynamic_cast<CfgProjectorUSREnergy*>(GetCfgProjector())->SetCfgManager(GetCfgManager());
+			dynamic_cast<CfgProjectorUSREnergy*>(GetCfgProjector())->SetMolecularStructureRosetta(GetMolecularStructureRosetta());
 	    }
 	    else if(dynamic_cast<CfgProjectorDeltaR*>(GetCfgProjector()))
 	    {
-		dynamic_cast<CfgProjectorDeltaR*>(GetCfgProjector())->SetCfgManager(GetCfgManager());
-		dynamic_cast<CfgProjectorDeltaR*>(GetCfgProjector())->SetMolecularStructureRosetta(GetMolecularStructureRosetta());
+			dynamic_cast<CfgProjectorDeltaR*>(GetCfgProjector())->SetCfgManager(GetCfgManager());
+			dynamic_cast<CfgProjectorDeltaR*>(GetCfgProjector())->SetMolecularStructureRosetta(GetMolecularStructureRosetta());
 	    }
 	}
+	virtual void SetupPointersCfgDistance(void)
+	{
+		CfgDistanceAtomRMSD *cfgDistanceAtomRMSD = dynamic_cast<CfgDistanceAtomRMSD*>(GetCfgDistance());
+		if (cfgDistanceAtomRMSD)
+		{
+			cfgDistanceAtomRMSD->SetCfgManager(GetCfgManager());
+			std::cout << "SetupCfgDistance in Rosetta" << std::endl;
+			cfgDistanceAtomRMSD->SetMolecularStructureRosetta(GetMolecularStructureRosetta());
+		}
+	}
 
+    private:
+	void RosettaInit(const char DBDir[]);
 
 
     };

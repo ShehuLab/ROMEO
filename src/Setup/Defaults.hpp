@@ -23,8 +23,14 @@ namespace Antipatrea
 	const char KW_CfgAcceptor[]                = "CfgAcceptor";
 	const char KW_CfgAcceptorBasedOnDistance[] = "CfgAcceptorBasedOnDistance";
 	const char KW_CfgAcceptorBasedOnEnergy[]   = "CfgAcceptorBasedOnEnergy";
+	const char KW_CfgAcceptorBasedOnMMC[]      = "CfgAcceptorBasedOnMMC";
 	const char KW_EnergyThreshold[]            = "EnergyThreshold";
 	const char KW_DistanceThreshold[]          = "DistanceThreshold";
+	const char KW_MCCTemperature[]             = "Temperature";
+	const char KW_MCCTemperatureAdjRate[]      = "TemperatureAdjRate";
+	const double VAL_CfgAcceptorBasedOnMMC_Temperature         = 20.0;
+	const double VAL_CfgAcceptorBasedOnMMC_TemperatureAdjRate  = 0.1;
+
 	
 	const double VAL_CfgAcceptorBasedOnEnergy_EnergyThreshold     = INFINITY;
 	const double VAL_CfgAcceptorBasedOnDistance_DistanceThreshold = 0.2;
@@ -38,6 +44,7 @@ namespace Antipatrea
 	const double VAL_GoalAcceptorBasedOnDistance_DistanceThreshold = VAL_CfgAcceptorBasedOnDistance_DistanceThreshold;
 	const double VAL_GoalAcceptorBasedOnEnergy_EnergyThreshold     = INFINITY;
 	
+	const double VAL_Boltzman_K	 = 0.0019872041;
 	//SignedDistanceBetweenTwoValues
 	const char KW_UseSignedDistanceBetweenTwoValues[] = "UseSignedDistanceBetweenTwoValues";
 	const char KW_SignedDistanceBetweenTwoValues[]    = "SignedDistanceBetweenTwoValues";
@@ -49,6 +56,7 @@ namespace Antipatrea
 	const char KW_CfgDistance[]    = "CfgDistance";
 	const char KW_CfgDistanceLp[]  = "CfgDistanceLp";
 	const char KW_Exponent[]       = "Exponent";
+	const char KW_CfgDistanceAtomRMSD[] = "CfgDistanceAtomRMSD";
 	
 	const int VAL_CfgDistanceLp_Exponent = 2;
 		
@@ -156,12 +164,14 @@ namespace Antipatrea
 	const char KW_NeighborhoodRadius[]      = "NeighborhoodRadius";
 	const double VAL_EST_NeighborhoodRadius = 2.0;
 
+	//FELTR
+	const char KW_FELTR[]                   = "FELTR";
+
 	//RRT
 	const char KW_RRT[] = "RRT";
 	
 	//PGT
 	const char KW_PGT[] = "PGT";
-
 	
 	//Running the planner
 	const char KW_RunPlanner[]      = "RunPlanner";
@@ -176,8 +186,8 @@ namespace Antipatrea
 	const char   VAL_RunPlanner_StatsFile[]     = "data/planner.stats";
 	const int    VAL_RunPlanner_MaxNrRuns       = 10;
 	const int    VAL_RunPlanner_MaxNrFailures   = 5;
-	const double VAL_RunPlanner_MaxRuntime      = 5.0;
-	const double VAL_RunPlanner_IntervalRuntime = 1.0;
+	const double VAL_RunPlanner_MaxRuntime      = 40.0;
+	const double VAL_RunPlanner_IntervalRuntime = 2.0;
 	
 	
 	//Stats
@@ -185,6 +195,9 @@ namespace Antipatrea
 	const char KW_Runtime_PlannerStart[]         = "Runtime_PlannerStart";
 	const char KW_Runtime_PRM_GenerateVertices[] = "Runtime_PRM_GenerateVertices";
 	const char KW_Runtime_PRM_GenerateEdges[]    = "Runtime_PRM_GenerateEdges";
+
+
+
 
 
 	//Setup
@@ -210,15 +223,18 @@ namespace Antipatrea
 	const char   KW_CfgProjectorChain2D[] = "CfgProjectorChain2D";
 	
 	//PluginRosetta
-	const char KW_SetupRosetta[]                 = "SetupRosetta";
-	const char KW_MolecularStructureRosetta[]    = "MolecularStructureRosetta";
+	const char KW_SetupRosetta[]                      = "SetupRosetta";
+	const char KW_MolecularStructureRosetta[]         = "MolecularStructureRosetta";
+	const char KW_MolecularStructureRosetta_DBDir[]   = "DBDir";
+	const char KW_MolecularStructureRosetta_CfgStart[] = "CfgStart";
+	const char KW_MolecularStructureRosetta_CfgGoal[] = "CfgGoal";
 	const char KW_CfgSamplerRosetta[]            = "CfgSamplerRosetta";
 	const char KW_CfgImproverRosetta[]           = "CfgImproverRosetta";
 	const char KW_CfgOffspringGeneratorRosetta[] = "CfgOffspringGeneratorRosetta";
+	const char KW_CfgOffspringGeneratorRosetta_FragmentLib[] = "FragmentLib";
 	const char KW_CfgEnergyEvaluatorRosetta[]    = "CfgEnergyEvaluatorRosetta";
-	const char KW_CfgProjectorUSR[]              = "CfgProjectorUSR";
+	const char KW_CfgProjectorUSREnergy[]        = "CfgProjectorUSREnergy";
 	const char KW_CfgProjectorDeltaR[]           = "CfgProjectorDeltaR";
-
     }
 }
 

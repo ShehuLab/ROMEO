@@ -14,7 +14,7 @@ namespace Antipatrea
 	}
     }
 
-    void CfgProjectorDeltaR::Project(Cfg & cfg, double proj[])
+    void CfgProjectorDeltaR::Project(const Cfg & cfg, double proj[])
     {
 	/*
 	  auto cfgManager = GetCfgManager();

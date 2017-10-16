@@ -35,31 +35,31 @@ namespace Antipatrea
 
     double EST::GetVertexWeight(const ESTVertex & v) const
     {
-	return 1.0 / (1.0 + v.GetNrSelections() + v.GetNrNeighbors());
+    	return 1.0 / (1.0 + v.GetNrSelections() + v.GetNrNeighbors());
     }
     
     int EST::SelectVertex(void) 
     {
-	ESTVertex *v;
+        ESTVertex *v;
 	
-	const double  r     = RandomUniformReal(0, m_totalWeight);
+	    const double  r     = RandomUniformReal(0, m_totalWeight);
         PlannerGraph *graph = GetPlannerGraph();
-	double        w     = 0.0;
+	    double        w     = 0.0;
 
-	for(int i = graph->GetNrVertices() - 1; i >= 0; --i)
-	{
-	    v = dynamic_cast<ESTVertex*>(graph->GetVertex(i));
-	    w += GetVertexWeight(*v);
-	    if(w >= r)
+  	    for(int i = graph->GetNrVertices() - 1; i >= 0; --i)
 	    {
-		v->SetNrSelections(1 + v->GetNrSelections());
-		return i;
+	        v = dynamic_cast<ESTVertex*>(graph->GetVertex(i));
+	        w += GetVertexWeight(*v);
+	        if(w >= r)
+	        {
+		        v->SetNrSelections(1 + v->GetNrSelections());
+		        return i;
+	        }
 	    }
-	}
 
-	v = dynamic_cast<ESTVertex*>(graph->GetVertex(0));
-	v->SetNrSelections(1 + v->GetNrSelections());
+	    v = dynamic_cast<ESTVertex*>(graph->GetVertex(0));
+	    v->SetNrSelections(1 + v->GetNrSelections());
 	
-	return 0;
+	    return 0;
     }
 }

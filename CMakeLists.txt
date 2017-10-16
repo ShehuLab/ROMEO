@@ -1,5 +1,11 @@
+#
+# CodeBio CMakeList.txt 
+#
+
 PROJECT(Runner CXX C)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeScripts")
 
 SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 
@@ -40,6 +46,24 @@ ADD_DEFINITIONS(-D_USE_MATH_DEFINES)
 
 #############################################################################
 INCLUDE_DIRECTORIES(src)
+
+# 
+# IF RUNNER_ROSETTA_DIR is set, include Rosetta software package
+#
+if (DEFINED ENV{RUNNER_ROSETTA_DIR})
+  message(STATUS "Rosetta plugin will be compiled.")
+  set (USE_ROSETTA true)
+  ADD_DEFINITIONS(-DPTR_BOOST)
+  find_package(ROSETTA REQUIRED)
+  include_directories(${ROSETTA_INCLUDE_DIRS})
+  message(STATUS "Rosetta include dirs: ${ROSETTA_INCLUDE_DIRS}")
+  link_directories(${ROSETTA_LIBRARY_DIR})
+else(DEFINED ENV{RUNNER_ROSETTA_DIR})
+  set (USE_ROSETTA 0)
+endif()
+
+
+
 AUX_SOURCE_DIRECTORY(src/Utils      SRC_UTILS)
 AUX_SOURCE_DIRECTORY(src/Components SRC_COMPONENTS)
 AUX_SOURCE_DIRECTORY(src/Components/CfgAccepters SRC_CFG_ACCEPTERS)
@@ -58,8 +82,9 @@ AUX_SOURCE_DIRECTORY(src/Programs   SRC_PROGRAMS)
 AUX_SOURCE_DIRECTORY(src/Setup      SRC_SETUP)
 AUX_SOURCE_DIRECTORY(src/Plugin2D     SRC_PLUGIN2D)
 AUX_SOURCE_DIRECTORY(src/PluginRosetta     SRC_PLUGIN_ROSETTA)
-   
+AUX_SOURCE_DIRECTORY(src/RosettaTools SRC_ROSETTA_TOOLS) 
  
+
 ADD_EXECUTABLE(Runner
 		${SRC_UTILS}
 		${SRC_COMPONENTS}
@@ -83,6 +108,17 @@ ADD_EXECUTABLE(Runner
 
 
 #############################################################################
+#Find lapack 
+#
+find_library (vector_LIBRARIES lapack
+  PATHS /usr/lib /usr/local/lib)
+
+if (vector_LIBRARIES)
+  message (STATUS "Found components for lapack")
+else (vector_LIBRARIES)
+  message (FATAL_ERROR "Could NOT find components for lapack")
+endif (vector_LIBRARIES)
+
 #Find OpenGL and GLUT
 #
 INCLUDE(FindOpenGL)
@@ -110,11 +146,24 @@ ELSE (GLUT_glut_LIBRARY)
 ENDIF(GLUT_glut_LIBRARY)
 
 
-TARGET_LINK_LIBRARIES(Runner   ${INTERACTIVE_LIBS} m pthread)
+TARGET_LINK_LIBRARIES(Runner   ${INTERACTIVE_LIBS} ${ROSETTA_LIBNAMES} ${vector_LIBRARIES} m pthread)
+
+IF (USE_ROSETTA)
+  ADD_EXECUTABLE(MakePDBsFromSolution
+                 ${SRC_ROSETTA_TOOLS}
+                 ${SRC_UTILS})
+		
+  TARGET_LINK_LIBRARIES(MakePDBsFromSolution   ${INTERACTIVE_LIBS} ${ROSETTA_LIBNAMES} ${vector_LIBRARIES} m pthread)
+
+ENDIF (USE_ROSETTA)
+  
 
 FIND_LIBRARY(DL_LIB dl /usr/lib/ /usr/local/lib/ ./lib/ ${LIBRARY_OUTPUT_PATH}) 
 IF(DL_LIB)
    TARGET_LINK_LIBRARIES(Runner ${DL_LIB})
+   IF (USE_ROSETTA)
+     TARGET_LINK_LIBRARIES(MakePDBsFromSolution ${DL_LIB})
+   ENDIF (USE_ROSETTA)
 ENDIF(DL_LIB)  
 
 

@@ -29,7 +29,7 @@ namespace Antipatrea
 	 * - The function assumes that <tt>proj</tt> has been properly allocated
 	 *   (using CfgProjector::NewValues())
 	 */
-	virtual void Project(Cfg & cfg, double proj[])
+	virtual void Project(const Cfg & cfg, double proj[])
 	{
 	    proj[0] = cfg.GetValues()[0];
 	    proj[1] = cfg.GetValues()[1];

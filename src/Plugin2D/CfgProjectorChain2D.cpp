@@ -2,7 +2,7 @@
 
 namespace Antipatrea
 {
-    void CfgProjectorChain2D::Project(Cfg & cfg, double proj[])
+    void CfgProjectorChain2D::Project(const Cfg & cfg, double proj[])
     {
 	Chain2D   *chain = GetChain2D();
 	const int  n     = chain->GetNrLinks();

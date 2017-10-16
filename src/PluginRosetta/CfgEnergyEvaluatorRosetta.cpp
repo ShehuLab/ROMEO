@@ -17,16 +17,11 @@ namespace Antipatrea
 
     double CfgEnergyEvaluatorRosetta::EvaluateEnergy(Cfg & cfg)
     {
-	/*
-	  auto cfgManager = GetCfgManager();
-          auto mol        = GetMolecularStructureRosetta();
-          const int dim   = cfgManager->GetDim(); //number of configuration dimensions;
-	  const double *vals  = cfg.GetValues(); //values of the configuration
+        auto mol        = GetMolecularStructureRosetta();
 
-	  double energy = //add code to evaluate the energy
+	double energy = mol->EvaluateEnergy(cfg);
 
-	  cfg.SetEnergy(energy);
-	 */
+	cfg.SetEnergy(energy);
 
 	return cfg.GetEnergy();
     }

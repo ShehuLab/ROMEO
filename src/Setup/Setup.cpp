@@ -6,8 +6,10 @@
 
 #include "Components/CfgAcceptors/CfgAcceptorBasedOnDistance.hpp"
 #include "Components/CfgAcceptors/CfgAcceptorBasedOnEnergy.hpp"
+#include "Components/CfgAcceptors/CfgAcceptorBasedOnMMC.hpp"
 
 #include "Components/CfgDistances/CfgDistanceLp.hpp"
+
 #include "Components/CfgDistances/SignedDistanceBetweenTwoAngles.hpp"
 #include "Components/CfgDistances/SignedDistanceBetweenTwoNumbers.hpp"
  
@@ -21,10 +23,13 @@
 #include "Components/EdgeCostEvaluators/EdgeCostEvaluatorBasedOnDistance.hpp"
 #include "Components/EdgeCostEvaluators/EdgeCostEvaluatorBasedOnEnergy.hpp"
 
+#include "PluginRosetta/CfgEnergyEvaluatorRosetta.hpp"
+#include "PluginRosetta/CfgDistanceAtomRMSD.hpp"
 #include "Planners/PRM.hpp"
 #include "Planners/RRT.hpp"
 #include "Planners/EST.hpp"
 #include "Planners/PGT.hpp"
+#include "Planners/FELTR.hpp"
 
 namespace Antipatrea
 {    
@@ -51,33 +56,36 @@ namespace Antipatrea
     
     void Setup::NewInstances(Params & params)
     {
-	NewCfgAcceptor(params);
-	NewGoalAcceptor(params);
-	NewCfgManager(params);
-	NewSignedDistanceBetweenTwoValues(params);
-	NewCfgDistance(params);
-	NewCfgEnergyEvaluator(params);
-	NewCfgForwardKinematics(params);
-	NewCfgImprover(params);
-	NewCfgProjector(params);
-	NewCfgSampler(params);
-	NewEdgeCostEvaluator(params);
-	NewCfgOffspringGenerator(params);
-	NewPlannerProblem(params);
-	NewPlannerSolution(params);
-	NewPlannerGraph(params);
-	NewSamplingBasedPlanner(params);
+		NewCfgAcceptor(params);
+		NewGoalAcceptor(params);
+		NewCfgManager(params);
+		NewSignedDistanceBetweenTwoValues(params);
+		NewCfgDistance(params);
+		NewCfgEnergyEvaluator(params);
+		NewCfgForwardKinematics(params);
+		NewCfgImprover(params);
+		NewCfgProjector(params);
+		NewCfgSampler(params);
+		NewEdgeCostEvaluator(params);
+		NewCfgOffspringGenerator(params);
+		NewPlannerProblem(params);
+		NewPlannerSolution(params);
+		NewPlannerGraph(params);
+		NewSamplingBasedPlanner(params);
     }
     
 
     void Setup::NewCfgAcceptor(Params & params)
     {
-	auto name = params.GetValue(Constants::KW_UseCfgAcceptor);
-	if(StrSameContent(name, Constants::KW_CfgAcceptorBasedOnDistance))
-	    SetCfgAcceptor(new CfgAcceptorBasedOnDistance());
-	else
-	    SetCfgAcceptor(new CfgAcceptorBasedOnEnergy());
-	OnNewInstance(GetCfgAcceptor());
+		auto name = params.GetValue(Constants::KW_UseCfgAcceptor);
+		if(StrSameContent(name, Constants::KW_CfgAcceptorBasedOnDistance))
+			SetCfgAcceptor(new CfgAcceptorBasedOnDistance());
+		else
+		if (StrSameContent(name, Constants::KW_CfgAcceptorBasedOnMMC))
+			SetCfgAcceptor(new CfgAcceptorBasedOnMMC());
+		else
+			SetCfgAcceptor(new CfgAcceptorBasedOnEnergy());
+		OnNewInstance(GetCfgAcceptor());
     }
     
     void Setup::NewGoalAcceptor(Params & params)
@@ -99,7 +107,13 @@ namespace Antipatrea
     
     void Setup::NewCfgDistance(Params & params)
     {
-	SetCfgDistance(new CfgDistanceLp());
+        auto name = params.GetValue(Constants:: KW_UseCfgDistance);
+
+	if (StrSameContent(name, Constants::KW_CfgDistanceAtomRMSD))
+	    SetCfgDistance(new CfgDistanceAtomRMSD);
+	else
+	    SetCfgDistance(new CfgDistanceLp());
+
 	OnNewInstance(GetCfgDistance());
     }
 
@@ -117,6 +131,10 @@ namespace Antipatrea
     
     void Setup::NewCfgEnergyEvaluator(Params & params)
     {
+    	auto name = params.GetValue(Constants::KW_UseCfgEnergyEvaluator);
+    	if (StrSameContent(name,Constants::KW_CfgEnergyEvaluatorRosetta))
+    		SetCfgEnergyEvaluator(new CfgEnergyEvaluatorRosetta());
+
     }
     
     void Setup::NewCfgForwardKinematics(Params & params)
@@ -190,6 +208,8 @@ namespace Antipatrea
 	    SetSamplingBasedPlanner(new EST());
 	else if(StrSameContent(name, Constants::KW_PGT))
 	    SetSamplingBasedPlanner(new PGT());
+	else if(StrSameContent(name, Constants::KW_FELTR))
+		SetSamplingBasedPlanner(new FELTR());
 	else
 	  SetSamplingBasedPlanner(new PRM());
 	OnNewInstance(GetSamplingBasedPlanner());
@@ -200,6 +220,8 @@ namespace Antipatrea
 	SetupPointersComponent(GetCfgAcceptor());
 	if(dynamic_cast<CfgAcceptorBasedOnEnergy*>(GetCfgAcceptor()))
 	    dynamic_cast<CfgAcceptorBasedOnEnergy*>(GetCfgAcceptor())->SetCfgEnergyEvaluator(GetCfgEnergyEvaluator());
+	else if (dynamic_cast<CfgAcceptorBasedOnMMC*>(GetCfgAcceptor()))
+		dynamic_cast<CfgAcceptorBasedOnMMC*>(GetCfgAcceptor())->SetCfgEnergyEvaluator(GetCfgEnergyEvaluator());
 	else if(dynamic_cast<CfgAcceptorBasedOnDistance*>(GetCfgAcceptor()))
 	    dynamic_cast<CfgAcceptorBasedOnDistance*>(GetCfgAcceptor())->SetCfgDistance(GetCfgDistance());
     }
@@ -232,6 +254,12 @@ namespace Antipatrea
 	{
 	    cfgDistanceLp->SetCfgManager(GetCfgManager());
 	    cfgDistanceLp->SetSignedDistanceBetweenTwoValues(GetSignedDistanceBetweenTwoValues());
+	}
+
+	CfgDistanceAtomRMSD *cfgDistanceAtomRMSD = dynamic_cast<CfgDistanceAtomRMSD*>(GetCfgDistance());
+	if (cfgDistanceAtomRMSD)
+	{
+		cfgDistanceAtomRMSD->SetCfgManager(GetCfgManager());
 	}
     }
 
@@ -308,43 +336,46 @@ namespace Antipatrea
 
     void Setup::SetupPointersSamplingBasedPlanner(void)
     {
-	auto planner = GetSamplingBasedPlanner();
-	
-	SetupPointersComponent(planner);
+		auto planner = GetSamplingBasedPlanner();
 
-	planner->SetCfgManager(GetCfgManager());
-	planner->SetPlannerProblem(GetPlannerProblem());
-	planner->SetPlannerGraph(GetPlannerGraph());
-	planner->SetCfgSampler(GetCfgSampler());
-	planner->SetCfgImprover(GetCfgImprover());
-	planner->SetCfgDistance(GetCfgDistance());
-	planner->SetCfgAcceptor(GetCfgAcceptor());
-	planner->SetEdgeCostEvaluator(GetEdgeCostEvaluator());
-	planner->SetCfgOffspringGenerator(GetCfgOffspringGenerator());
+		SetupPointersComponent(planner);
 	
-	if(dynamic_cast<PGT*>(planner))
-	    dynamic_cast<PGT*>(planner)->SetCfgProjector(GetCfgProjector());
+		planner->SetCfgManager(GetCfgManager());
+		planner->SetPlannerProblem(GetPlannerProblem());
+		planner->SetPlannerGraph(GetPlannerGraph());
+		planner->SetCfgSampler(GetCfgSampler());
+		planner->SetCfgImprover(GetCfgImprover());
+		planner->SetCfgDistance(GetCfgDistance());
+		planner->SetCfgAcceptor(GetCfgAcceptor());
+		planner->SetEdgeCostEvaluator(GetEdgeCostEvaluator());
+		planner->SetCfgOffspringGenerator(GetCfgOffspringGenerator());
+	
+		if(dynamic_cast<PGT*>(planner))
+			dynamic_cast<PGT*>(planner)->SetCfgProjector(GetCfgProjector());
+
+		if(dynamic_cast<FELTR*>(planner))
+					dynamic_cast<FELTR*>(planner)->SetCfgProjector(GetCfgProjector());
     }
 
     void Setup::SetupPointers(void)
     {
-	SetupPointersCfgManager();
-	SetupPointersCfgDistance();
-	SetupPointersCfgAcceptor();
-	SetupPointersGoalAcceptor();
-	SetupPointersSignedDistanceBetweenTwoValues();
-	SetupPointersCfgEnergyEvaluator();
-	SetupPointersCfgForwardKinematics();
-	SetupPointersCfgImprover();
-	SetupPointersCfgProjector();
-	SetupPointersCfgSampler();
-	SetupPointersEdgeCostEvaluator();
-	SetupPointersCfgOffspringGenerator();
-	SetupPointersPlannerProblem();
-	SetupPointersPlannerSolution();
-	SetupPointersPlannerGraph();
+		SetupPointersCfgManager();
+		SetupPointersCfgDistance();
+		SetupPointersCfgAcceptor();
+		SetupPointersGoalAcceptor();
+		SetupPointersSignedDistanceBetweenTwoValues();
+		SetupPointersCfgEnergyEvaluator();
+		SetupPointersCfgForwardKinematics();
+		SetupPointersCfgImprover();
+		SetupPointersCfgProjector();
+		SetupPointersCfgSampler();
+		SetupPointersEdgeCostEvaluator();
+		SetupPointersCfgOffspringGenerator();
+		SetupPointersPlannerProblem();
+		SetupPointersPlannerSolution();
+		SetupPointersPlannerGraph();
 
-	SetupPointersSamplingBasedPlanner();
+		SetupPointersSamplingBasedPlanner();
     }
 
     void Setup::SetupFromParams(Params & params)

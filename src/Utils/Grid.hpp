@@ -87,6 +87,14 @@ namespace Antipatrea
 	{
 	    return m_cvol;
 	}
+
+	/**
+	 *@author <a href="http:/www.cs.jhu.edu/~erion">Erion Plaku</a>
+	 *@brief Get the id of the cell where the point <em>p</em> falls into
+	 *
+	 *@param p point
+	 */
+	virtual int GetCellIdFromPoint(const double * const p) const;
 	
 	virtual int GetCellIdFromCoords(const int coords[]) const;
 	
@@ -99,7 +107,7 @@ namespace Antipatrea
 	virtual void GetCellFromCoords(const int coords[], 
 				       double    min[], 
 				       double    max[]) const;
-	
+
 	virtual void GetCellFromCoords(const int coords[],
 				       double    bbox[]) const
 	{

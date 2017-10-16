@@ -16,24 +16,29 @@ namespace Antipatrea
 
     bool CfgSamplerRosetta::Sample(Cfg & cfg)
     {
-	/*
-	  auto cfgManager = GetCfgManager();
-          auto mol        = GetMolecularStructureRosetta();
-          const int dim   = cfgManager->GetDim(); //number of configuration dimensions;
-	  double   *vals  = cfg.GetValues(); //values of the configuration
+        auto cfgManager = GetCfgManager();
+        auto mol        = GetMolecularStructureRosetta();
+        const int dim   = cfgManager->GetDim(); //number of configuration dimensions;
+	double   *vals  = cfg.GetValues(); //values of the configuration
 
-	  //add code to do the sampling
 
-	  //don't forget at the end to say
-	  cfg.SetValues(vals);
-	  //so that cfg remembers that the values have been changed.
-	  //In such cases, it sets the energy to undefined as an indication that it may need to be computed again.
-	 */
+	for (unsigned int i=0;i < mol->GetNrResidues();++i)
+	{
+            vals[i*3 + 0] =  RandomUniformReal(-M_PI, M_PI);
+	    vals[i*3 + 1] =  RandomUniformReal(-M_PI, M_PI);
+	    vals[i*3 + 2] =  M_PI;
+	}
+
+	//don't forget at the end to save
+	//so that cfg remembers that the values have been changed.
+	//In such cases, it sets the energy to undefined as an indication that it may need to be computed again.
+
+	cfg.SetValues(vals);
+
 	
 	//true: sample was successfully generated
 	//false: failed to generate a sample
 	return true;
-	
     }
 
 }
