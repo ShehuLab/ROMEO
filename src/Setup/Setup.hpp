@@ -116,7 +116,7 @@ namespace Antipatrea
 	virtual void OnNewInstance(Component * const comp)
 	{
 	    if(comp != NULL)
-		m_components.push_back(comp);
+	    	m_components.push_back(comp);
 	}
 
 	/**

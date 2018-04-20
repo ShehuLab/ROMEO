@@ -114,13 +114,15 @@ namespace Antipatrea
 	virtual void NewCfgOffspringGenerator(Params & params)
 	{
 	    auto name = params.GetValue(Constants::KW_UseCfgOffspringGenerator);
+	    std::cout << "NewCfgOffspringGen in SetupRosetta and parm is:" << name << std::endl;
+
 	    if(StrSameContent(name, Constants::KW_CfgOffspringGeneratorRosetta))
 	    {
-		SetCfgOffspringGenerator(new CfgOffspringGeneratorRosetta());
-		OnNewInstance(GetCfgOffspringGenerator());
+			SetCfgOffspringGenerator(new CfgOffspringGeneratorRosetta());
+			OnNewInstance(GetCfgOffspringGenerator());
 	    }
 	    else
-		Setup::NewCfgOffspringGenerator(params);
+	    	Setup::NewCfgOffspringGenerator(params);
 	}
 
 	

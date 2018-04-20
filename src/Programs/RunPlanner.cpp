@@ -7,6 +7,8 @@
 #include <iostream>
 #include <fstream>
 
+#include <Components/CfgAcceptors/CfgAcceptorBasedOnDistance.hpp>
+
 using namespace Antipatrea;
 
 /**
@@ -148,47 +150,56 @@ extern "C" int RunPlanner(int argc, char **argv)
 
     if(readGraphWhenPlannerStarts)
     {
-	Logger::m_out << "...reading planner graph from file " << plannerGraphFile << std::endl;
-	planner->ReadFromFile(plannerGraphFile);
-	Logger::m_out << "...done" << std::endl;
+		Logger::m_out << "...reading planner graph from file " << plannerGraphFile << std::endl;
+		planner->ReadFromFile(plannerGraphFile);
+		Logger::m_out << "...done" << std::endl;
     }
         
 
     Timer::Start(clk);
     while(Timer::Elapsed(clk) < tmax && planner->IsSolved() == false)
     {
-	Logger::m_out << "...running planner for " << tint << " seconds [tmax = " << tmax << "]" << std::endl;
+		Logger::m_out << "...running planner for " << tint << " seconds [tmax = " << tmax << "]" << std::endl;
 
-	planner->Solve(tint);
-	    
-	Logger::m_out << "...not done" << std::endl
-	              << "[nrVertices   = " << planner->GetPlannerGraph()->GetNrVertices() << "] " << std::endl
-		      << "[nrEdges      = " << planner->GetPlannerGraph()->GetNrEdges() << "] " << std::endl
-		      << "[nrComponents = " << planner->GetPlannerGraph()->GetComponents()->GetNrComponents() << "]" << std::endl
-		      << "[runtime      = " << Timer::Elapsed(clk) << "]" << std::endl;
+		planner->Solve(tint);
+
+		Logger::m_out << "...not done" << std::endl
+				  << "[nrVertices    = " << planner->GetPlannerGraph()->GetNrVertices() << "] " << std::endl
+				  << "[nrEdges       = " << planner->GetPlannerGraph()->GetNrEdges() << "] " << std::endl
+				  << "[nrComponents  = " << planner->GetPlannerGraph()->GetComponents()->GetNrComponents() << "]" << std::endl
+				  << "[runtime       = " << Timer::Elapsed(clk) << "]" << std::endl;
+		auto goalAcceptor = planner->GetPlannerProblem()->GetGoalAcceptor();
+
+		if (dynamic_cast<CfgAcceptorBasedOnDistance *>(goalAcceptor))
+		{
+			auto distGoalAcceptor = dynamic_cast<CfgAcceptorBasedOnDistance *>(goalAcceptor);
+			Logger::m_out << "[nearestToGoal = " << distGoalAcceptor->GetMinDistanceAboveThresolhold() << std::endl;
+		}
+
+		Logger::m_out << std::endl;
     }
     trun = Timer::Elapsed(clk);
     Stats::GetSingleton()->AddValue(Constants::KW_Runtime_PlannerSolve, trun - tstart);
 
     if(planner->IsSolved())
     {
-	planner->GetSolution(*(setup->GetPlannerSolution()));
-	solved = 1;
-	cost   = setup->GetPlannerSolution()->GetCost();
+		planner->GetSolution(*(setup->GetPlannerSolution()));
+		solved = 1;
+		cost   = setup->GetPlannerSolution()->GetCost();
     }
     else
     {
-	solved = 0;
-	cost   = -1;
+		solved = 0;
+		cost   = -1;
     }
 
     Logger::m_out << "...done [solved = " << solved <<"] [trun = " << trun << "] [cost = " << cost << "]" << std::endl << std::endl;
     fs.open(statsFileName, std::fstream::app);
     if(fs.is_open())
     {
-	OutputFormat(fs);
-	fs << solved << " " << trun << " " << cost << std::endl;
-	fs.close();
+		OutputFormat(fs);
+		fs << solved << " " << trun << " " << cost << std::endl;
+		fs.close();
     }
     
     std::string cmd(statsFileName);
@@ -208,9 +219,9 @@ extern "C" int RunPlanner(int argc, char **argv)
 
     if(printGraphWhenPlannerEnds)
     {
-	Logger::m_out << "...writing planner graph to file " << plannerGraphFile << std::endl;
-	planner->PrintToFile(plannerGraphFile);
-	Logger::m_out << "...done" << std::endl;
+		Logger::m_out << "...writing planner graph to file " << plannerGraphFile << std::endl;
+		planner->PrintToFile(plannerGraphFile);
+		Logger::m_out << "...done" << std::endl;
     }
         
 

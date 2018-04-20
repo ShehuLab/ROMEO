@@ -39,7 +39,17 @@ namespace Antipatrea
 		const char *rosettaDBDir = data->m_params->GetValue(Constants::KW_MolecularStructureRosetta_DBDir);
 
 		RosettaInit(rosettaDBDir);
-		const char  *startPDBFileName = data->m_params->GetValue(Constants::KW_MolecularStructureRosetta_CfgStart);
+		// Users can optionally supply a goal conformation without a
+		// start conformation.  In this case, the start structure is the
+		// extended conformation
+		const char  *startPDBFileName
+		        = data->m_params->GetValue(Constants::KW_MolecularStructureRosetta_CfgStart);
+		const char  *goalPDBFileName
+		        = data->m_params->GetValue(Constants::KW_MolecularStructureRosetta_CfgGoal);
+
+		bool startExtended = data->m_params->GetValueAsBool(
+				                Constants::KW_MolecularStructureRosetta_CfgStartExtended,false);
+
 
 		auto mol = GetMolecularStructureRosetta();
 
@@ -54,28 +64,50 @@ namespace Antipatrea
 
 		if (startPDBFileName)
 		{
-			Logger::m_out << "Loading file:" << startPDBFileName << std::endl;
+			Logger::m_out << "Loading starting config from file:" << startPDBFileName << std::endl;
 			GetMolecularStructureRosetta()->LoadPDBFile(startPDBFileName);
 			GetCfgManager()->SetDim(GetMolecularStructureRosetta()->GetNrResidues() * 3);
 			cfgInit = GetCfgManager()->NewCfg();
-			GetMolecularStructureRosetta()->SetCfgDOFs(*cfgInit);
+			mol->SetCfgDOFs(*cfgInit);
 
 			double energy = energyEval->EvaluateEnergy(*cfgInit);
 			cfgInit->SetEnergy(energy);
 			Logger::m_out << "energy of start pdb is:" << cfgInit->GetEnergy() << std::endl;
 		}
 
-		const char  *goalPDBFileName = data->m_params->GetValue(Constants::KW_MolecularStructureRosetta_CfgGoal);
+
 		if (goalPDBFileName)
 		{
-			Logger::m_out << "Loading file:" << startPDBFileName << std::endl;
-			GetMolecularStructureRosetta()->LoadPDBFile(goalPDBFileName);
+			Logger::m_out << "Loading goal configuration file:" << goalPDBFileName << std::endl;
+			mol->LoadPDBFile(goalPDBFileName);
+			GetCfgManager()->SetDim(GetMolecularStructureRosetta()->GetNrResidues() * 3);
+
 			cfgGoal = GetCfgManager()->NewCfg();
 			GetMolecularStructureRosetta()->SetCfgDOFs(*cfgGoal);
 
 			double energy = energyEval->EvaluateEnergy(*cfgGoal);
 			cfgGoal->SetEnergy(energy);
 			Logger::m_out << "energy of goal pdb is:" << cfgGoal->GetEnergy() << std::endl;
+		}
+
+		if (startExtended)
+		{
+			if (!goalPDBFileName)
+			{
+				Logger::m_out <<
+						"To use extended, goal config must be set" << std::endl;
+				exit(99);
+			}
+
+			cfgInit = GetCfgManager()->NewCfg();
+
+			mol->SetExtented(*cfgInit);
+
+			double energy = energyEval->EvaluateEnergy(*cfgInit);
+			cfgInit->SetEnergy(energy);
+
+			Logger::m_out << "Using the extended conformation for the starting"
+					<< " with energy:" << cfgInit->GetEnergy() << std::endl;
 		}
 
 		GetPlannerProblem()->SetInitialCfg(cfgInit);
@@ -90,9 +122,12 @@ namespace Antipatrea
 			Logger::m_out <<" error in distance setup" << std::endl;
 		}
 	
-		double startGoalDistance = d->Distance(*cfgInit,*cfgGoal);
-		Logger::m_out << "Distance between start and goal structures is:"
-				  << startGoalDistance << std::endl;
+		if (cfgGoal)
+		{
+			double startGoalDistance = d->Distance(*cfgInit,*cfgGoal);
+			Logger::m_out << "Distance between start and goal structures is:"
+					  << startGoalDistance << std::endl;
+		}
     }
 
     void SetupRosetta::Test(void)

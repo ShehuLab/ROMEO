@@ -7,28 +7,26 @@ namespace Antipatrea
 {
     void SamplingBasedPlanner::Start(void)
     {
-	m_proximityAuxCfg = GetCfgManager()->NewCfg();
-
-	m_vidInit = AddVertex(GetCfgManager()->CopyCfg(*(GetPlannerProblem()->GetInitialCfg())));
+		m_proximityAuxCfg = GetCfgManager()->NewCfg();
 	
-	m_vidsGoal.clear();
-//	auto cfgGoal = GetPlannerProblem()->GetGoalAcceptor()->GetAnAcceptableCfg();
-//	if(cfgGoal != NULL)
-//	    AddVertex(GetCfgManager()->CopyCfg(*cfgGoal));
+		m_vidInit = AddVertex(GetCfgManager()->CopyCfg(*(GetPlannerProblem()->GetInitialCfg())));
 
+		m_vidsGoal.clear();
+	//	auto cfgGoal = GetPlannerProblem()->GetGoalAcceptor()->GetAnAcceptableCfg();
+	//	if(cfgGoal != NULL)
+	//	    AddVertex(GetCfgManager()->CopyCfg(*cfgGoal));
     }
     
     bool SamplingBasedPlanner::IsSolved(void)
     {
-	if(m_vidInit < 0)
-	    return false;
-	
-	for(int i = m_vidsGoal.size() - 1; i >= 0; --i)
-	    if(m_vidsGoal[i] >= 0 &&
-	       GetPlannerGraph()->AreVerticesPathConnected(m_vidInit, m_vidsGoal[i]))
-		return true;
-	return false;
-	
+		if(m_vidInit < 0)
+			return false;
+
+		for(int i = m_vidsGoal.size() - 1; i >= 0; --i)
+			if(m_vidsGoal[i] >= 0 &&
+			   GetPlannerGraph()->AreVerticesPathConnected(m_vidInit, m_vidsGoal[i]))
+			return true;
+		return false;
     }
     
     bool SamplingBasedPlanner::GetSolution(PlannerSolution & sol)
@@ -64,22 +62,22 @@ namespace Antipatrea
 
     int SamplingBasedPlanner::AddVertex(Cfg * const cfgNew)
     {
-	PlannerVertex *vnew = NewVertex(); 	
-	vnew->SetCfg(cfgNew);
+		PlannerVertex *vnew = NewVertex();
+		vnew->SetCfg(cfgNew);
 
-	const int vidNew = GetPlannerGraph()->AddVertex(vnew);
+		const int vidNew = GetPlannerGraph()->AddVertex(vnew);
 
-	m_proximityDataStructure.AddKey(vidNew);
+		m_proximityDataStructure.AddKey(vidNew);
+
+		if(GetPlannerProblem()->GetGoalAcceptor()->IsAcceptable(*cfgNew))
+		{
+			m_vidsGoal.push_back(vidNew);
+			vnew->MarkAsGoal(true);
+		}
+		else
+			vnew->MarkAsGoal(false);
 	
-	if(GetPlannerProblem()->GetGoalAcceptor()->IsAcceptable(*cfgNew))
-	{
-	    m_vidsGoal.push_back(vidNew);
-	    vnew->MarkAsGoal(true);
-	}
-	else
-	    vnew->MarkAsGoal(false);
-
-	return vidNew;
+		return vidNew;
     }
 
     

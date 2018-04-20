@@ -1,27 +1,35 @@
 #include <Planners/FELTR.hpp>
+#include <Components/CfgAcceptors/CfgAcceptorBasedOnMMC.hpp>
 
 namespace Antipatrea
 {
     int FELTR::AddVertex(Cfg * const cfg)
     {
+    	// set distance if the graph is not empty
+
         auto vid = TreeSamplingBasedPlanner::AddVertex(cfg);
-	    auto graph = GetPlannerGraph();
-	    auto newVertex = dynamic_cast<FELTRVertex*>(graph->GetVertex(vid));
-	    auto projector = GetCfgProjector();
-        // now project this vertex into the FELTR grid
-        double *projection = projector->NewValues();
-        projector->Project(*cfg,projection);
-        int regionID = m_energyGrid.GetCellIdFromPoint(projection);
+	    if (vid >= 0)
+	    {
+			auto graph = GetPlannerGraph();
+			auto newVertex = dynamic_cast<FELTRVertex*>(graph->GetVertex(vid));
+			auto projector = GetCfgProjector();
 
-        auto regionNode = GetEnergyRegion(projection);
-        auto region = regionNode->GetKey();
+			// now project this vertex into the FELTR grid
+			double *projection = projector->NewValues();
+			projector->Project(*cfg,projection);
 
-        region->AddVertex(vid,projection,
-        		            newVertex->region,
-							newVertex->cell);
+			int regionID = m_energyGrid.GetCellIdFromPoint(projection);
 
-        projector->DeleteValues(projection);
-        m_selector.Update(regionNode,region->GetWeight());
+			auto regionNode = GetEnergyRegion(projection);
+			auto region = regionNode->GetKey();
+
+			region->AddVertex(vid,projection,
+								newVertex->region,
+								newVertex->cell);
+
+			projector->DeleteValues(projection);
+			m_selector.Update(regionNode,region->GetWeight());
+	    }
     }
 
     Selector<FELTRRegion *>::Node * FELTR::GetEnergyRegion(double projection[])
@@ -55,7 +63,17 @@ namespace Antipatrea
     {
     	auto regionNode = m_selector.Select();
     	auto region = regionNode->GetKey();
-    	return(region->SelectVertex());
+
+    	auto cfgAcceptor = GetCfgAcceptor();
+    	auto vertex = region->SelectVertex();
+
+    	PlannerGraph         *graph = GetPlannerGraph();
+    	auto v = dynamic_cast<FELTRVertex*>(graph->GetVertex(vertex));
+
+    	if (dynamic_cast<CfgAcceptorBasedOnMMC*>(cfgAcceptor))
+	        dynamic_cast<CfgAcceptorBasedOnMMC*>(cfgAcceptor)->SetSourceCfg(v->GetCfg());
+
+    	return(vertex);
 
     }
 }

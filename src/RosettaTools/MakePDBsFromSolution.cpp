@@ -6,6 +6,9 @@
 
 #include "Utils/Reader.hpp"
 #include "Utils/Algebra2D.hpp"
+#include "Utils/Params.hpp"
+#include "Utils/Logger.hpp"
+
 // rosetta include files
 #include <devel/init.hh>
 #include <core/pose/Pose.hh>
@@ -21,8 +24,11 @@
 
 using namespace Antipatrea;
 
-void MakePDBFile(core::pose::Pose &p,unsigned int cfgNumber,
-		 double angles[], double energyScore)
+void MakePDBFile(core::pose::Pose &p,
+		         const std::string outputDirectory,
+		         unsigned int cfgNumber,
+		         double angles[],
+				 double energyScore)
 {
 //	std::cout<< "-----------------------------" << std::endl;
 	for (unsigned int r=0;r < p.total_residue();++r)
@@ -38,7 +44,7 @@ void MakePDBFile(core::pose::Pose &p,unsigned int cfgNumber,
 	std::ostringstream ss;
 	ss << std::setw(4) << std::setfill('0') << cfgNumber;
 	std::string cfgNumberStr(ss.str());
-	std::string pdbFileName = "/tmp/sol_pdb_" + cfgNumberStr + ".pdb";
+	std::string pdbFileName = outputDirectory + "/sol_pdb_" + cfgNumberStr + ".pdb";
 	std::string energyFileName = "/tmp/sol_energyProfile.dat";
 	//std::cout << "Writing PDB file:" << pdbFileName << std::endl;
 	std::ofstream energyData(energyFileName,std::ios::app);
@@ -49,31 +55,40 @@ void MakePDBFile(core::pose::Pose &p,unsigned int cfgNumber,
 
 int main(int argc, char **argv)
 {
-    if(argc < 3)
-    {
-	std::cout << "usage: MakePDBsFromSolution <pdbModel> <solutionFile>" << std::endl;
-	exit(99);
-    }
+	Params *params = Params::GetSingleton();
+
+	if (argc > 1)
+	{
+		params->ReadFromFile(argv[1]);
+		Logger::m_out << "begin parameters (as provided in the input file)" << std::endl;
+		params->Print(Logger::m_out);
+		Logger::m_out << "end parameters (as provided in the input file)" << std::endl << std::endl;
+	}
+
+	const char *rosettaDBDir      = params->GetValue("RosettaDB");
+	const char *pdbModelFileName = params->GetValue("PDBModel");
+	const char *solutionFileName = params->GetValue("SolutionFileName");
+	const std::string outputDirectory = params->GetValue("PDBOutputDir");
 
      //initialize SetupRosetta
     char ** rosetta_argv = (char **) malloc(sizeof(char*) * 3);
-    char DBDirCopy[350];
-    // strcpy(DBDirCopy,DBDir);
+    std::string rosettaDBDirStr= rosettaDBDir;
 
     rosetta_argv[0] = (char*)"";
     rosetta_argv[1] = (char*)"-database";
-    //rosetta_argv[2] = DBDirCopy;
-    rosetta_argv[2] = (char*)"/home/kmolloy/biotools/rosetta_src_2017.08.59291_bundle/main/database";
+    char rosettaDirChar[1000];
+    strcpy(rosettaDirChar,rosettaDBDir);
+    rosetta_argv[2] = rosettaDirChar;
 
     devel::init(3,rosetta_argv);
     std::cout <<"Rosetta initialized" << std::endl;
 
     core::pose::Pose p;
-    core::import_pose::centroid_pose_from_pdb(p,argv[1]);
+    core::import_pose::centroid_pose_from_pdb(p,pdbModelFileName);
 
     unsigned int residueCount = p.total_residue();
 
-    std::ifstream cfgFile(argv[2]);
+    std::ifstream cfgFile(solutionFileName);
     double solutionCost;
     Reader::ReadDouble(cfgFile, solutionCost);
 
@@ -98,7 +113,7 @@ int main(int argc, char **argv)
 	    }
 	    double energyScore;
 	    Reader::ReadDouble(cfgFile,energyScore);
-	    MakePDBFile(p,i,angles,energyScore);
+	    MakePDBFile(p,outputDirectory,i,angles,energyScore);
     }
     std::cout << "wrote  " << cfgCount << " configurations/PDB files." << std::endl;
     return 0;

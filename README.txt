@@ -1,3 +1,5 @@
+sudo apt-get install freeglut3-dev 
+
 Building CodeBio with Rosetta
 -----------------------------
 

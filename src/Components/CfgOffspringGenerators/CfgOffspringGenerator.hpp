@@ -60,7 +60,7 @@ namespace Antipatrea
 
 	    auto data = params.GetData(Constants::KW_CfgOffspringGenerator);
 	    if(data && data->m_params)
-		SetStep(data->m_params->GetValueAsDouble(Constants::KW_Step, GetStep()));
+	    	SetStep(data->m_params->GetValueAsDouble(Constants::KW_Step, GetStep()));
 	}
 
 	/**

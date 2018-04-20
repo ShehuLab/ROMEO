@@ -101,7 +101,10 @@ namespace Antipatrea
 	virtual bool IsAcceptable(Cfg & cfg)
 	{
 	    if(cfg.IsEnergySet() == false)
-		cfg.SetEnergy(GetCfgEnergyEvaluator()->EvaluateEnergy(cfg));
+	    	cfg.SetEnergy(GetCfgEnergyEvaluator()->EvaluateEnergy(cfg));
+	    bool acceptable = GetEnergyThreshold() >= cfg.GetEnergy() ? true: false;
+
+	    std::cout << "energy is:" << cfg.GetEnergy() << " max is:" << GetEnergyThreshold() << " accept:" << acceptable << std::endl;
 
 	    return GetEnergyThreshold() >= cfg.GetEnergy();
 	}

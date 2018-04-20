@@ -47,7 +47,7 @@ namespace Antipatrea
 	virtual ~TreeSamplingBasedPlanner(void)
 	{
 	    if(m_cfgTarget)
-		delete m_cfgTarget;
+	    	delete m_cfgTarget;
 	}
 	
 	virtual void Info(const char prefix[]) const
@@ -82,12 +82,12 @@ namespace Antipatrea
 	    auto data = params.GetData(Constants::KW_TreeSamplingBasedPlanner);
 	    if(data && data->m_params)
 	    {
-		SetExtendMaxNrSteps(data->m_params->GetValueAsInt(Constants::KW_ExtendMaxNrSteps,
-								  GetExtendMaxNrSteps()));
-		SetExtendReachedTargetDistanceThreshold(data->m_params->GetValueAsDouble(Constants::KW_ExtendReachedTargetDistanceThreshold,
-											 GetExtendReachedTargetDistanceThreshold()));
-		SetGoalBias(data->m_params->GetValueAsDouble(Constants::KW_GoalBias, GetGoalBias()));
-		SetSampleValidTargetCfg(data->m_params->GetValueAsBool(Constants::KW_SampleValidTargetCfg, GetSampleValidTargetCfg()));
+			SetExtendMaxNrSteps(data->m_params->GetValueAsInt(Constants::KW_ExtendMaxNrSteps,
+									  GetExtendMaxNrSteps()));
+			SetExtendReachedTargetDistanceThreshold(data->m_params->GetValueAsDouble(Constants::KW_ExtendReachedTargetDistanceThreshold,
+												 GetExtendReachedTargetDistanceThreshold()));
+			SetGoalBias(data->m_params->GetValueAsDouble(Constants::KW_GoalBias, GetGoalBias()));
+			SetSampleValidTargetCfg(data->m_params->GetValueAsBool(Constants::KW_SampleValidTargetCfg, GetSampleValidTargetCfg()));
 	    }
 	}
 

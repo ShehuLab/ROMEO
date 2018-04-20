@@ -227,6 +227,8 @@ namespace Antipatrea
 	const char KW_MolecularStructureRosetta[]         = "MolecularStructureRosetta";
 	const char KW_MolecularStructureRosetta_DBDir[]   = "DBDir";
 	const char KW_MolecularStructureRosetta_CfgStart[] = "CfgStart";
+	const char KW_MolecularStructureRosetta_CfgStartExtended[] = "CfgStartExtended";
+
 	const char KW_MolecularStructureRosetta_CfgGoal[] = "CfgGoal";
 	const char KW_CfgSamplerRosetta[]            = "CfgSamplerRosetta";
 	const char KW_CfgImproverRosetta[]           = "CfgImproverRosetta";

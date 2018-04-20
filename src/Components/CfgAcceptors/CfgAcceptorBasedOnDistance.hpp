@@ -6,6 +6,8 @@
 #include "Setup/Defaults.hpp"
 #include <cmath>
 
+#include <iostream>
+
 namespace Antipatrea
 {	
     /**
@@ -28,8 +30,10 @@ namespace Antipatrea
 					   m_cfgTarget(NULL)
 	{
 	    m_distanceThreshold = IsUsedAsGoalAcceptor() ?
-		Constants::VAL_GoalAcceptorBasedOnDistance_DistanceThreshold :
-		Constants::VAL_CfgAcceptorBasedOnDistance_DistanceThreshold;
+	    		Constants::VAL_GoalAcceptorBasedOnDistance_DistanceThreshold :
+				Constants::VAL_CfgAcceptorBasedOnDistance_DistanceThreshold;
+
+	    m_minDistanceAboveThreshold = 99999999999999.9;
 	}
 
 	/**
@@ -100,10 +104,32 @@ namespace Antipatrea
 	/**
 	 *@author Erion Plaku, Amarda Shehu
 	 *@brief Returns true iff the distance between <tt>cfg</tt> and the target cfg is no more than a user-defined threshold.
+	 *       Kevin Molloy -- mod -- for a general exploration of the search space, a goal might not be defined.
+	 *                       We avoid this computation when no target has been specified
 	 */
 	virtual bool IsAcceptable(Cfg & cfg)
 	{
-	    return GetCfgDistance()->Distance(cfg, *m_cfgTarget) <= GetDistanceThreshold();
+		bool accept = false;
+		if (!IsUsedAsGoalAcceptor() && m_cfgTarget != NULL) {
+			std::cout << "Error, isaccept called for distance with no source." << std::endl;
+			exit(99);
+		}
+		else
+		if (m_cfgTarget) // if we have a goal
+		{
+			double dist = GetCfgDistance()->Distance(cfg, *m_cfgTarget);
+			if (dist <= GetDistanceThreshold())
+			{
+				accept = true;
+			}
+			else
+			{
+				if (dist < m_minDistanceAboveThreshold)
+					m_minDistanceAboveThreshold = dist;
+			}
+		}
+
+		return(accept);
 	}
 	
 	/**
@@ -151,6 +177,11 @@ namespace Antipatrea
 	    return m_distanceThreshold;
 	}
 	
+	virtual double GetMinDistanceAboveThresolhold() const
+	{
+		return m_minDistanceAboveThreshold;
+	}
+
 	/**
 	 *@author Erion Plaku, Amarda Shehu
 	 *@brief Name says it all.
@@ -172,6 +203,14 @@ namespace Antipatrea
 	 *@brief User-defined distance threshold.
 	 */
 	double m_distanceThreshold;
+
+	/**
+	 *@author Erion Plaku, Amarda Shehu
+	 *@brief min distance that exceeded the threshold.
+	 *       Nice to show progress towards goal
+	 */
+	double m_minDistanceAboveThreshold;
+
     };
 
     /**

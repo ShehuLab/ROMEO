@@ -90,13 +90,13 @@ namespace Antipatrea
     
     void Setup::NewGoalAcceptor(Params & params)
     {
-	auto name = params.GetValue(Constants::KW_UseGoalAcceptor);
-	if(StrSameContent(name, Constants::KW_GoalAcceptorBasedOnDistance))
-	    SetGoalAcceptor(new GoalAcceptorBasedOnDistance());
-	else
-	    SetGoalAcceptor(new GoalAcceptorBasedOnEnergy());
-	GetGoalAcceptor()->UseAsGoalAcceptor(true);
-	OnNewInstance(GetGoalAcceptor());
+		auto name = params.GetValue(Constants::KW_UseGoalAcceptor);
+		if(StrSameContent(name, Constants::KW_GoalAcceptorBasedOnDistance))
+			SetGoalAcceptor(new GoalAcceptorBasedOnDistance());
+		else
+			SetGoalAcceptor(new GoalAcceptorBasedOnEnergy());
+		GetGoalAcceptor()->UseAsGoalAcceptor(true);
+		OnNewInstance(GetGoalAcceptor());
     }
     
     void Setup::NewCfgManager(Params & params)
@@ -171,13 +171,13 @@ namespace Antipatrea
     
     void Setup::NewCfgOffspringGenerator(Params & params)
     {
-	auto name = params.GetValue(Constants::KW_UseCfgOffspringGenerator);
+		auto name = params.GetValue(Constants::KW_UseCfgOffspringGenerator);
 
-	if(StrSameContent(name, Constants::KW_CfgOffspringGeneratorByGaussianPerturbation))
-	    SetCfgOffspringGenerator(new CfgOffspringGeneratorByGaussianPerturbation());
-	else
-	    SetCfgOffspringGenerator(new CfgOffspringGeneratorToTargetByLinearInterpolation());
-	OnNewInstance(GetCfgOffspringGenerator());
+		if(StrSameContent(name, Constants::KW_CfgOffspringGeneratorByGaussianPerturbation))
+			SetCfgOffspringGenerator(new CfgOffspringGeneratorByGaussianPerturbation());
+		else
+			SetCfgOffspringGenerator(new CfgOffspringGeneratorToTargetByLinearInterpolation());
+		OnNewInstance(GetCfgOffspringGenerator());
     }
 
     void Setup::NewPlannerProblem(Params & params)

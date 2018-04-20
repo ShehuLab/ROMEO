@@ -175,13 +175,15 @@ namespace Antipatrea
 	    	{
 	    	    passMMC = false;
 	    	    /* adjust temperature up to increase change of success */
-	    	    m_temperature *= pow(2, m_temperatureAdjRate);
+	    	    m_temperature *= 1.05;
+	    	   // m_temperature *= pow(2, m_temperatureAdjRate);
 	    	}
 	    	else
 	    	{
 	    	    /* decrease the temperature */
 	    	    // m_temperature /= pow(2, (deltaE) / (0.1 * m_maxEnergy - m_minEnergy));
-	    	    m_temperature /= m_temperatureAdjRate;
+	    	   // m_temperature /= m_temperatureAdjRate;
+	    		m_temperature /= 1.05;
 	    	}
 	    }
 
@@ -190,7 +192,8 @@ namespace Antipatrea
 	    Logger::m_out  << "MMCTest passMMC:" << passMMC
 			   << " old temp:" << priorTemp
 	                   << " new temp:" << m_temperature
-			   << " deltaE:" << deltaE << std::endl;
+			   << " deltaE:" << deltaE
+			   << " adjRate is:" << m_temperatureAdjRate << std::endl;
 	    return (passMMC);
 	}
 

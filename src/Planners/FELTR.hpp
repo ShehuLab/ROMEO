@@ -78,6 +78,8 @@ namespace Antipatrea
 		 */
 		virtual void SetupFromParams(Params & params)
 		{
+			TreeSamplingBasedPlanner::SetupFromParams(params);
+
 			auto data = params.GetData(Constants::KW_FELTR);
 			if(data && data->m_params)
 			{

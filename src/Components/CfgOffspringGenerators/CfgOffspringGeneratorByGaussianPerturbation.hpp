@@ -63,9 +63,9 @@ namespace Antipatrea
 	    auto data = params.GetData(Constants::KW_CfgOffspringGeneratorByGaussianPerturbation);
 	    if(data && data->m_params)
 	    {
-		SetConsecutive(data->m_params->GetValueAsBool(Constants::KW_Consecutive, GetConsecutive()));
-		SetMinNrValuesToPerturb(data->m_params->GetValueAsBool(Constants::KW_MinNrValuesToPerturb, GetMinNrValuesToPerturb()));
-		SetMaxNrValuesToPerturb(data->m_params->GetValueAsBool(Constants::KW_MaxNrValuesToPerturb, GetMaxNrValuesToPerturb()));
+			SetConsecutive(data->m_params->GetValueAsBool(Constants::KW_Consecutive, GetConsecutive()));
+			SetMinNrValuesToPerturb(data->m_params->GetValueAsBool(Constants::KW_MinNrValuesToPerturb, GetMinNrValuesToPerturb()));
+			SetMaxNrValuesToPerturb(data->m_params->GetValueAsBool(Constants::KW_MaxNrValuesToPerturb, GetMaxNrValuesToPerturb()));
 	    }
 	}
 

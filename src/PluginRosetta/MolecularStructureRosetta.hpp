@@ -54,6 +54,12 @@ namespace Antipatrea
 
 	/**
 	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+	 *@brief Set a cfg to the extended conformation
+  	 */
+	void SetExtented(Cfg &cfg);
+
+	/**
+	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
 	 *@brief Return the number of residues/amino acids
 	 *       within the loaded protein
   	 */
