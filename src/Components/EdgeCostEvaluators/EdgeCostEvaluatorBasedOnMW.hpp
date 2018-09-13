@@ -16,37 +16,37 @@ namespace Antipatrea
      *
      */
     class EdgeCostEvaluatorBasedOnMW : public EdgeCostEvaluator,
-					          public CfgEnergyEvaluatorContainer
+                                                  public CfgEnergyEvaluatorContainer
     {
     public:
-	EdgeCostEvaluatorBasedOnMW(void) : EdgeCostEvaluator(),
-					                   CfgEnergyEvaluatorContainer()
-	{
-	}
+        EdgeCostEvaluatorBasedOnMW(void) : EdgeCostEvaluator(),
+                                                           CfgEnergyEvaluatorContainer()
+        {
+        }
 
-	virtual ~EdgeCostEvaluatorBasedOnMW(void)
-	{
-	}
+        virtual ~EdgeCostEvaluatorBasedOnMW(void)
+        {
+        }
 
-	virtual bool CheckSetup(void)
-	{
-	    return
-		EdgeCostEvaluator::CheckSetup() &&
-		GetCfgEnergyEvaluator() != NULL &&
-		GetCfgEnergyEvaluator()->CheckSetup();
-	}
+        virtual bool CheckSetup(void)
+        {
+            return
+                EdgeCostEvaluator::CheckSetup() &&
+                GetCfgEnergyEvaluator() != NULL &&
+                GetCfgEnergyEvaluator()->CheckSetup();
+        }
 
-	virtual void Info(const char prefix[]) const
-	{
-	    EdgeCostEvaluator::Info(prefix);
-	    Logger::m_out << prefix << " CfgEnergyEvaluator = " << Name(GetCfgEnergyEvaluator()) << std::endl;
-	}
+        virtual void Info(const char prefix[]) const
+        {
+            EdgeCostEvaluator::Info(prefix);
+            Logger::m_out << prefix << " CfgEnergyEvaluator = " << Name(GetCfgEnergyEvaluator()) << std::endl;
+        }
 
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Compute the costs for the direct and reverse edge  as the change in energy between the start and end configurations.
-	 */
-	virtual Costs EvaluateGivenFromToCfgs(Cfg & cfgFrom, Cfg & cfgTo);
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Compute the costs for the direct and reverse edge  as the change in energy between the start and end configurations.
+         */
+        virtual Costs EvaluateGivenFromToCfgs(Cfg & cfgFrom, Cfg & cfgTo);
 
     };
 

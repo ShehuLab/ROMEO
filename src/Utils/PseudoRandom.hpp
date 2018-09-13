@@ -65,7 +65,7 @@ namespace Antipatrea
      */
     static inline double RandomUniformReal(void)
     {
-	return ((double) random()) / ((double) RANDOM_MAX);
+        return ((double) random()) / ((double) RANDOM_MAX);
     }
     
     /**
@@ -77,7 +77,7 @@ namespace Antipatrea
      */
     static inline double RandomUniformReal(const double min, const double max)
     {
-	return min + (max - min) * RandomUniformReal();
+        return min + (max - min) * RandomUniformReal();
     }
     
     /**
@@ -99,8 +99,8 @@ namespace Antipatrea
      */
     static inline long RandomUniformInteger(const long min, const long max)
     {
-	const long x = min + (long) RandomUniformReal(0, max - min + 1);
- 	return x > max ? max : x;
+                const long x = min + (long) RandomUniformReal(0, max - min + 1);
+                return x > max ? max : x;
    }
     
     /**
@@ -118,7 +118,7 @@ namespace Antipatrea
      */
     static inline bool RandomUniformBoolean(void)
     {
-	return RandomUniformReal() > 0.5;
+        return RandomUniformReal() > 0.5;
     }
     
     /**
@@ -163,8 +163,8 @@ namespace Antipatrea
      *  <em>1</em> is defined as 
      *  \f[
      *     \begin{array}{rcl}
-     *       y_1 & = & \sqrt{-2 \ln x_1} \cos(2\pi x_2) \		\
-     *       y_2 & = & \sqrt{-2 \ln x_1} \sin(2\pi x_2).\		\
+     *       y_1 & = & \sqrt{-2 \ln x_1} \cos(2\pi x_2) \                \
+     *       y_2 & = & \sqrt{-2 \ln x_1} \sin(2\pi x_2).\                \
      *     \end{array}
      *  \f]
      *  The computation can be simplified by using the \em polar form of
@@ -199,24 +199,24 @@ namespace Antipatrea
      */
 
     void RandomPointOnSphereSurface(const int    nrDims,
-				    const double center[],
-				    const double r,
-				    double       p[]);
+                                    const double center[],
+                                    const double r,
+                                    double       p[]);
 
     void RandomPointInsideSphere(const int    nrDims,
-				 const double center[],
-				 const double r,
-				 double       p[]);
+                                 const double center[],
+                                 const double r,
+                                 double       p[]);
 
     void RandomPointOnEllipsoidSurface(const int    nrDims,
-				       const double center[],
-				       const double radii[],
-				       double       p[]);
+                                       const double center[],
+                                       const double radii[],
+                                       double       p[]);
     
     void RandomPointInsideEllipsoid(const int    nrDims,
-				    const double center[],
-				    const double radii[],
-				    double       p[]);
+                                    const double center[],
+                                    const double radii[],
+                                    double       p[]);
 }
 
 #endif

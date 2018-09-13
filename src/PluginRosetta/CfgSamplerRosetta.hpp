@@ -14,50 +14,50 @@ namespace Antipatrea
      * - Add all the necessary components that you need to implement this class.
      */    
     class CfgSamplerRosetta : public CfgSampler,
-			      public CfgManagerContainer,
-			      public MolecularStructureRosettaContainer
+                              public CfgManagerContainer,
+                              public MolecularStructureRosettaContainer
     {
     public:
-	CfgSamplerRosetta(void) : CfgSampler(),
-				  CfgManagerContainer(),
-				  MolecularStructureRosettaContainer()
-	{
-	}
-	
-	virtual ~CfgSamplerRosetta(void)
-	{
-	}
+        CfgSamplerRosetta(void) : CfgSampler(),
+                                  CfgManagerContainer(),
+                                  MolecularStructureRosettaContainer()
+        {
+        }
+        
+        virtual ~CfgSamplerRosetta(void)
+        {
+        }
 
-	virtual bool CheckSetup(void) const
-	{
-	    return
-		CfgSampler::CheckSetup() &&
-		GetCfgManager() != NULL &&
-		GetMolecularStructureRosetta() != NULL &&
-		GetCfgManager()->CheckSetup() &&
-		GetMolecularStructureRosetta()->CheckSetup();
-	}
+        virtual bool CheckSetup(void) const
+        {
+            return
+                CfgSampler::CheckSetup() &&
+                GetCfgManager() != NULL &&
+                GetMolecularStructureRosetta() != NULL &&
+                GetCfgManager()->CheckSetup() &&
+                GetMolecularStructureRosetta()->CheckSetup();
+        }
 
-	virtual void Info(const char prefix[]) const
-	{
-	    CfgSampler::Info(prefix);
-	    Logger::m_out << prefix << " CfgManager                = " << Name(GetCfgManager()) << std::endl
-		          << prefix << " MolecularStructureRosetta = " << Name(GetMolecularStructureRosetta()) << std::endl;
-	}
+        virtual void Info(const char prefix[]) const
+        {
+            CfgSampler::Info(prefix);
+            Logger::m_out << prefix << " CfgManager                = " << Name(GetCfgManager()) << std::endl
+                          << prefix << " MolecularStructureRosetta = " << Name(GetMolecularStructureRosetta()) << std::endl;
+        }
 
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Set the parameter values of the component from the given parameters.
-	 */
-	virtual void SetupFromParams(Params & params);
-	
-	/**
-	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
-	 *@brief  Sample from -PI to PI for phi/psi, omega is set to PI
-	 */
-	virtual bool Sample(Cfg & cfg);
-		
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Set the parameter values of the component from the given parameters.
+         */
+        virtual void SetupFromParams(Params & params);
+        
+        /**
+         *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+         *@brief  Sample from -PI to PI for phi/psi, omega is set to PI
+         */
+        virtual bool Sample(Cfg & cfg);
+                
     };
 
     /**

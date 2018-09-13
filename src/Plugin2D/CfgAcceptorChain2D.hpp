@@ -19,45 +19,45 @@ namespace Antipatrea
      *  - CfgAcceptorChain2D needs access to Scene2D and Chain2D.
      */
     class CfgAcceptorChain2D : public CfgAcceptor,
-			       public Scene2DContainer,
-			       public Chain2DContainer
+                               public Scene2DContainer,
+                               public Chain2DContainer
     {
     public:
-	CfgAcceptorChain2D(void) : CfgAcceptor(),
-				   Scene2DContainer(),
-				   Chain2DContainer()
-	{
-	}
-	
-	virtual ~CfgAcceptorChain2D(void)
-	{
-	}
-	
-	virtual bool CheckSetup(void)
-	{
-	    return
-		CfgAcceptor::CheckSetup() &&
-		GetScene2D() != NULL &&
-		GetChain2D() != NULL &&
-		GetScene2D()->CheckSetup() &&
-		GetChain2D()->CheckSetup();
-	}
+        CfgAcceptorChain2D(void) : CfgAcceptor(),
+                                   Scene2DContainer(),
+                                   Chain2DContainer()
+        {
+        }
+        
+        virtual ~CfgAcceptorChain2D(void)
+        {
+        }
+        
+        virtual bool CheckSetup(void)
+        {
+            return
+                CfgAcceptor::CheckSetup() &&
+                GetScene2D() != NULL &&
+                GetChain2D() != NULL &&
+                GetScene2D()->CheckSetup() &&
+                GetChain2D()->CheckSetup();
+        }
 
-	virtual void Info(const char prefix[]) const
-	{
-	    CfgAcceptor::Info(prefix);
-	    Logger::m_out << prefix << " Scene2D = " << Name(GetScene2D()) << std::endl
-		          << prefix << " Chain2D = " << Name(GetChain2D()) << std::endl;
-	}
-	
+        virtual void Info(const char prefix[]) const
+        {
+            CfgAcceptor::Info(prefix);
+            Logger::m_out << prefix << " Scene2D = " << Name(GetScene2D()) << std::endl
+                          << prefix << " Chain2D = " << Name(GetChain2D()) << std::endl;
+        }
+        
 
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Return true iff the chain avoids self collisions and
-	 *       collisions with the obstacles in the scene.
-	 */	
-	virtual bool IsAcceptable(Cfg & cfg);
-	
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Return true iff the chain avoids self collisions and
+         *       collisions with the obstacles in the scene.
+         */        
+        virtual bool IsAcceptable(Cfg & cfg);
+        
     };
     
     /**

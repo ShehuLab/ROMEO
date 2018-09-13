@@ -13,24 +13,24 @@ namespace Antipatrea
     class GManagerRunPlannerPoint2D : public GManagerRunPlanner2D
     {
     public:
-	GManagerRunPlannerPoint2D(void) : GManagerRunPlanner2D()
-	{
-	    m_setup = new SetupPoint2D();
-	}
-	
-	virtual ~GManagerRunPlannerPoint2D(void)
-	{
-	}
-	
-	virtual void DrawCfg(Cfg & cfg)
-	{
-	    GDrawCircle2D(cfg.GetValues(), 0.2);
-	}
+        GManagerRunPlannerPoint2D(void) : GManagerRunPlanner2D()
+        {
+            m_setup = new SetupPoint2D();
+        }
+        
+        virtual ~GManagerRunPlannerPoint2D(void)
+        {
+        }
+        
+        virtual void DrawCfg(Cfg & cfg)
+        {
+            GDrawCircle2D(cfg.GetValues(), 0.2);
+        }
 
-	virtual void DrawEdge(Cfg & cfg1, Cfg & cfg2)
-	{
-	    GDrawSegment2D(cfg1.GetValues(), cfg2.GetValues());
-	}
+        virtual void DrawEdge(Cfg & cfg1, Cfg & cfg2)
+        {
+            GDrawSegment2D(cfg1.GetValues(), cfg2.GetValues());
+        }
     };
 }
 

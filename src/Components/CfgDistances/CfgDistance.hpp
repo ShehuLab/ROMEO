@@ -13,19 +13,23 @@ namespace Antipatrea
     class CfgDistance : public Component
     {
     public:
-	CfgDistance(void) : Component()
-	{
-	}
-	
-	virtual ~CfgDistance(void)
-	{
-	}
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Computes the distance between two configurations.
-	 */
-	virtual double Distance(const Cfg & cfg1, const Cfg & cfg2) = 0;
+        CfgDistance(void) : Component()
+        {
+        }
+
+        virtual ~CfgDistance(void)
+        {
+        }
+
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Computes the distance between two configurations.
+         */
+        virtual double Distance(const Cfg & cfg1, const Cfg & cfg2) = 0;
+        virtual double DistancePrint(const Cfg & cfg1, const Cfg & cfg2)
+        {
+            return(Distance(cfg1,cfg2));
+        }
     };
 
     /**
@@ -33,7 +37,6 @@ namespace Antipatrea
      *@brief Get/set methods for components that need access to CfgDistance.
      */
     ClassContainer(CfgDistance, m_cfgDistance);
-    
 }
 
 #endif

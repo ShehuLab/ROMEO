@@ -9,14 +9,14 @@ namespace Antipatrea
     class ProximityDefault : public ProximityGNAT<Key, DistFnData>
     { 
     public:
-	ProximityDefault(void) : ProximityGNAT<Key, DistFnData>()
-	{
-	}
-	
-	
-	virtual ~ProximityDefault(void)
-	{
-	}
+        ProximityDefault(void) : ProximityGNAT<Key, DistFnData>()
+        {
+        }
+        
+        
+        virtual ~ProximityDefault(void)
+        {
+        }
     };
 }
 

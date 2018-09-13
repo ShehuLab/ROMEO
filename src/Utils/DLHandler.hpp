@@ -5,8 +5,8 @@ namespace Antipatrea
 {
     namespace DLHandler
     {
-	void* GetSymbol(void *handle, const char name[]);
-	void* GetSymbol(const char name[]);
+        void* GetSymbol(void *handle, const char name[]);
+        void* GetSymbol(const char name[]);
     }
 }
 

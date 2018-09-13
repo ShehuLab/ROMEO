@@ -15,48 +15,48 @@ namespace Antipatrea
      *  - CfgSamplerPoint2D needs access to Scene2D.
      */
     class CfgSamplerPoint2D : public CfgSampler,
-			      public Scene2DContainer
+                              public Scene2DContainer
     {
     public:
-	CfgSamplerPoint2D(void) : CfgSampler(),
-				  Scene2DContainer()
-	{
-	}
-	
-	virtual ~CfgSamplerPoint2D(void)
-	{
-	}
-	
-	virtual bool CheckSetup(void)
-	{
-	    return
-		CfgSampler::CheckSetup() &&
-		GetScene2D() != NULL &&
-		GetScene2D()->CheckSetup();
-	}
+        CfgSamplerPoint2D(void) : CfgSampler(),
+                                  Scene2DContainer()
+        {
+        }
+        
+        virtual ~CfgSamplerPoint2D(void)
+        {
+        }
+        
+        virtual bool CheckSetup(void)
+        {
+            return
+                CfgSampler::CheckSetup() &&
+                GetScene2D() != NULL &&
+                GetScene2D()->CheckSetup();
+        }
 
-	
-	virtual void Info(const char prefix[]) const
-	{
-	    CfgSampler::Info(prefix);
-	    Logger::m_out << prefix << " Scene2D = " << Name(GetScene2D()) << std::endl;
-	}
+        
+        virtual void Info(const char prefix[]) const
+        {
+            CfgSampler::Info(prefix);
+            Logger::m_out << prefix << " Scene2D = " << Name(GetScene2D()) << std::endl;
+        }
 
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Sample a point uniformly at random inside the bounding box of the scene.
-	 */
-	virtual bool Sample(Cfg & cfg)
-	{
-	    double *vals = cfg.GetValues();
-	    vals[0] = RandomUniformReal(GetScene2D()->GetBoundingBox()[0], GetScene2D()->GetBoundingBox()[2]);
-	    vals[1] = RandomUniformReal(GetScene2D()->GetBoundingBox()[1], GetScene2D()->GetBoundingBox()[3]);
-	    cfg.SetValues(vals);
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Sample a point uniformly at random inside the bounding box of the scene.
+         */
+        virtual bool Sample(Cfg & cfg)
+        {
+            double *vals = cfg.GetValues();
+            vals[0] = RandomUniformReal(GetScene2D()->GetBoundingBox()[0], GetScene2D()->GetBoundingBox()[2]);
+            vals[1] = RandomUniformReal(GetScene2D()->GetBoundingBox()[1], GetScene2D()->GetBoundingBox()[3]);
+            cfg.SetValues(vals);
 
-	    return true;
-	    
-	}
+            return true;
+            
+        }
     };
 
     /**

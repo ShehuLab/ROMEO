@@ -13,19 +13,19 @@ namespace Antipatrea
     class CfgSampler : public Component
     {
     public:
-	CfgSampler(void) : Component()
-	{
-	}
-	
-	virtual ~CfgSampler(void)
-	{
-	}
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Sample a configuration.
-	 */    
-	virtual bool Sample(Cfg & cfg) = 0;
+        CfgSampler(void) : Component()
+        {
+        }
+        
+        virtual ~CfgSampler(void)
+        {
+        }
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Sample a configuration.
+         */    
+        virtual bool Sample(Cfg & cfg) = 0;
     };
 
     /**

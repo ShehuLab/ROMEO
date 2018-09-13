@@ -9,38 +9,38 @@
 namespace Antipatrea
 {
     class Stats : public Reader,
-		  public Writer
+                  public Writer
     {
     public:
-	Stats(void) : Reader(),
-		      Writer()
-	{
-	}
-	
-	virtual ~Stats(void)
-	{
-	}
+        Stats(void) : Reader(),
+                      Writer()
+        {
+        }
+        
+        virtual ~Stats(void)
+        {
+        }
 
-	virtual double GetValue(const char id[]);
-	
-	virtual void SetValue(const char id[], const double t);
-		
-	virtual double AddValue(const char id[], const double t);
+        virtual double GetValue(const char id[]);
+        
+        virtual void SetValue(const char id[], const double t);
+                
+        virtual double AddValue(const char id[], const double t);
 
-	virtual std::ostream& Print(std::ostream & out) const;
+        virtual std::ostream& Print(std::ostream & out) const;
 
-	virtual std::istream& Read(std::istream & in);
-	
+        virtual std::istream& Read(std::istream & in);
+        
 
-	static Stats* GetSingleton(void)
-	{
-	    return m_singleton;
-	}
-	
+        static Stats* GetSingleton(void)
+        {
+            return m_singleton;
+        }
+        
     protected:
-	static Stats *m_singleton;
-	
-	std::unordered_map<std::string, double> m_values;
+        static Stats *m_singleton;
+        
+        std::unordered_map<std::string, double> m_values;
     };
     
 }

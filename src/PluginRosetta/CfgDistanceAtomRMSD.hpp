@@ -19,61 +19,64 @@ namespace Antipatrea
      */
 
     class CfgDistanceAtomRMSD : public CfgDistance,
-			        public CfgManagerContainer,
-			        public MolecularStructureRosettaContainer
+                                public CfgManagerContainer,
+                                public MolecularStructureRosettaContainer
     {
     public:
-	CfgDistanceAtomRMSD(void) : CfgDistance(),
-			      CfgManagerContainer()
-	{
-	}
-	
-	virtual ~CfgDistanceAtomRMSD(void)
-	{
-	}
-	
-	virtual bool CheckSetup(void) const
-	{
-	    return
-		CfgDistance::CheckSetup() &&
-		GetCfgManager() != NULL &&
-		GetCfgManager()->CheckSetup() &&
-	    GetMolecularStructureRosetta() != NULL &&
-	    GetMolecularStructureRosetta()->CheckSetup();}
+        CfgDistanceAtomRMSD(void) : CfgDistance(),
+                                    CfgManagerContainer()
+        {
+            distCalcs = 0;
+        }
+        
+        virtual ~CfgDistanceAtomRMSD(void)
+        {
+        }
 
-	virtual void Info(const char prefix[]) const
-	{
-	    CfgDistance::Info(prefix);
-	    Logger::m_out << prefix << " CfgManager          = " << Name(GetCfgManager()) << std::endl;
-	}
+        virtual bool CheckSetup(void) const
+        {
+            return
+                CfgDistance::CheckSetup() &&
+                GetCfgManager() != NULL &&
+                GetCfgManager()->CheckSetup() &&
+                GetMolecularStructureRosetta() != NULL &&
+                GetMolecularStructureRosetta()->CheckSetup();
+        }
+        
+        virtual void Info(const char prefix[]) const
+        {
+            CfgDistance::Info(prefix);
+            Logger::m_out << prefix << " CfgManager          = " << Name(GetCfgManager()) << std::endl;
+        }
 
-	/**
-	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
-	 *@brief Set the parameter values of the component from the given parameters.
-	 * 
-	 *@remarks
-	 * - Function first invokes CfgDistance::SetupFromParams(params).
-	 */
-	virtual void SetupFromParams(Params & params)
-	{
-	    CfgDistance::SetupFromParams(params);
-	}
+        /**
+         *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+         *@brief Set the parameter values of the component from the given parameters.
+         *
+         *@remarks
+         * - Function first invokes CfgDistance::SetupFromParams(params).
+         */
+        virtual void SetupFromParams(Params & params)
+        {
+            CfgDistance::SetupFromParams(params);
+        }
 
-	
-	/**
-	 *@author Kevin Molloy, Erion Plaku, Amarda Shehu
-	 *@brief Computes the distance between two configurations as the least RMSD
-	 *       of the pairwise distances between heavy backbone atom positions.
-	 *
-	 */
-	virtual double Distance(const Cfg & cfg1,
-				const Cfg & cfg2);
+        
+        /**
+         *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+         *@brief Computes the distance between two configurations as the least RMSD
+         *       of the pairwise distances between heavy backbone atom positions.
+         *
+         */
+        virtual double Distance(const Cfg & cfg1,
+                                const Cfg & cfg2);
+
+        virtual double DistancePrint(const Cfg & cfg1,
+                                     const Cfg & cfg2);
+    protected:
+        unsigned int distCalcs;
     };
 
-    /**
-     *@author Kevin Molloy, Erion Plaku, Amarda Shehu
-     *@brief Get/set methods for components that need access to CfgDistanceLp.
-     */	 
     ClassContainer(CfgDistanceAtomRMSD, m_cfgDistanceAtomRMSD);
     
 }

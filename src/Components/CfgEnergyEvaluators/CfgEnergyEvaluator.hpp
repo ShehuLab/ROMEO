@@ -5,7 +5,7 @@
 #include "Components/Component.hpp"
 
 namespace Antipatrea
-{	
+{        
     /**
      *@author Erion Plaku, Amarda Shehu
      *@brief Interface for computing the energy value of a configuration.
@@ -13,19 +13,19 @@ namespace Antipatrea
     class CfgEnergyEvaluator : public Component
     {
     public:
-	CfgEnergyEvaluator(void) : Component()
-	{
-	}
-	
-	virtual ~CfgEnergyEvaluator(void)
-	{
-	}
+        CfgEnergyEvaluator(void) : Component()
+        {
+        }
+        
+        virtual ~CfgEnergyEvaluator(void)
+        {
+        }
 
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Computes the energy value of the configuration.
-	 */
-	virtual double EvaluateEnergy(Cfg & cfg) = 0;
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Computes the energy value of the configuration.
+         */
+        virtual double EvaluateEnergy(Cfg & cfg) = 0;
     };
 
     /**

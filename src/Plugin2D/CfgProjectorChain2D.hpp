@@ -15,43 +15,43 @@ namespace Antipatrea
      *  - CfgAcceptorChain2D needs access to Chain2D.
      */
     class CfgProjectorChain2D : public CfgProjector,
-				public Chain2DContainer
+                                public Chain2DContainer
     {
     public:
-	CfgProjectorChain2D(void) : CfgProjector(2),
-				    Chain2DContainer()
-	{
-	}
-	
-	virtual ~CfgProjectorChain2D(void)
-	{
-	}
-	
-	virtual bool CheckSetup(void)
-	{
-	    return
-		CfgProjector::CheckSetup() &&
-		GetChain2D() != NULL &&
-		GetChain2D()->CheckSetup();
-	}
+        CfgProjectorChain2D(void) : CfgProjector(2),
+                                    Chain2DContainer()
+        {
+        }
+        
+        virtual ~CfgProjectorChain2D(void)
+        {
+        }
+        
+        virtual bool CheckSetup(void)
+        {
+            return
+                CfgProjector::CheckSetup() &&
+                GetChain2D() != NULL &&
+                GetChain2D()->CheckSetup();
+        }
 
-	
-	virtual void Info(const char prefix[]) const
-	{
-	    CfgProjector::Info(prefix);
-	    Logger::m_out << prefix << " Chain2D = " << Name(GetChain2D()) << std::endl;
-	}
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Compute the configuration projection as the position of the end effector.
-	 *
-	 *@remarks
-	 * - The function assumes that <tt>proj</tt> has been properly allocated
-	 *   (using CfgProjector::NewValues())
-	 */
-	virtual void Project(const Cfg & cfg, double proj[]);
-	
+        
+        virtual void Info(const char prefix[]) const
+        {
+            CfgProjector::Info(prefix);
+            Logger::m_out << prefix << " Chain2D = " << Name(GetChain2D()) << std::endl;
+        }
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Compute the configuration projection as the position of the end effector.
+         *
+         *@remarks
+         * - The function assumes that <tt>proj</tt> has been properly allocated
+         *   (using CfgProjector::NewValues())
+         */
+        virtual void Project(const Cfg & cfg, double proj[]);
+        
     };
 
     /**

@@ -9,55 +9,55 @@ namespace Antipatrea
     class ProximityQuery
     {
     public:
-	ProximityQuery(void)
-	{
-	    m_k       = 0;
-	    m_range   = INFINITY;	    
-	}
+        ProximityQuery(void)
+        {
+            m_k       = 0;
+            m_range   = INFINITY;            
+        }
 
-	virtual ~ProximityQuery(void) 
-	{
-	}
+        virtual ~ProximityQuery(void) 
+        {
+        }
 
-	int GetNrNeighbors(void) const
-	{
-	    return m_k;
-	}
+        int GetNrNeighbors(void) const
+        {
+            return m_k;
+        }
 
-	double GetRange(void)
-	{
-	    return m_range;
-	}
+        double GetRange(void)
+        {
+            return m_range;
+        }
 
-	Key GetKey(void) const
-	{
-	    return m_key;
-	}
+        Key GetKey(void) const
+        {
+            return m_key;
+        }
 
-	virtual void Clear(void)
-	{
-	}
+        virtual void Clear(void)
+        {
+        }
 
-	virtual void SetNrNeighbors(const int k)
-	{
-	    m_k = k;
-	}
+        virtual void SetNrNeighbors(const int k)
+        {
+            m_k = k;
+        }
 
 
-	virtual void SetRange(const double range)
-	{
-	    m_range = range;
-	}
+        virtual void SetRange(const double range)
+        {
+            m_range = range;
+        }
 
-	virtual void SetKey(Key key)
-	{
-	    m_key = key;
-	}
+        virtual void SetKey(Key key)
+        {
+            m_key = key;
+        }
 
    protected:
-	int    m_k;
-	double m_range;
-	Key    m_key;
+        int    m_k;
+        double m_range;
+        Key    m_key;
    };
 }
 

@@ -13,19 +13,19 @@ namespace Antipatrea
     class CfgImprover : public Component
     {
     public:
-	CfgImprover(void) : Component()
-	{
-	}
-	
-	virtual ~CfgImprover(void)
-	{
-	}
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Try to improve the given configuration.
-	 */
-	virtual void Improve(Cfg & cfg) = 0;
+        CfgImprover(void) : Component()
+        {
+        }
+        
+        virtual ~CfgImprover(void)
+        {
+        }
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Try to improve the given configuration.
+         */
+        virtual void Improve(Cfg & cfg) = 0;
     };
     
     /**

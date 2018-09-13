@@ -91,15 +91,15 @@ public:\
     }\
     virtual ClassName* Get##ContainerName(void)\
     {\
-	return m_variable;\
+        return m_variable;\
     }\
     virtual const ClassName* Get##ContainerName(void) const\
     {\
-	return m_variable;\
+        return m_variable;\
     }\
     virtual void Set##ContainerName(ClassName * const other)\
     {\
-	m_variable = other;\
+        m_variable = other;\
     }\
 protected:\
     ClassName *m_variable;\

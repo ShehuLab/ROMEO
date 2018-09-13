@@ -12,25 +12,25 @@ namespace Antipatrea
 {
     namespace DLHandler
     {
-	void* GetSymbol(void *handle, const char name[])
-	{
+        void* GetSymbol(void *handle, const char name[])
+        {
 #if defined OS_WINDOWS
-	    return GetProcAddress((HMODULE) handle, name);
+            return GetProcAddress((HMODULE) handle, name);
 #else
-	    return dlsym(handle, (char *) name);
+            return dlsym(handle, (char *) name);
 #endif
-	}
-	
-	
-	void* GetSymbol(const char name[])
-	{
+        }
+        
+        
+        void* GetSymbol(const char name[])
+        {
 
 #if defined OS_WINDOWS
-	    return GetSymbol(NULL, name);
+            return GetSymbol(NULL, name);
 #else
-	    return GetSymbol(RTLD_DEFAULT, name);
+            return GetSymbol(RTLD_DEFAULT, name);
 #endif
-	}
-	
+        }
+        
     }
 }

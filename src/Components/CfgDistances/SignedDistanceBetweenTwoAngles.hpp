@@ -13,33 +13,33 @@ namespace Antipatrea
     class SignedDistanceBetweenTwoAngles : public SignedDistanceBetweenTwoValues
     {
     public:
-	SignedDistanceBetweenTwoAngles(void) : SignedDistanceBetweenTwoValues()
-	{
-	}
-	
-	virtual ~SignedDistanceBetweenTwoAngles(void)
-	{
-	}
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Computes the signed distance between two angles as the signed length of the shortest arc.
-	 *
-	 *@remarks
-	 *  - Angles are assumed to be in radians.
-	 *  - Distance is positive only when the shortest arc connecting <tt>from</tt> to <tt>to</tt> is ccw.
-	 */
- 	virtual double SignedDistance(const double from,
-				      const double to)
-	{
-	    return Algebra2D::AngleSignedDistance(from, to);
-	}
+        SignedDistanceBetweenTwoAngles(void) : SignedDistanceBetweenTwoValues()
+        {
+        }
+        
+        virtual ~SignedDistanceBetweenTwoAngles(void)
+        {
+        }
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Computes the signed distance between two angles as the signed length of the shortest arc.
+         *
+         *@remarks
+         *  - Angles are assumed to be in radians.
+         *  - Distance is positive only when the shortest arc connecting <tt>from</tt> to <tt>to</tt> is ccw.
+         */
+         virtual double SignedDistance(const double from,
+                                      const double to)
+        {
+            return Algebra2D::AngleSignedDistance(from, to);
+        }
     };
 
     /**
      *@author Erion Plaku, Amarda Shehu
      *@brief Get/set methods for components that need access to SignedDistanceBetweenTwoAngles.
-     */	
+     */        
     ClassContainer(SignedDistanceBetweenTwoAngles, m_signedDistanceAngle);
     
 }

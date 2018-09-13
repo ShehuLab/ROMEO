@@ -1,4 +1,5 @@
 #include "Setup/Setup.hpp"
+#include "PluginRosetta/SetupRosetta.hpp"
 #include "Utils/Misc.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Timer.hpp"
@@ -29,7 +30,7 @@ using namespace Antipatrea;
 extern "C" int RunPlanner(int argc, char **argv)
 {
     if(argc < 2)
-	Logger::m_out << "usage: ./bin/Runner RunPlanner fnameParams" << std::endl << std::endl;
+        Logger::m_out << "usage: ./bin/Runner RunPlanner fnameParams" << std::endl << std::endl;
     
     Timer::Clock clk;
     
@@ -37,10 +38,10 @@ extern "C" int RunPlanner(int argc, char **argv)
     
     if(argc >= 2)
     {
-	params->ReadFromFile(argv[1]);
-	Logger::m_out << "begin parameters (as provided in the input file)" << std::endl;
-	params->Print(Logger::m_out);
-	Logger::m_out << "end parameters (as provided in the input file)" << std::endl << std::endl;
+		params->ReadFromFile(argv[1]);
+		Logger::m_out << "begin parameters (as provided in the input file)" << std::endl;
+		params->Print(Logger::m_out);
+		Logger::m_out << "end parameters (as provided in the input file)" << std::endl << std::endl;
     }
     
     Setup      *setup         = NULL;
@@ -49,11 +50,11 @@ extern "C" int RunPlanner(int argc, char **argv)
     auto        fnCreateSetup = (CreateSetupFn) DLHandler::GetSymbol(fullName.c_str());
     
     if(fnCreateSetup)
-	setup = fnCreateSetup();
+		setup = fnCreateSetup();
     else
     {
-	Logger::m_out << "error RunPlanner: unknown setup <" << setupName <<">" << std::endl;
-	return 0;
+		Logger::m_out << "error RunPlanner: unknown setup <" << setupName <<">" << std::endl;
+		return 0;
     }
     
     setup->Prepare(*params);
@@ -80,12 +81,12 @@ extern "C" int RunPlanner(int argc, char **argv)
 
     if(data && data->m_params)
     {
-	statsFileName = data->m_params->GetValue(Constants::KW_UseStatsFile, statsFileName);
-	maxNrRuns     = data->m_params->GetValueAsInt(Constants::KW_MaxNrRuns, maxNrRuns);
-	maxNrFailures = data->m_params->GetValueAsInt(Constants::KW_MaxNrFailures, maxNrFailures);
-	tmax          = data->m_params->GetValueAsDouble(Constants::KW_MaxRuntime, tmax);
-	tint          = data->m_params->GetValueAsDouble(Constants::KW_IntervalRuntime, tint);
-    }
+		statsFileName = data->m_params->GetValue(Constants::KW_UseStatsFile, statsFileName);
+		maxNrRuns     = data->m_params->GetValueAsInt(Constants::KW_MaxNrRuns, maxNrRuns);
+		maxNrFailures = data->m_params->GetValueAsInt(Constants::KW_MaxNrFailures, maxNrFailures);
+		tmax          = data->m_params->GetValueAsDouble(Constants::KW_MaxRuntime, tmax);
+		tint          = data->m_params->GetValueAsDouble(Constants::KW_IntervalRuntime, tint);
+}
     
     
     int           nrRuns        = 0;
@@ -95,34 +96,34 @@ extern "C" int RunPlanner(int argc, char **argv)
     double        cost          = -1.0;
     
     Logger::m_out << "StatsFile       " << statsFileName << std::endl
-	          << "MaxNrRuns       " << maxNrRuns << std::endl
-	          << "MaxNrFailures   " << maxNrFailures << std::endl
-	          << "MaxRuntime      " << tmax << std::endl
-	          << "IntervalRuntime " << tint << std::endl;
+                  << "MaxNrRuns       " << maxNrRuns << std::endl
+                  << "MaxNrFailures   " << maxNrFailures << std::endl
+                  << "MaxRuntime      " << tmax << std::endl
+                  << "IntervalRuntime " << tint << std::endl;
     
     std::fstream fs(statsFileName, std::fstream::in);
 
     if(fs.is_open())
     {
-	while(fs >> solved >> trun >> cost)
-	{
-	    ++nrRuns;
-	    if(solved == 0)
-		++nrFailures;
-	}
-	fs.close();
+                while(fs >> solved >> trun >> cost)
+                {
+                        ++nrRuns;
+                        if(solved == 0)
+                        ++nrFailures;
+                }
+                fs.close();
     }
     
     Logger::m_out << "NrRuns         " << nrRuns << std::endl
-	          << "NrFailures     " << nrFailures << std::endl << std::endl;
+                  << "NrFailures     " << nrFailures << std::endl << std::endl;
     
     if((maxNrRuns >= 0 && nrRuns >= maxNrRuns) || nrFailures >= maxNrFailures)
     {
-	if(nrRuns >= maxNrRuns)
-	    Logger::m_out << "...planner has already been run " << nrRuns <<" times" << std::endl;
-	else 
-	    Logger::m_out << "...planner has failed to solve " << nrFailures << " instances. What's the point?" << std::endl;
-	return 0;	
+		if(nrRuns >= maxNrRuns)
+				Logger::m_out << "...planner has already been run " << nrRuns <<" times" << std::endl;
+		else
+				Logger::m_out << "...planner has failed to solve " << nrFailures << " instances. What's the point?" << std::endl;
+		return 0;
     }
 
     auto *planner = setup->GetSamplingBasedPlanner();
@@ -143,9 +144,9 @@ extern "C" int RunPlanner(int argc, char **argv)
     data = params->GetData(Constants::KW_PlannerGraph);
     if(data && data->m_params)
     {
-	readGraphWhenPlannerStarts = data->m_params->GetValueAsBool(Constants::KW_ReadWhenPlannerStarts, readGraphWhenPlannerStarts);
-	printGraphWhenPlannerEnds  = data->m_params->GetValueAsBool(Constants::KW_PrintWhenPlannerEnds,  printGraphWhenPlannerEnds);
-	plannerGraphFile           = data->m_params->GetValue(Constants::KW_UseFile, plannerGraphFile);
+		readGraphWhenPlannerStarts = data->m_params->GetValueAsBool(Constants::KW_ReadWhenPlannerStarts, readGraphWhenPlannerStarts);
+		printGraphWhenPlannerEnds  = data->m_params->GetValueAsBool(Constants::KW_PrintWhenPlannerEnds,  printGraphWhenPlannerEnds);
+		plannerGraphFile           = data->m_params->GetValue(Constants::KW_UseFile, plannerGraphFile);
     }
 
     if(readGraphWhenPlannerStarts)
@@ -164,10 +165,10 @@ extern "C" int RunPlanner(int argc, char **argv)
 		planner->Solve(tint);
 
 		Logger::m_out << "...not done" << std::endl
-				  << "[nrVertices    = " << planner->GetPlannerGraph()->GetNrVertices() << "] " << std::endl
-				  << "[nrEdges       = " << planner->GetPlannerGraph()->GetNrEdges() << "] " << std::endl
-				  << "[nrComponents  = " << planner->GetPlannerGraph()->GetComponents()->GetNrComponents() << "]" << std::endl
-				  << "[runtime       = " << Timer::Elapsed(clk) << "]" << std::endl;
+						  << "[nrVertices    = " << planner->GetPlannerGraph()->GetNrVertices() << "] " << std::endl
+						  << "[nrEdges       = " << planner->GetPlannerGraph()->GetNrEdges() << "] " << std::endl
+						  << "[nrComponents  = " << planner->GetPlannerGraph()->GetComponents()->GetNrComponents() << "]" << std::endl
+						  << "[runtime       = " << Timer::Elapsed(clk) << "]" << std::endl;
 		auto goalAcceptor = planner->GetPlannerProblem()->GetGoalAcceptor();
 
 		if (dynamic_cast<CfgAcceptorBasedOnDistance *>(goalAcceptor))
@@ -202,6 +203,9 @@ extern "C" int RunPlanner(int argc, char **argv)
 		fs.close();
     }
     
+    if (dynamic_cast<SetupRosetta*>(setup))
+            dynamic_cast<SetupRosetta*>(setup)->PlannerCfgs();
+
     std::string cmd(statsFileName);
     cmd += "_extended";
     std::ofstream out(cmd, std::ios::app);
@@ -210,7 +214,7 @@ extern "C" int RunPlanner(int argc, char **argv)
     out.close();
     
     Logger::m_out << "...summary stats written to " <<  statsFileName << std::endl
-	          << "...extended stats written to " << cmd << std::endl;
+                  << "...extended stats written to " << cmd << std::endl;
 
     cmd = ((std::string) statsFileName) + "_sol" + std::to_string(nrRuns);
     setup->GetPlannerSolution()->PrintToFile(cmd.c_str());

@@ -14,9 +14,9 @@ namespace Antipatrea
 		//return m_proximityDataStructure.Neighbor(query);
 
 		int q =  m_proximityDataStructure.Neighbor(query);
-		std::cout << "return vertexId:" << q << std::endl;
+		if (m_verbosityFlag == SAMPLING_PLANNER_VERBOSE_FULL)
+			std::cout << "return vertexId:" << q << std::endl;
 
 		return(q);
-
     }
 }

@@ -13,29 +13,29 @@ namespace Antipatrea
     class CfgProjectorPoint2D : public CfgProjector
     {
     public:
-	CfgProjectorPoint2D(void) : CfgProjector(2)
-	{
-	}
-	
-	virtual ~CfgProjectorPoint2D(void)
-	{
-	}
+        CfgProjectorPoint2D(void) : CfgProjector(2)
+        {
+        }
+        
+        virtual ~CfgProjectorPoint2D(void)
+        {
+        }
 
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Compute the configuration projection as the position of the point robot.
-	 *
-	 *@remarks
-	 * - The function assumes that <tt>proj</tt> has been properly allocated
-	 *   (using CfgProjector::NewValues())
-	 */
-	virtual void Project(const Cfg & cfg, double proj[])
-	{
-	    proj[0] = cfg.GetValues()[0];
-	    proj[1] = cfg.GetValues()[1];
-	}
-	
-	
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Compute the configuration projection as the position of the point robot.
+         *
+         *@remarks
+         * - The function assumes that <tt>proj</tt> has been properly allocated
+         *   (using CfgProjector::NewValues())
+         */
+        virtual void Project(const Cfg & cfg, double proj[])
+        {
+            proj[0] = cfg.GetValues()[0];
+            proj[1] = cfg.GetValues()[1];
+        }
+        
+        
     };
 
     /**

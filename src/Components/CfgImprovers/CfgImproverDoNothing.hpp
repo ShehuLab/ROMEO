@@ -12,22 +12,22 @@ namespace Antipatrea
     class CfgImproverDoNothing : public CfgImprover
     {
     public:
-	CfgImproverDoNothing(void) : CfgImprover()
-	{
-	}
-	
-	virtual ~CfgImproverDoNothing(void)
-	{
-	}
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief It does nothing.
-	 */
-	virtual void Improve(Cfg & cfg)
-	{
-	}
-	
+        CfgImproverDoNothing(void) : CfgImprover()
+        {
+        }
+        
+        virtual ~CfgImproverDoNothing(void)
+        {
+        }
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief It does nothing.
+         */
+        virtual void Improve(Cfg & cfg)
+        {
+        }
+        
     };
 
     /**

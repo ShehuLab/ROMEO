@@ -42,81 +42,81 @@ namespace Antipatrea
           @endverbatim
      */
     class Params : public Reader,
-		   public Writer
+                   public Writer
     {
     public:
-	Params(void) : Reader(),
-		       Writer()
-	{
-	}
-	
-	virtual ~Params(void);
-	
-	struct Data
-	{
-	    Data(void) : m_params(NULL)
-	    {
-	    }
+        Params(void) : Reader(),
+                       Writer()
+        {
+        }
+        
+        virtual ~Params(void);
+        
+        struct Data
+        {
+            Data(void) : m_params(NULL)
+            {
+            }
 
-	    virtual ~Data(void)
-	    {
-		if(m_params)
-		    delete m_params;
-		DeleteItems<std::string*>(m_values);
-	    }
+            virtual ~Data(void)
+            {
+                if(m_params)
+                    delete m_params;
+                DeleteItems<std::string*>(m_values);
+            }
 
-	    std::vector<std::string*> m_values;
-	    Params                   *m_params;
-	};
+            std::vector<std::string*> m_values;
+            Params                   *m_params;
+        };
 
-	virtual Data* GetData(const char id[]);
-	
-	virtual const char* GetValue(const char id[], const char notFound[] = NULL);
+        virtual Data* GetData(const char id[]);
+        
+        virtual const char* GetValue(const char id[], const char notFound[] = NULL);
 
-	virtual double GetValueAsDouble(const char id[], const double notFound = INFINITY)
-	{
-	    const char *str = GetValue(id);
-	    if(str == NULL)
-		return notFound;
-	    return StrToDouble(str);
-	}
+        virtual double GetValueAsDouble(const char id[], const double notFound = INFINITY)
+        {
+            const char *str = GetValue(id);
+            if(str == NULL)
+                return notFound;
+            return StrToDouble(str);
+        }
 
-	virtual int GetValueAsInt(const char id[], const int notFound = INT_MAX)
-	{
-	    const char *str = GetValue(id);
-	    if(str == NULL)
-		return notFound;
-	    return StrToInt(str);
-	}
+        virtual int GetValueAsInt(const char id[], const int notFound = INT_MAX)
+        {
+            const char *str = GetValue(id);
+            if(str == NULL)
+                return notFound;
+            return StrToInt(str);
+        }
 
-	virtual bool GetValueAsBool(const char id[], const bool notFound = false)
-	{
-	    const char *str = GetValue(id);
-	    if(str == NULL)
-		return notFound;
-	    return StrToBool(str);
-	}
-		
-	virtual void SetValue(const char id[], const char val[]);
+        virtual bool GetValueAsBool(const char id[], const bool notFound = false)
+        {
+            const char *str = GetValue(id);
+            if(str == NULL)
+                return notFound;
+            return StrToBool(str);
+        }
+                
+        virtual void SetValue(const char id[], const char val[]);
 
-	virtual void AddValue(const char id[], const char val[]);
-	
-	virtual void SetParams(const char id[], Params * const params);
-	
-	virtual std::istream& Read(std::istream & in);
+        virtual void AddValue(const char id[], const char val[]);
+        
+        virtual void SetParams(const char id[], Params * const params);
+        
+        virtual std::istream& Read(std::istream & in);
 
-	virtual std::ostream& Print(std::ostream & out) const;
-	
-	static Params* GetSingleton(void)
-	{
-	    return m_singleton;
-	}
-	
+        virtual std::ostream& Print(std::ostream & out) const;
+        
+        static Params* GetSingleton(void)
+        {
+            return m_singleton;
+        }
+        
     protected:
-		    
-	static Params *m_singleton;
+                    
+        static Params *m_singleton;
 
-	std::unordered_map<std::string, Data*> m_map;
+        std::unordered_map<std::string, Data*> m_map;
     };
     
 }

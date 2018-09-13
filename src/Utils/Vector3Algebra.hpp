@@ -26,13 +26,13 @@ namespace Antipatrea
     namespace Vector3Algebra
     {
 
-	/**
+        /**
          *@brief Data type for <tt>3</tt>-dimensional vectors.
          *
          *A <tt>3</tt>-dimensional vector <tt>v = (a, b, c)</tt> is a <tt>3</tt>-tuple,
          *where <tt>a, b</tt>, and \c c represent the first, second, and third coordinate of \c v, respectively.
          */
-	typedef double* Vector3_t;
+        typedef double* Vector3_t;
 
         /**
          *@name Declaration.
@@ -61,11 +61,11 @@ namespace Antipatrea
       *@returns
       *A contigous block of \c 3 elements of type \c double.
       */
-	static inline
-	Vector3_t Vector3Alloc(void)
-	{
-	    return (Vector3_t) calloc(3, sizeof(double));
-	}
+        static inline
+        Vector3_t Vector3Alloc(void)
+        {
+            return (Vector3_t) calloc(3, sizeof(double));
+        }
 
         /**
          *@brief Free memory.
@@ -76,12 +76,12 @@ namespace Antipatrea
          *Free the memory allocated to \c v.\n
          *No memory is freed if \c v is \c NULL.
          */
-	static inline
-	void Vector3Free(Vector3_t v)
-	{
-	    if(v)
-		free(v);
-	}
+        static inline
+        void Vector3Free(Vector3_t v)
+        {
+            if(v)
+                free(v);
+        }
 
        /**
         *END Dynamic memory management.
@@ -103,11 +103,11 @@ namespace Antipatrea
         *Read \c 3 consecutive \c double elements, <tt>v[0], v[1], v[2]</tt>,
         *from the file stream \c in points to.
         */
-	static inline
-	void Vector3Read(Vector3_t v, FILE *in)
-	{
-	    fscanf(in, "%lf %lf %lf", &(v[0]), &(v[1]), &(v[2]));
-	}
+        static inline
+        void Vector3Read(Vector3_t v, FILE *in)
+        {
+            fscanf(in, "%lf %lf %lf", &(v[0]), &(v[1]), &(v[2]));
+        }
 
        /**
         *@brief Print the elements of the vector \c v to the file stream \c out.
@@ -119,11 +119,11 @@ namespace Antipatrea
         *Write \c 3 consecutive \c double elements, <tt>v[0], v[1], v[2]</tt>,
         *separated by spaces to the file stream \c out points to.
         */
-	static inline
-	void Vector3Print(const Vector3_t v, FILE *out)
-	{
-	    fprintf(out, "%f %f %f", v[0], v[1], v[2]);
-	}
+        static inline
+        void Vector3Print(const Vector3_t v, FILE *out)
+        {
+            fprintf(out, "%f %f %f", v[0], v[1], v[2]);
+        }
 
         /**
          *END Input/output functions.
@@ -148,11 +148,11 @@ namespace Antipatrea
         *Errors may occur if the index is outside the allowed range due
         *to the inappropriate memory access.
         */
-	static inline
-	double Vector3GetElem(const Vector3_t v, const int i)
-	{
-	    return v[i];
-	}
+        static inline
+        double Vector3GetElem(const Vector3_t v, const int i)
+        {
+            return v[i];
+        }
 
         /**
          *END Access functions.
@@ -178,11 +178,11 @@ namespace Antipatrea
          *Errors may occur if the index is outside the allowed range due
          *to the inappropriate memory access.
          */
-	static inline
-	void Vector3SetElem(Vector3_t v, const int i, const double a)
-	{
-	    v[i] = a;
-	}
+        static inline
+        void Vector3SetElem(Vector3_t v, const int i, const double a)
+        {
+            v[i] = a;
+        }
 
         /**
          *@brief  Set the vector \c v to <tt>(a, b, c)</tt>.
@@ -196,13 +196,13 @@ namespace Antipatrea
          *Set \c v to <tt>(a, b, c)</tt>.
          *
          */
-	static inline
-	void Vector3Set(Vector3_t v, const double a, const double b, const double c)
-	{
-	    v[0] = a;
-	    v[1] = b;
-	    v[2] = c;
-	}
+        static inline
+        void Vector3Set(Vector3_t v, const double a, const double b, const double c)
+        {
+            v[0] = a;
+            v[1] = b;
+            v[2] = c;
+        }
 
         /**
          *@brief Set every element of the vector \c v to \c 0.
@@ -212,13 +212,13 @@ namespace Antipatrea
          *@returns
          *Vector \c v defined as <tt>(0, 0, 0)</tt>.
          */
-	static inline
-	Vector3_t Vector3Zero(Vector3_t v)
-	{
-	    v[0] = v[1] = v[2] = 0.0;
+        static inline
+        Vector3_t Vector3Zero(Vector3_t v)
+        {
+            v[0] = v[1] = v[2] = 0.0;
 
-	    return v;
-	}
+            return v;
+        }
 
         /**
          *END Modify functions.
@@ -243,11 +243,11 @@ namespace Antipatrea
          *@attention
          *Equivalent to <tt>::Vector3Zero</tt>.
          */
-	static inline
-	Vector3_t Vector3AdditiveIdentity(Vector3_t v)
-	{
-	    return Vector3Zero(v);
-	}
+        static inline
+        Vector3_t Vector3AdditiveIdentity(Vector3_t v)
+        {
+            return Vector3Zero(v);
+        }
 
         /**
          *END Identity functions.
@@ -269,15 +269,15 @@ namespace Antipatrea
          *Vector \c v defined as the copy of the vector \c v1, i.e.,
          *<CENTER><tt>v[i] = v1[i]</tt>, for all <tt>i = 0, 1, 2</tt>.</CENTER>
          */
-	static inline
-	Vector3_t Vector3Copy(Vector3_t v, const Vector3_t v1)
-	{
-	    v[0] = v1[0];
-	    v[1] = v1[1];
-	    v[2] = v1[2];
+        static inline
+        Vector3_t Vector3Copy(Vector3_t v, const Vector3_t v1)
+        {
+            v[0] = v1[0];
+            v[1] = v1[1];
+            v[2] = v1[2];
 
-	    return v;
-	}
+            return v;
+        }
 
         /**
          *@brief Copy the elements of the vector \c v cast to \c float into the memory block to which \c vf points to.
@@ -288,15 +288,15 @@ namespace Antipatrea
          *@returns
          *The pointer \c vf defined as the copy of the vector \c v.
          */
-	static inline
-	float* Vector3GetFloat(const Vector3_t v, float *vf)
-	{
-	    vf[0] = (float) v[0];
-	    vf[1] = (float) v[1];
-	    vf[2] = (float) v[2];
+        static inline
+        float* Vector3GetFloat(const Vector3_t v, float *vf)
+        {
+            vf[0] = (float) v[0];
+            vf[1] = (float) v[1];
+            vf[2] = (float) v[2];
 
-	    return vf;
-	}
+            return vf;
+        }
 
         /**
          *END Utility functions.
@@ -319,15 +319,15 @@ namespace Antipatrea
          *Vector \c v defined as
          *<CENTER><tt>v[i] = v1[i] + v2[i]</tt>, for all <tt>i = 0, 1, 2</tt>.</CENTER>
          */
-	static inline
-	Vector3_t Vector3Add(Vector3_t v, const Vector3_t v1, const Vector3_t v2)
-	{
-	    v[0] = v1[0] + v2[0];
-	    v[1] = v1[1] + v2[1];
-	    v[2] = v1[2] + v2[2];
+        static inline
+        Vector3_t Vector3Add(Vector3_t v, const Vector3_t v1, const Vector3_t v2)
+        {
+            v[0] = v1[0] + v2[0];
+            v[1] = v1[1] + v2[1];
+            v[2] = v1[2] + v2[2];
 
-	    return v;
-	}
+            return v;
+        }
 
         /**
          *@brief Set the vector \c v to the difference of the vectors \c v1 and \c v2, i.e.,  <tt>v <-- v1 - v2</tt>.
@@ -340,15 +340,15 @@ namespace Antipatrea
          *Vector \c v defined as
          *<CENTER><tt>v[i] = v1[i] - v2[i]</tt>, for all <tt>i = 0, 1, 2</tt>.</CENTER>
          */
-	static inline
-	Vector3_t Vector3Sub(Vector3_t v, const Vector3_t v1, const Vector3_t v2)
-	{
-	    v[0] = v1[0] - v2[0];
-	    v[1] = v1[1] - v2[1];
-	    v[2] = v1[2] - v2[2];
+        static inline
+        Vector3_t Vector3Sub(Vector3_t v, const Vector3_t v1, const Vector3_t v2)
+        {
+            v[0] = v1[0] - v2[0];
+            v[1] = v1[1] - v2[1];
+            v[2] = v1[2] - v2[2];
 
-	    return v;
-	}
+            return v;
+        }
 
        /**
         *@brief Set the vector \c v to the product of the vector \c v1 with the scalar \c d,  i.e.,  <tt>v <-- v1 * d</tt>.
@@ -361,15 +361,15 @@ namespace Antipatrea
         *Vector \c v defined as
         *<CENTER><tt>v[i] = v1[i] * d</tt>, for all <tt>i = 0, 1, 2</tt>.</CENTER>
         */
-	static inline
-	Vector3_t Vector3MultiplyScalar(Vector3_t v, const Vector3_t v1, const double d)
-	{
-	    v[0] = v1[0] * d;
-	    v[1] = v1[1] * d;
-	    v[2] = v1[2] * d;
+        static inline
+        Vector3_t Vector3MultiplyScalar(Vector3_t v, const Vector3_t v1, const double d)
+        {
+            v[0] = v1[0] * d;
+            v[1] = v1[1] * d;
+            v[2] = v1[2] * d;
 
-	    return v;
-	}
+            return v;
+        }
 
         /**
          *@brief Find a vector that is perpendicular to \c from.
@@ -381,19 +381,19 @@ namespace Antipatrea
          *The vector \c normal that is perpendicular to vector \c from
          *
          */
-	static inline
-	void Vector3FindNormal(Vector3_t normal, const Vector3_t from)
-	{
-	    int imax = 0;
-	    if(fabs(from[1]) > fabs(from[imax]))
-		imax = 1;
-	    if(fabs(from[2]) > fabs(from[imax]))
-		imax = 2;
+        static inline
+        void Vector3FindNormal(Vector3_t normal, const Vector3_t from)
+        {
+            int imax = 0;
+            if(fabs(from[1]) > fabs(from[imax]))
+                imax = 1;
+            if(fabs(from[2]) > fabs(from[imax]))
+                imax = 2;
 
-	    normal[(imax + 1) % 3] = 0;
-	    normal[(imax + 2) % 3] = 1;
-	    normal[imax] = -from[(imax + 2) % 3] / from[imax];
-	}
+            normal[(imax + 1) % 3] = 0;
+            normal[(imax + 2) % 3] = 1;
+            normal[imax] = -from[(imax + 2) % 3] / from[imax];
+        }
 
 
         /**
@@ -413,15 +413,15 @@ namespace Antipatrea
          *@see
          *<tt>::Vector3Add, ::Vector3MultiplyScalar</tt>.
          */
-	static inline
-	Vector3_t Vector3LinearCombination(Vector3_t v, const Vector3_t v1, const double d1, const Vector3_t v2, const double d2)
-	{
-	    v[0] = v1[0] * d1 + v2[0] * d2;
-	    v[1] = v1[1] * d1 + v2[1] * d2;
-	    v[2] = v1[2] * d1 + v2[2] * d2;
+        static inline
+        Vector3_t Vector3LinearCombination(Vector3_t v, const Vector3_t v1, const double d1, const Vector3_t v2, const double d2)
+        {
+            v[0] = v1[0] * d1 + v2[0] * d2;
+            v[1] = v1[1] * d1 + v2[1] * d2;
+            v[2] = v1[2] * d1 + v2[2] * d2;
 
-	    return v;
-	}
+            return v;
+        }
 
         /**
          *@brief Set the vector \c v to the cross product of the vectors \c v1 and \c v2, i.e., <tt>v <-- CROSS(v1, v2)</tt>.
@@ -437,20 +437,20 @@ namespace Antipatrea
          *@warning
          *Vector cross product is not commutative.
          */
-	static inline
-	Vector3_t Vector3CrossProduct(Vector3_t v, const Vector3_t v1, const Vector3_t v2)
-	{
-	    double a[3];
-	    a[0] = v1[1] * v2[2] - v1[2] * v2[1];
-	    a[1] = v1[2] * v2[0] - v1[0] * v2[2];
-	    a[2] = v1[0] * v2[1] - v1[1] * v2[0];
+        static inline
+        Vector3_t Vector3CrossProduct(Vector3_t v, const Vector3_t v1, const Vector3_t v2)
+        {
+            double a[3];
+            a[0] = v1[1] * v2[2] - v1[2] * v2[1];
+            a[1] = v1[2] * v2[0] - v1[0] * v2[2];
+            a[2] = v1[0] * v2[1] - v1[1] * v2[0];
 
-	    v[0] = a[0];
-	    v[1] = a[1];
-	    v[2] = a[2];
+            v[0] = a[0];
+            v[1] = a[1];
+            v[2] = a[2];
 
-	    return v;
-	}
+            return v;
+        }
 
         /**
          *@brief Compute the dot product of the vectors \c v1 and \c v2.
@@ -462,11 +462,11 @@ namespace Antipatrea
          *The dot product of the vectors <tt>v1 = (a1, b1, c1)</tt> and <tt>v2 = (a2, b2, c2)</tt> defined as
          *<CENTER><tt>a1 * a2 + b1 * b2 + c1 * c2</tt>.</CENTER>
          */
-	static inline
-	double Vector3DotProduct(const Vector3_t v1, const Vector3_t v2)
-	{
-	    return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
-	}
+        static inline
+        double Vector3DotProduct(const Vector3_t v1, const Vector3_t v2)
+        {
+            return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
+        }
 
         /**
          *@brief Compute the norm of the vector \c v.
@@ -475,15 +475,15 @@ namespace Antipatrea
          *
          *@returns
          *The norm of the vector <tt>v = (a, b, c)</tt> defined as
-	 *<CENTER><tt>
+         *<CENTER><tt>
          *norm(v) = sqrt(a * a + b * b + c * c).
          *</tt></CENTER>
          */
-	static inline
-	double Vector3Norm(const Vector3_t v)
-	{
-	    return sqrt(Vector3DotProduct(v, v));
-	}
+        static inline
+        double Vector3Norm(const Vector3_t v)
+        {
+            return sqrt(Vector3DotProduct(v, v));
+        }
 
         /**
          *@brief Normalize the vector \c v, i.e., <tt>v <-- UNIT(v)</tt>.
@@ -500,20 +500,20 @@ namespace Antipatrea
          *@see
          *<tt>::Vector3Norm</tt>.
          */
-	static inline
-	Vector3_t Vector3Unit(Vector3_t v)
-	{
-	    double d = Vector3Norm(v);
+        static inline
+        Vector3_t Vector3Unit(Vector3_t v)
+        {
+            double d = Vector3Norm(v);
 
-	    if(d != 0)
-	    {
-		v[0] /= d;
-		v[1] /= d;
-		v[2] /= d;
-	    }
+            if(d != 0)
+            {
+                v[0] /= d;
+                v[1] /= d;
+                v[2] /= d;
+            }
 
-	    return v;
-	}
+            return v;
+        }
 
         /**
          *@brief Set every element of the vector \c v to random numbers between \c min and \c max.
@@ -525,15 +525,15 @@ namespace Antipatrea
          *@returns
          *Vector \c v, with randomly generated elements from min to max, and normalized.
          */
-	static inline
-	void Vector3Random(Vector3_t v, double min, double max)
-	{
-	    v[0] = Antipatrea::RandomUniformReal(min, max);
-	    v[1] = Antipatrea::RandomUniformReal(min, max);
-	    v[2] = Antipatrea::RandomUniformReal(min, max);
+        static inline
+        void Vector3Random(Vector3_t v, double min, double max)
+        {
+            v[0] = Antipatrea::RandomUniformReal(min, max);
+            v[1] = Antipatrea::RandomUniformReal(min, max);
+            v[2] = Antipatrea::RandomUniformReal(min, max);
 
-	    Vector3Unit(v);
-	}
+            Vector3Unit(v);
+        }
 
 
         /**
@@ -546,15 +546,15 @@ namespace Antipatrea
          *Vector \c v defined as
          *<CENTER><tt>v = -v1 = (-a1, -b1, -c1)</tt>, where <tt>v1 = (a1, b1, c1)</tt>.</CENTER>
          */
-	static inline
-	Vector3_t Vector3Negate(Vector3_t v, const Vector3_t v1)
-	{
-	    v[0] = -v1[0];
-	    v[1] = -v1[1];
-	    v[2] = -v1[2];
+        static inline
+        Vector3_t Vector3Negate(Vector3_t v, const Vector3_t v1)
+        {
+            v[0] = -v1[0];
+            v[1] = -v1[1];
+            v[2] = -v1[2];
 
-	    return v;
-	}
+            return v;
+        }
 
         /**
          *@brief Compute the angle between the vectors \c v1 and \c v2.
@@ -572,26 +572,26 @@ namespace Antipatrea
          *If <tt>norm(v1)</tt> or <tt>norm(v2)</tt> is close to \c 0, then \c 0 is
          *returned as the angle between \c v1 and \c v2.
          */
-	static inline
-	double Vector3Angle(const Vector3_t v1, const Vector3_t v2)
-	{
-	    double d = Vector3DotProduct(v1, v1) * Vector3DotProduct(v2, v2);
+        static inline
+        double Vector3Angle(const Vector3_t v1, const Vector3_t v2)
+        {
+            double d = Vector3DotProduct(v1, v1) * Vector3DotProduct(v2, v2);
 
-	    if(d == 0.0)
-		return 0;
-	    return acos(Vector3DotProduct(v1, v2) / sqrt(d));
-	}
+            if(d == 0.0)
+                return 0;
+            return acos(Vector3DotProduct(v1, v2) / sqrt(d));
+        }
 
-	static inline
-	double Vector3AnglePlane(const Vector3_t v1, const Vector3_t v2,
-				 const Vector3_t v3)
-	{
-	    Vector3Declare(normal);
-	    Vector3CrossProduct(normal, v2, v3);
+        static inline
+        double Vector3AnglePlane(const Vector3_t v1, const Vector3_t v2,
+                                 const Vector3_t v3)
+        {
+            Vector3Declare(normal);
+            Vector3CrossProduct(normal, v2, v3);
 
-	    const double alpha = 0.5 * M_PI - Vector3Angle(v1, normal);
-	    return alpha < 0 ? -alpha : alpha;
-	}
+            const double alpha = 0.5 * M_PI - Vector3Angle(v1, normal);
+            return alpha < 0 ? -alpha : alpha;
+        }
 
         /**
          *END General math functions.
@@ -617,11 +617,11 @@ namespace Antipatrea
           *<tt> v = v(t) = (1-t) * v1  + t * v2</tt>.
           *</CENTER>
           */
-	static inline
-	Vector3_t Vector3lerp(Vector3_t v, const Vector3_t v1, const Vector3_t v2, const double t)
-	{
-	    return Vector3LinearCombination(v, v1, (1 - t), v2, t);
-	}
+        static inline
+        Vector3_t Vector3lerp(Vector3_t v, const Vector3_t v1, const Vector3_t v2, const double t)
+        {
+            return Vector3LinearCombination(v, v1, (1 - t), v2, t);
+        }
 
         /**
          *END Linear interpolation functions.
@@ -643,14 +643,14 @@ namespace Antipatrea
          *The square of the distance between \c v1 and \c v2 defined as
          *<CENTER><tt>dot(v1 - v2, v1 - v2)</tt>.</CENTER>
          */
-	static inline
-	double Vector3SquareDistance(const Vector3_t v1, const Vector3_t v2)
-	{
-	    return
-		(v1[0] - v2[0]) * (v1[0] - v2[0]) +
-		(v1[1] - v2[1]) * (v1[1] - v2[1]) +
-		(v1[2] - v2[2]) * (v1[2] - v2[2]);
-	}
+        static inline
+        double Vector3SquareDistance(const Vector3_t v1, const Vector3_t v2)
+        {
+            return
+                (v1[0] - v2[0]) * (v1[0] - v2[0]) +
+                (v1[1] - v2[1]) * (v1[1] - v2[1]) +
+                (v1[2] - v2[2]) * (v1[2] - v2[2]);
+        }
 
        /**
         *@brief  Compute the Euclidean distance between the vectors \c v1 and \c v2.
@@ -662,11 +662,11 @@ namespace Antipatrea
         *The distance between \c v1 and \c v2 defined as
         *<CENTER><tt>norm(v1 - v2) = sqrt(dot(v1 - v2, v1 - v2))</tt>.</CENTER>
         */
-	static inline
-	double Vector3Distance(const Vector3_t v1, const Vector3_t v2)
-	{
-	    return sqrt(Vector3SquareDistance(v1, v2));
-	}
+        static inline
+        double Vector3Distance(const Vector3_t v1, const Vector3_t v2)
+        {
+            return sqrt(Vector3SquareDistance(v1, v2));
+        }
 
         /**
          *@name Distance functions.
@@ -684,11 +684,11 @@ namespace Antipatrea
         *@par Description:
         *<em>proj <-- v * dot(u, v) / dot(v, v)</em>
         */
-	static inline
-	double Vector3ParallelProjection(const Vector3_t u, const Vector3_t v)
-	{
-	    return Vector3DotProduct(u, v) / Vector3DotProduct(v, v);
-	}
+        static inline
+        double Vector3ParallelProjection(const Vector3_t u, const Vector3_t v)
+        {
+            return Vector3DotProduct(u, v) / Vector3DotProduct(v, v);
+        }
 
     };
 }

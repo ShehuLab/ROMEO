@@ -26,70 +26,70 @@ namespace Antipatrea
      *   in order to set the parameter values for each instance.
      */ 
     class Setup2D : public Setup,
-		    public Scene2DContainer
+                    public Scene2DContainer
     {
     public:    
-	Setup2D(void) : Setup(),
-			Scene2DContainer()
-	{
-	}
-	
-	
-	virtual ~Setup2D(void)
-	{
-	}
+        Setup2D(void) : Setup(),
+                        Scene2DContainer()
+        {
+        }
+        
+        
+        virtual ~Setup2D(void)
+        {
+        }
 
     protected:
-	virtual void NewInstances(Params & params)
-	{
-	    NewScene2D(params);
-	    Setup::NewInstances(params);
-	}
-	
-	/**
-	 *@copydoc Setup::NewCfgAcceptor(Params &)
-	 */
-	virtual void NewScene2D(Params & params)
-	{
-	    SetScene2D(new Scene2D());
-	    OnNewInstance(GetScene2D());
-	}
+        virtual void NewInstances(Params & params)
+        {
+            NewScene2D(params);
+            Setup::NewInstances(params);
+        }
+        
+        /**
+         *@copydoc Setup::NewCfgAcceptor(Params &)
+         */
+        virtual void NewScene2D(Params & params)
+        {
+            SetScene2D(new Scene2D());
+            OnNewInstance(GetScene2D());
+        }
 
-	virtual void SetupPointers(void)
-	{
-	    SetupPointersScene2D();
-	    Setup::SetupPointers();
-	}
-	
-	/**
-	 *@copydoc Setup::SetupPointersComponent(Component * const)
-	 */
-	virtual void SetupPointersScene2D(void)
-	{
-	    SetupPointersComponent(GetScene2D());
-	}
+        virtual void SetupPointers(void)
+        {
+            SetupPointersScene2D();
+            Setup::SetupPointers();
+        }
+        
+        /**
+         *@copydoc Setup::SetupPointersComponent(Component * const)
+         */
+        virtual void SetupPointersScene2D(void)
+        {
+            SetupPointersComponent(GetScene2D());
+        }
 
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Fix grid dimensions.
-	 *
-	 *@remarks
-	 *  - If PGT has been selected as the planner, 
-	 *    fix the grid dimensions to match the bounding box of the scene.
-	 */
-	virtual void FixGrid(void)
-	{
-	    auto pgt = dynamic_cast<PGT*>(GetSamplingBasedPlanner());
-	    if(pgt)
-	    {
-		pgt->GetProjectionGrid()->Setup(2, pgt->GetProjectionGrid()->GetDims(),
-				      GetScene2D()->GetBoundingBox(),
-				      &(GetScene2D()->GetBoundingBox()[2]));
-	    }
-	    
-	}
-	
-	
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Fix grid dimensions.
+         *
+         *@remarks
+         *  - If PGT has been selected as the planner, 
+         *    fix the grid dimensions to match the bounding box of the scene.
+         */
+        virtual void FixGrid(void)
+        {
+            auto pgt = dynamic_cast<PGT*>(GetSamplingBasedPlanner());
+            if(pgt)
+            {
+                pgt->GetProjectionGrid()->Setup(2, pgt->GetProjectionGrid()->GetDims(),
+                                      GetScene2D()->GetBoundingBox(),
+                                      &(GetScene2D()->GetBoundingBox()[2]));
+            }
+            
+        }
+        
+        
     };
 
 }

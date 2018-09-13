@@ -6,7 +6,7 @@
 #include <vector>
 
 namespace Antipatrea
-{	
+{        
     /**
      *@author Erion Plaku, Amarda Shehu
      *@brief Interface for evaluating the direct and reverse cost of a path.
@@ -21,66 +21,66 @@ namespace Antipatrea
     class EdgeCostEvaluator : public Component
     {
     public:
-	EdgeCostEvaluator(void) : Component()
-	{
-	}
-	
-	virtual ~EdgeCostEvaluator(void)
-	{
-	}
-	
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Represent the direct and reverse costs of a path.
-	 */	 
-	struct Costs
-	{
-	    Costs(void) : m_costFromTo(0.0),
-			  m_costToFrom(0.0)
-	    {
-	    }
-	    
-	    virtual ~Costs(void)
-	    {
-	    }
-	    
-	  
-	    /**
-	     *@author Erion Plaku, Amarda Shehu
-	     *@brief Cost of the direct path.
-	     */
-	    double m_costFromTo;
-	    
-	  
-	    /**
-	     *@author Erion Plaku, Amarda Shehu
-	     *@brief Cost of the reverse path.
-	     */
-	    double m_costToFrom;
-	};
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Evaluate the direct and reverse cost of a path when given only its start and end configurations.
-	 */ 
-	virtual Costs EvaluateGivenFromToCfgs(Cfg & cfgFrom, Cfg & cfgTo) = 0;
+        EdgeCostEvaluator(void) : Component()
+        {
+        }
+        
+        virtual ~EdgeCostEvaluator(void)
+        {
+        }
+        
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Represent the direct and reverse costs of a path.
+         */         
+        struct Costs
+        {
+            Costs(void) : m_costFromTo(0.0),
+                          m_costToFrom(0.0)
+            {
+            }
+            
+            virtual ~Costs(void)
+            {
+            }
+            
+          
+            /**
+             *@author Erion Plaku, Amarda Shehu
+             *@brief Cost of the direct path.
+             */
+            double m_costFromTo;
+            
+          
+            /**
+             *@author Erion Plaku, Amarda Shehu
+             *@brief Cost of the reverse path.
+             */
+            double m_costToFrom;
+        };
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Evaluate the direct and reverse cost of a path when given only its start and end configurations.
+         */ 
+        virtual Costs EvaluateGivenFromToCfgs(Cfg & cfgFrom, Cfg & cfgTo) = 0;
 
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Evaluate the direct and reverse cost of a path when given the start, end, and the sequence of intermediate configurations.
-	 *
-	 *@remarks
-	 * - This function accumulates the costs along the sequence of configurations.
-	 */ 
-	virtual Costs EvaluateGivenFromToAndIntermediateCfgs(Cfg & cfgFrom, Cfg & cfgTo, std::vector<Cfg*> & intermediates);
-	
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Evaluate the direct and reverse cost of a path when given the start, end, and the sequence of intermediate configurations.
+         *
+         *@remarks
+         * - This function accumulates the costs along the sequence of configurations.
+         */ 
+        virtual Costs EvaluateGivenFromToAndIntermediateCfgs(Cfg & cfgFrom, Cfg & cfgTo, std::vector<Cfg*> & intermediates);
+        
     };
     
     /**
      *@author Erion Plaku, Amarda Shehu
      *@brief Get/set methods for components that need access to EdgeCostEvaluator.
-     */	 
+     */         
     ClassContainer(EdgeCostEvaluator, m_edgeCostEvaluator);
     
 }

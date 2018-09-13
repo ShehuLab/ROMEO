@@ -29,71 +29,71 @@ namespace Antipatrea
     class SetupChain2D : public Setup2D
     {
     public:    
-	SetupChain2D(void) : Setup2D()
-	{
-	}
-		
-	virtual ~SetupChain2D(void)
-	{
-	}
+        SetupChain2D(void) : Setup2D()
+        {
+        }
+                
+        virtual ~SetupChain2D(void)
+        {
+        }
 
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Get a pointer to the kinematic chain.
-  	 */
-	virtual const Chain2D* GetChain2D(void) const
-	{
-	    return dynamic_cast<const Chain2D*>(GetCfgForwardKinematics());
-	}
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Get a pointer to the kinematic chain.
+           */
+        virtual const Chain2D* GetChain2D(void) const
+        {
+            return dynamic_cast<const Chain2D*>(GetCfgForwardKinematics());
+        }
 
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Get a pointer to the kinematic chain.
-  	 */
-	virtual Chain2D* GetChain2D(void)
-	{
-	    return dynamic_cast<Chain2D*>(GetCfgForwardKinematics());
-	}
-	
-	virtual void Prepare(Params & params);
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Get a pointer to the kinematic chain.
+           */
+        virtual Chain2D* GetChain2D(void)
+        {
+            return dynamic_cast<Chain2D*>(GetCfgForwardKinematics());
+        }
+        
+        virtual void Prepare(Params & params);
 
     protected:
-	virtual void NewCfgForwardKinematics(Params & params)
-	{
-	    SetCfgForwardKinematics(new Chain2D());
-	    OnNewInstance(GetCfgForwardKinematics());
-	}
-	
-	virtual void NewCfgAcceptor(Params & params)
-	{
-	    SetCfgAcceptor(new CfgAcceptorChain2D());
-	    OnNewInstance(GetCfgAcceptor());
-	}
-	
-	virtual void NewCfgProjector(Params & params)
-	{
-	    SetCfgProjector(new CfgProjectorChain2D());
-	    OnNewInstance(GetCfgProjector());
-	}
-	
-	virtual void SetupPointersCfgAcceptor(void)
-	{
-	    Setup::SetupPointersCfgAcceptor();
-	    
-	    if(dynamic_cast<CfgAcceptorChain2D*>(GetCfgAcceptor()))
-	    {
-		dynamic_cast<CfgAcceptorChain2D*>(GetCfgAcceptor())->SetScene2D(GetScene2D());
-		dynamic_cast<CfgAcceptorChain2D*>(GetCfgAcceptor())->SetChain2D(GetChain2D());
-	    }
-	}
-	
-	virtual void SetupPointersCfgProjector(void)
-	{
-	    Setup::SetupPointersCfgProjector();
-	    
-	    if(dynamic_cast<CfgProjectorChain2D*>(GetCfgProjector()))
-	  	dynamic_cast<CfgProjectorChain2D*>(GetCfgProjector())->SetChain2D(GetChain2D());
-	}
+        virtual void NewCfgForwardKinematics(Params & params)
+        {
+            SetCfgForwardKinematics(new Chain2D());
+            OnNewInstance(GetCfgForwardKinematics());
+        }
+        
+        virtual void NewCfgAcceptor(Params & params)
+        {
+            SetCfgAcceptor(new CfgAcceptorChain2D());
+            OnNewInstance(GetCfgAcceptor());
+        }
+        
+        virtual void NewCfgProjector(Params & params)
+        {
+            SetCfgProjector(new CfgProjectorChain2D());
+            OnNewInstance(GetCfgProjector());
+        }
+        
+        virtual void SetupPointersCfgAcceptor(void)
+        {
+            Setup::SetupPointersCfgAcceptor();
+            
+            if(dynamic_cast<CfgAcceptorChain2D*>(GetCfgAcceptor()))
+            {
+                dynamic_cast<CfgAcceptorChain2D*>(GetCfgAcceptor())->SetScene2D(GetScene2D());
+                dynamic_cast<CfgAcceptorChain2D*>(GetCfgAcceptor())->SetChain2D(GetChain2D());
+            }
+        }
+        
+        virtual void SetupPointersCfgProjector(void)
+        {
+            Setup::SetupPointersCfgProjector();
+            
+            if(dynamic_cast<CfgProjectorChain2D*>(GetCfgProjector()))
+                  dynamic_cast<CfgProjectorChain2D*>(GetCfgProjector())->SetChain2D(GetChain2D());
+        }
     };
     
 }

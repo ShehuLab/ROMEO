@@ -24,45 +24,45 @@ namespace Antipatrea
     class CfgOffspringGeneratorTowardTarget : public CfgOffspringGenerator
     {
     public:
-	CfgOffspringGeneratorTowardTarget(void) : CfgOffspringGenerator(),
-						  m_cfgTarget(NULL)
-	{
-	}
-	
-	virtual ~CfgOffspringGeneratorTowardTarget(void)
-	{
-	}
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Get the pointer to the target configuration.
-	 */
-	virtual const Cfg* GetTargetCfg(void) const
-	{
-	    return m_cfgTarget;
-	}
+        CfgOffspringGeneratorTowardTarget(void) : CfgOffspringGenerator(),
+                                                  m_cfgTarget(NULL)
+        {
+        }
+        
+        virtual ~CfgOffspringGeneratorTowardTarget(void)
+        {
+        }
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Get the pointer to the target configuration.
+         */
+        virtual const Cfg* GetTargetCfg(void) const
+        {
+            return m_cfgTarget;
+        }
 
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Set the pointer to the target configuration.
-	 */
-	virtual void SetTargetCfg(const Cfg * const cfgTarget)
-	{
-	    m_cfgTarget = cfgTarget;
-	}
-	
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Set the pointer to the target configuration.
+         */
+        virtual void SetTargetCfg(const Cfg * const cfgTarget)
+        {
+            m_cfgTarget = cfgTarget;
+        }
+        
     protected:
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Pointer to the target configuration.
-	 */
-	const Cfg *m_cfgTarget;
+                /**
+                 *@author Erion Plaku, Amarda Shehu
+                 *@brief Pointer to the target configuration.
+                 */
+                const Cfg *m_cfgTarget;
     };
 
     /**
      *@author Erion Plaku, Amarda Shehu
      *@brief Get/set methods for components that need access to CfgOffspringGeneratorTowardTarget.
-     */	 
+     */         
     ClassContainer(CfgOffspringGeneratorTowardTarget, m_cfgOffspringGeneratorTowardTarget);
     
 }

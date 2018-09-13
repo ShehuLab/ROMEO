@@ -26,7 +26,7 @@ using namespace Antipatrea;
 extern "C" int TestSetup(int argc, char **argv)
 {
     if(argc < 2)
-	Logger::m_out << "usage: ./bin/Runner TestSetup fnameParams" << std::endl << std::endl;
+        Logger::m_out << "usage: ./bin/Runner TestSetup fnameParams" << std::endl << std::endl;
     
     Timer::Clock clk;
     
@@ -34,10 +34,10 @@ extern "C" int TestSetup(int argc, char **argv)
     
     if(argc >= 2)
     {
-	params->ReadFromFile(argv[1]);
-	Logger::m_out << "begin parameters (as provided in the input file)" << std::endl;
-	params->Print(Logger::m_out);
-	Logger::m_out << "end parameters (as provided in the input file)" << std::endl << std::endl;
+        params->ReadFromFile(argv[1]);
+        Logger::m_out << "begin parameters (as provided in the input file)" << std::endl;
+        params->Print(Logger::m_out);
+        Logger::m_out << "end parameters (as provided in the input file)" << std::endl << std::endl;
     }
     
     Setup      *setup         = NULL;
@@ -46,11 +46,11 @@ extern "C" int TestSetup(int argc, char **argv)
     auto        fnCreateSetup = (CreateSetupFn) DLHandler::GetSymbol(fullName.c_str());
     
     if(fnCreateSetup)
-	setup = fnCreateSetup();
+        setup = fnCreateSetup();
     else
     {
-	Logger::m_out << "error TestSetup: unknown setup <" << setupName <<">" << std::endl;
-	return 0;
+        Logger::m_out << "error TestSetup: unknown setup <" << setupName <<">" << std::endl;
+        return 0;
     }
     
     setup->Prepare(*params);

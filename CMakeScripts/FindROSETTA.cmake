@@ -37,5 +37,5 @@ set (ROSETTA_INCLUDE_DIRS ${ROSETTA_INCLUDE_DIR}
 
 set (ROSETTA_LIBNAMES basic core.1 core.2 core.3 core.4 core.5
                       numeric utility devel protocols.1 
-                      protocols_a.2 protocols.3 protocols.7
-                      ObjexxFCL sqlite3)
+                      protocols_a.2 protocols.3 protocols.7)
+#                     ObjexxFCL sqlite3)

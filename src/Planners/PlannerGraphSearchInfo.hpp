@@ -6,7 +6,7 @@
 #include "Utils/Constants.hpp"
 
 namespace Antipatrea
-{	    
+{            
     /**
      *@author Erion Plaku, Amarda Shehu
      *@brief Wrapper for the planner graph so that it can be used with
@@ -19,36 +19,36 @@ namespace Antipatrea
      *   needed by the graph-search algorithms, namely GetOutEdges and IsGoal.
      */
     class PlannerGraphSearchInfo : public GraphSearchInfo<int>,
-				   public PlannerGraphContainer
+                                   public PlannerGraphContainer
     {
     public:
-	PlannerGraphSearchInfo(void) :
-	    GraphSearchInfo<int>(),
-	    PlannerGraphContainer()
-	{
-	}
+        PlannerGraphSearchInfo(void) :
+            GraphSearchInfo<int>(),
+            PlannerGraphContainer()
+        {
+        }
 
-	virtual ~PlannerGraphSearchInfo(void)
-	{
-	}
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Get the outgoing edges from vertex <tt>vid</tt> as well as their costs.
-	 */
-	virtual void GetOutEdges(const int vid, 
-				 std::vector<int> & edges,
-				 std::vector<double> & costs) const;
+        virtual ~PlannerGraphSearchInfo(void)
+        {
+        }
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Get the outgoing edges from vertex <tt>vid</tt> as well as their costs.
+         */
+        virtual void GetOutEdges(const int vid, 
+                                 std::vector<int> & edges,
+                                 std::vector<double> & costs) const;
 
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Return true iff the vertex <tt>vid</tt> is marked as a goal vertex.
-	 */
-	virtual bool IsGoal(const int vid) const
-	{
-	    return GetPlannerGraph()->GetVertex(vid)->IsGoal();
-	}
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Return true iff the vertex <tt>vid</tt> is marked as a goal vertex.
+         */
+        virtual bool IsGoal(const int vid) const
+        {
+            return GetPlannerGraph()->GetVertex(vid)->IsGoal();
+        }
     };
 }
 

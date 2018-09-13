@@ -13,29 +13,29 @@ namespace Antipatrea
     class SignedDistanceBetweenTwoNumbers : public SignedDistanceBetweenTwoValues
     {
     public:
-	SignedDistanceBetweenTwoNumbers(void) : SignedDistanceBetweenTwoValues()
-	{
-	}
-	
-	virtual ~SignedDistanceBetweenTwoNumbers(void)
-	{
-	}
-	
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Computes the signed distance between two numbers as their difference
-	 */
- 	virtual double SignedDistance(const double from,
-				      const double to)
-	{
-	    return to - from;
-	}
+        SignedDistanceBetweenTwoNumbers(void) : SignedDistanceBetweenTwoValues()
+        {
+        }
+        
+        virtual ~SignedDistanceBetweenTwoNumbers(void)
+        {
+        }
+        
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Computes the signed distance between two numbers as their difference
+         */
+         virtual double SignedDistance(const double from,
+                                      const double to)
+        {
+            return to - from;
+        }
     };
 
     /**
      *@author Erion Plaku, Amarda Shehu
      *@brief Get/set methods for components that need access to SignedDistanceBetweenTwoNumbers.
-     */	
+     */        
     ClassContainer(SignedDistanceBetweenTwoNumbers, m_signedDistanceNumber);
     
 }

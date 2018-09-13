@@ -21,19 +21,19 @@ namespace Antipatrea
     class CfgOffspringGeneratorToTarget : public CfgOffspringGeneratorTowardTarget
     {
     public:
-	CfgOffspringGeneratorToTarget(void) : CfgOffspringGeneratorTowardTarget()
-	{
-	}
-	
-	virtual ~CfgOffspringGeneratorToTarget(void)
-	{
-	}
+        CfgOffspringGeneratorToTarget(void) : CfgOffspringGeneratorTowardTarget()
+        {
+        }
+        
+        virtual ~CfgOffspringGeneratorToTarget(void)
+        {
+        }
     };
 
     /**
      *@author Erion Plaku, Amarda Shehu
      *@brief Get/set methods for components that need access to CfgOffspringGeneratorToTarget.
-     */	 
+     */         
     ClassContainer(CfgOffspringGeneratorToTarget, m_cfgOffspringGeneratorToTarget);
     
 }

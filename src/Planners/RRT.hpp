@@ -21,28 +21,28 @@ namespace  Antipatrea
     class RRT : public TreeSamplingBasedPlanner
     {
     public:
-	RRT(void) : TreeSamplingBasedPlanner()
-	{
-	}
+        RRT(void) : TreeSamplingBasedPlanner()
+        {
+        }
 
-	virtual ~RRT(void)
-	{
-	}
-	
+        virtual ~RRT(void)
+        {
+        }
+        
     protected:
-	/**
-	 *@author Erion Plaku, Amarda Shehu
-	 *@brief Select a vertex from which to expand the tree and 
-	 *       a target toward which to expand the tree.
-	 *
-	 *@remarks
-	 * - Function returns the id of the selected vertex.
-	 * - The target is selected as in the base class, using the function
-	 *   SelectTarget.
-	 * - The closest vertex in the tree to the sampled target (according to CfgDistance)
-	 *   is then selected for expansion.
-  	 */	
-	virtual int SelectVertex(void);
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Select a vertex from which to expand the tree and 
+         *       a target toward which to expand the tree.
+         *
+         *@remarks
+         * - Function returns the id of the selected vertex.
+         * - The target is selected as in the base class, using the function
+         *   SelectTarget.
+         * - The closest vertex in the tree to the sampled target (according to CfgDistance)
+         *   is then selected for expansion.
+           */        
+        virtual int SelectVertex(void);
     };
     
     /**

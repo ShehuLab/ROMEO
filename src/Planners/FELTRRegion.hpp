@@ -9,263 +9,381 @@
 #define Antipatrea__FELTRREGION_HPP_
 
 
+
+#define FELTR_PROJECTION_COORDS 4
+#define FELTR_USR_COORDS 3
+#define FELTR_ENERGY_COORD_OFFSET 3
+
+
 #include <limits>
 #include <list>
 #include <map>
 
 #include <stddef.h>
 #include "Planners/TreeSamplingBasedPlanner.hpp"
+
 #include <Utils/Grid.hpp>
 #include <Utils/Selector.hpp>
-#include <Planners/FELTR.hpp>
+#include "Planners/FELTR.hpp"
 
-typedef double Id;
+// typedef double Id;
+
+
+
 
 namespace Antipatrea
 {
-	class FELTRVertex;
+    const double CA_CA_IDEAL_D=3.8; // used in USR-cell dimension calcs
 
-	class FELTRCell
-	{
-	public:
-		FELTRCell(void) : m_nsel(0)
-				 , m_sumE(0.0)
-				 , m_weight(0.0)
-				 , m_nconfs(0)
-				 , m_newPaths(0)
-		{
-		}
+    double get_constrained_R0(int nres);
 
-		virtual ~FELTRCell(void)
-		{
-		}
+    class FELTRVertex;
 
-		int SelectVertex(void);
+    /**
+     *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+     *@brief  Implement the FELTR algorithm.
+     *        See IJRR (2010) Shehu, Olson Guiding the Search for
+     *        Native-like Protein Conformations with an Ab-Initio
+     *        Tree-based exploration and Olson, Molloy, Shehu In Search
+     *        of the Protein Native State with a Probabilistic Sampling
+     *        Approach (JBCC 2011).
+     *
+     *@remarks
+     * -  Each energy region is discretized into a set of 3d cells
+     *    based on the cfg's USR coordinates.
+     */
 
-		void IncNew(int inc=1) {m_newPaths+= inc;}
+    class FELTRCell: public CfgDistanceContainer
+    {
+    public:
+        FELTRCell(void) : m_nsel(0)
+                         , m_weight(0.0)
+                         , m_nconfs(0)
+                         , m_newPaths(0)
+                         , m_threshold(0.25)
+                         , m_reductionCount(1)
+        {
+        }
 
-		int GetNrSelections(void) const
-		{
-			return m_nsel;
-		}
+        virtual ~FELTRCell(void)
+        {
+        }
 
-		double GetSumE(void) const
-		{
-			return m_sumE;
-		}
+        /**
+           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+           *@brief  Select a vertex from the cell.  The vid
+           *        is returned.
+           */
+        int SelectVertex(void);
 
-		int GetNrConfs(void) const
-			{
-		   return m_nconfs;
-			}
+        /**
+           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+           *@brief  Store the scalar ID of the cell.
+           */
 
-		double GetWeight(void) const
-		{
-			return m_weight;
-		}
+        void SetId(unsigned int pId) {m_id = pId;}
 
-		void AddVertex(int vid);
-
-		FELTRVertex* AddCount(FELTRVertex * v);
-		FELTRVertex* AddDist(FELTRVertex * v);
-		FELTRVertex* SetTreeVertex(FELTRVertex * const v, Selector<FELTRVertex *>::Node * const node);
-		Selector<FELTRVertex *>::Node* GetVertexNode(FELTRVertex* vertex);
-		//----------------------------------------------------------------------------
-
-
-		protected:
-		void UpdateWeightOnSelection(const int nsel)
-		{
-			m_nsel += nsel;
-			UpdateWeight();
-		}
-
-		void UpdateWeightOnEnergy(const double energy)
-		{
-			++m_nconfs;
-			m_sumE += energy;
-			UpdateWeight();
-		}
-
-			/*
-			void UpdateWeight(void)
-			{
-				m_weight = TreeVertex::ComputeWeight(m_nsel, m_sumE/m_nconfs);
-			}
-			*/
-
-		void UpdateWeight(void)
-		{
-			m_weight = 1.0 / ((double) (1.0 + m_nsel) * m_nconfs);
-		}
-
-		int weightType;
-		int           m_nsel;   //number of times cell has been selected
-		double        m_sumE;   //sum over energies of states in cell
-		double        m_weight;
-		int           m_nconfs;
-		Selector<int> m_selector;
-		int m_newPaths;
-	};  /* FELTRCell */
+        unsigned int GetId() {return m_id;}
 
 
-	class FELTRRegion
-	{
-	public:
-		enum WeightFunc {RAND=1, QUAD=2, METR=3, COV1=4, COV2=5, MTCV=6};
-		typedef enum WeightFunc WeightFunc;
+        void IncNew(int inc=1) {m_newPaths+= inc;}
 
-		FELTRRegion(void) : m_nsel(0),
-				   m_sumE(0.0),
-				   m_minE(std::numeric_limits<double>::min()),
-				   m_maxE(std::numeric_limits<double>::max()),
-				   m_nrConfs(0),
-				   m_weight(0.0),
-		           m_newPaths(0),
-				   m_gridCells(NULL)
-		{
-		}
+        /**
+           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+           *@brief  return the number of times this cell has been selected.
+           */
 
-	FELTRRegion(Id id,int cellCount ): m_nsel(0),
-		m_sumE(0.0),
-		m_minE(std::numeric_limits<double>::min()),
-		m_maxE(std::numeric_limits<double>::max()),
-		m_nrConfs(0),
-		m_weight(0.0),
-		m_id(id),
-		m_newPaths(0)
-		{
-			int dims[4];
-			dims[3] = 1;
-			double g_min[4];
-			double g_max[4];
-			for (auto i=0;i < 2;++i)
-			{
-				g_min[i] = 0.0;
-				g_max[i] = 100.0;
-				dims[i] = cellCount;
-			}
-			g_min[3] = -200;
-			g_max[3] = 0;
-			dims[3] = 1;
+        int GetNrSelections(void) const
+        {
+            return m_nsel;
+        }
 
-			m_gridCells = new Grid();
+        /**
+           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+           *@brief  return the number of cfgs within this cell.
+           */
 
-		    m_gridCells->Setup(4,dims,g_min,g_max);
+        int GetNrConfs(void) const
+        {
+           return m_nconfs;
+        }
+        /**
+           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+           *@brief  Get the weight of this cell..
+           */
 
-		}
+        double GetWeight(void) const
+        {
+            return m_weight;
+        }
 
+        /**
+           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+           *@brief  Add a vertex to the cell and adjust the weight.
+           */
 
-		virtual ~FELTRRegion(void)
-		{
-		}
+        void AddVertex(int vid,const Cfg *cfg);
+        /**
+           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+           *@brief  Return true iff a similar cfg already exists
+           *        within the cell.  Similarity is defined by the
+           *        distance function and the user specified threshold.
+           */
+
+        bool SimilarCfgExists(Cfg * const cfg);
+        //----------------------------------------------------------------------------
 
 
-		Id AddVertex(int vid,
-				     const double * const p,
-				     FELTRRegion * &region,
-				     FELTRCell   * &cell);
+    protected:
 
-		void IncNew(int inc=1) {m_newPaths+= inc;}
+        /**
+           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+           *@brief  Update the weight of the cell based on it
+           *        being selected.
+           */
 
-		Id GetCellIdFromPoint(const double * const p) const
-		{
-			return m_gridCells->GetCellIdFromPoint(p);
-		}
+        void UpdateWeightOnSelection(const int nsel)
+        {
+            m_nsel += nsel;
+            UpdateWeight();
+        }
+
+        void UpdateWeightOnInsert()
+        {
+            ++m_nconfs;
+            UpdateWeight();
+        }
+
+        void UpdateWeight(void)
+        {
+            m_weight = 1.0 / ((double) (1.0 + m_nsel) * m_nconfs);
+        }
+
+        int weightType;
+        int           m_nsel;   //number of times cell has been selected
+        double        m_weight;
+        int           m_nconfs;
+        double        m_threshold;
+        Selector<int> m_insideCellSelector;
+        unsigned int  m_reductionCount;
+        std::vector<const Cfg *> m_cfgs;
+
+        int m_newPaths;
+        int m_id;  // key that was used to map to this cell
+                   // used to verify pointers are not getting crossed
+    };  /* FELTRCell */
 
 
-		Id GetId() {return m_id;}
+    /////////////
+    ////////////
+    ////////////
+    class FELTRRegion:public CfgDistanceContainer
+    {
+    public:
+        enum WeightFunc {RAND=1, QUAD=2, METR=3, COV1=4, COV2=5, MTCV=6,NORM=7};
+        typedef enum WeightFunc WeightFunc;
 
-		int GetNrGridCells()
-		{
-			return m_CellToSelectorMap.size();
-		}
+        FELTRRegion(void) : m_nsel(0),
+                           m_sumE(0.0),
+                           m_minE(std::numeric_limits<double>::min()),
+                           m_maxE(std::numeric_limits<double>::max()),
+                           m_nrConfs(0),
+                           m_weight(0.0),
+                           m_newPaths(0),
+                           m_gridCells(NULL)
+        {
+        }
 
-		int GetNrSelections(void) const
-		{
-			return m_nsel;
-		}
+        FELTRRegion(int id,int cellCount,unsigned int objDim ): m_nsel(0),
+                m_sumE(0.0),
+                m_minE(std::numeric_limits<double>::min()),
+                m_maxE(std::numeric_limits<double>::max()),
+                m_nrConfs(0),
+                m_weight(0.0),
+                m_id(id),
+                m_newPaths(0),
+                m_objDim(objDim),
+                m_reductionCount(0),
+                m_weightFunction(QUAD)
+        {
+             // double minRg = get_constrained_R0(m_objDim - (FRAG_LENGTH - 1)) - 1.0;
+            double minRg = get_constrained_R0(m_objDim - (3 - 1)) - 1.0;
 
-		double GetAvgE(void) const
-		{
-			return m_sumE / m_nrConfs;
-		}
+            double extendedLength = (m_objDim - 1) * CA_CA_IDEAL_D;
+            double medRg = extendedLength/4.0;
 
-		double GetSumE(void) const
-		{
-			return m_sumE;
-		}
+            int dims[4];
+            double g_min[4];
+            double g_max[4];
 
-		double GetMinE(void) const
-		{
-			return m_minE;
-		}
+            for(int i = 0; i < FELTR_PROJECTION_COORDS - 1; ++i)
+            {
+                g_min[i] = minRg;
+                g_max[i] = medRg;
+                dims[i] = cellCount;
+                /* std::cout << "FELTRCell limits:gmin:" << g_min[i] << ":gmax:" << g_max[i]
+                          << ":granularity:" << dims[i] << "\n"; */
+            }
 
-		double GetMaxE(void) const
-		{
-			return m_maxE;
-		}
+            dims[3]  = 1; // energy is not used here.
+            g_min[3] = 1;
+            g_max[3] = 1;
 
-		int GetNrConfs(void) const
-		{
-			return m_nrConfs;
-		}
+            m_gridCells = new Grid();
 
-		double GetWeight(void) const
-		{
-			return m_weight;
-		}
-		void PrintCellIdList(std::ostream & stream);
+            m_gridCells->Setup(FELTR_PROJECTION_COORDS,dims,g_min,g_max);
+        }
 
-		FELTRVertex* AddTreeVertex(FELTRVertex * v, const Id idCell, bool & newCell);
 
-		int SelectVertex(void);
+        virtual ~FELTRRegion(void)
+        {
+        }
 
-		protected:
-		void UpdateWeightOnSelection(const int nsel)
-		{
-			m_nsel += nsel;
-			UpdateWeight();
-		}
 
-		void UpdateWeightOnEnergy(const double energy)
-		{
-			++m_nrConfs;
-			m_sumE += energy;
+        void AddVertex(int vid,
+                       const Cfg *cfg,
+                       const double * const p,
+                       FELTRRegion * &region,
+                       FELTRCell   * &cell);
 
-			if(energy < m_minE) m_minE = energy;
-				if(energy > m_maxE) m_maxE = energy;
+        void IncNew(int inc=1) {m_newPaths+= inc;}
 
-			UpdateWeight();
+        int GetId() {return m_id;}
 
-	//	    printf("min e max avg = %f %f %f %f\n", m_minE, energy, m_maxE, m_sumE/m_nrConfs);
-		}
-		//--------------------------------------------------------------------------
-		//--------------------------------------------------------------------------
-		void UpdateWeight(void)
-		{
-			//m_weight = m_sumE / ((double) (1.0 + m_nsel) * m_selector.GetNrNodes());
-			//m_weight = 1.0 / ((double) (1.0 + m_nsel) * m_selector.GetNrNodes());
-				//	    m_weight = TreeVertex::ComputeWeight(m_nsel, m_sumE/m_nrConfs);
-			m_weight = pow(GetAvgE(),2);
-		}
+        int GetNrGridCells()
+        {
+            return m_CellToSelectorMap.size();
+        }
 
-		int              m_nsel;   //number of times region has been selected
+        int GetNrSelections(void) const
+        {
+            return m_nsel;
+        }
 
-		int              m_nrConfs;
-		double           m_sumE;   //sum over energies of states in region
-		double           m_minE;   //minimum energy over energies in region
-		double           m_maxE;   //maximum energy over energies in region
+        double GetAvgE(void) const
+        {
+            return m_sumE / m_nrConfs;
+        }
 
-		double           m_weight;
+        double GetSumE(void) const
+        {
+            return m_sumE;
+        }
 
-		Selector<FELTRCell *> m_selector;
-		std::map<Id, Selector<FELTRCell *>::Node *> m_CellToSelectorMap;
+        double GetMinE(void) const
+        {
+            return m_minE;
+        }
 
-		Grid *m_gridCells;
-		Id m_id;
-		int m_newPaths;
-	};
+        double GetMaxE(void) const
+        {
+            return m_maxE;
+        }
+
+        int GetNrConfs(void) const
+        {
+            return m_nrConfs;
+        }
+
+        double GetWeight(void) const
+        {
+            return m_weight;
+        }
+        void PrintCellIdList(std::ostream & stream);
+
+        int SelectVertex(void);
+        bool CheckVertex(Cfg * const cfg,
+                         double []);
+
+    protected:
+        void UpdateWeightOnSelection(const int nsel)
+        {
+            m_nsel += nsel;
+            // UpdateWeight(); since weight is not based on nmr of selections
+        }
+
+        void UpdateWeightOnEnergy(const double energy)
+        {
+            ++m_nrConfs;
+            m_sumE += energy;
+
+            if(energy < m_minE)
+                m_minE = energy;
+            if(energy > m_maxE)
+                m_maxE = energy;
+
+            UpdateWeight();
+        }
+
+        //--------------------------------------------------------------------------
+        void UpdateWeightQUAD(void)
+        {
+            //m_weight = m_sumE / ((double) (1.0 + m_nsel) * m_selector.GetNrNodes());
+            //m_weight = 1.0 / ((double) (1.0 + m_nsel) * m_selector.GetNrNodes());
+            //            m_weight = TreeVertex::ComputeWeight(m_nsel, m_sumE/m_nrConfs);
+            double averageEnergy = GetAvgE();
+
+            if (averageEnergy > 0)
+                m_weight =  1.0/(1 + averageEnergy * averageEnergy);
+            else
+                m_weight = fabs(pow(averageEnergy,2));
+
+            /* Logger::m_out << "Update energy weight for average energy:" << averageEnergy
+                          << " is:" << m_weight << "\n"; */
+
+        }
+
+        void UpdateWeightNORM(void)
+        {
+            //m_weight = m_sumE / ((double) (1.0 + m_nsel) * m_selector.GetNrNodes());
+            //m_weight = 1.0 / ((double) (1.0 + m_nsel) * m_selector.GetNrNodes());
+            //            m_weight = TreeVertex::ComputeWeight(m_nsel, m_sumE/m_nrConfs);
+            double averageEnergy = GetAvgE();
+
+            if (averageEnergy > 0)
+                m_weight =  1.0/(1 + averageEnergy * averageEnergy);
+            else
+                m_weight = fabs(pow(averageEnergy,2));
+
+            /* Logger::m_out << "Update energy weight for average energy:" << averageEnergy
+                          << " is:" << m_weight << "\n"; */
+
+        }
+        void UpdateWeight()
+        {
+            switch (m_weightFunction)
+            {
+                case NORM:
+                    UpdateWeightNORM();
+                    break;
+                case QUAD:
+                default:
+                    UpdateWeightQUAD();
+                    break;
+
+            }
+        }
+
+
+        int              m_nsel;   //number of times region has been selected
+
+        int              m_nrConfs;
+        double           m_sumE;   //sum over energies of states in region
+        double           m_minE;   //minimum energy over energies in region
+        double           m_maxE;   //maximum energy over energies in region
+
+        double           m_weight;
+
+        Selector<FELTRCell *> m_selector;
+        std::map<int, Selector<FELTRCell *>::Node *> m_CellToSelectorMap;
+
+        Grid *m_gridCells;
+        int m_id;
+        int m_newPaths;
+        unsigned int m_objDim;
+        unsigned int  m_reductionCount;
+        unsigned int m_weightFunction;
+    }; // FELTRRegion
 }
 
 #endif

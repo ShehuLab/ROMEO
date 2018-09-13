@@ -1,5 +1,9 @@
 #include "PluginRosetta/CfgDistanceAtomRMSD.hpp"
 #include <cmath>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "boost/format.hpp"
 
 // LaPACK functions for computing SVD
 extern "C"
@@ -12,15 +16,15 @@ extern "C"
 }
 
 namespace Antipatrea
-{	
+{        
 /*
  * RMSD.  Takes two vectors, each representing a degree of freedom, and
  *        they should be divisable by 3 (x,y,z for each point).
  *        n is the size of these two vectors.
  */
     double RMSD(const double *x,
-	        const double *y,
-	        const int n)
+                const double *y,
+                const int n)
     {
         //Check that 2 input iterators are the same length
         //make sure that the output iterators are large enough to contain all info
@@ -28,7 +32,7 @@ namespace Antipatrea
         {
           std::cout << "RMSD error. Passed vector length:" << n
                     << " is not divisable by 3." << std::endl;
-    	  exit(125);
+          exit(125);
         }
 
         int i;
@@ -100,41 +104,75 @@ namespace Antipatrea
         }
         // rsmd too large => return INF
 
-        if (dist!=HUGE_VAL) { dist = std::sqrt(dist*3./n); }
+        if (dist!=HUGE_VAL)
+        {
+            dist = std::sqrt(dist*3./n);
+        }
 
         return dist;
+    }
+
+    double CfgDistanceAtomRMSD::DistancePrint(const Cfg & cfg1, const Cfg & cfg2)
+    {
+        double rmsd = Distance(cfg1,cfg2);
+        ++distCalcs;
+        if (distCalcs == 0 || 1 ) // for debugging
+        {
+            auto mol = GetMolecularStructureRosetta();
+
+            std::string distCalcNumber = (boost::format("%06d") % distCalcs).str();
+
+            std::string fName_1 = "distCalcDebug_" + distCalcNumber + "_01.pdb";
+            std::string fName_2 = "distCalcDebug_" + distCalcNumber + "_02.pdb";
+            std::string fName_rmsd = "distCalcDebug_" + distCalcNumber + "_rmsd.txt";
+
+
+
+            mol->WriteScoredPDBFile(cfg1,fName_1.c_str());
+
+            mol->WriteScoredPDBFile(cfg2,fName_2.c_str());
+
+            std::ofstream rmsdFile;
+            rmsdFile.open(fName_rmsd.c_str());
+            rmsdFile << rmsd << "\n";
+            rmsdFile.close();
+
+            // create file with our rmsd so we can compare
+        }
+        return(rmsd);
     }
 
 
     double CfgDistanceAtomRMSD::Distance(const Cfg & cfg1, const Cfg & cfg2)
     {
-    	auto cfgM = GetCfgManager();
+        auto cfgM = GetCfgManager();
 
-    	auto mol = GetMolecularStructureRosetta();
-    	const double *vals1 = cfg1.GetValues();
-    	std::vector<point> cfg1Atoms = mol->GetAtomPositions(cfg1);
+        auto mol = GetMolecularStructureRosetta();
+        const double *vals1 = cfg1.GetValues();
+        std::vector<point> cfg1Atoms = mol->GetAtomPositions(cfg1);
 
-    	const double *vals2 = cfg2.GetValues();
-    	std::vector<point> cfg2Atoms = mol->GetAtomPositions(cfg2);
+        const double *vals2 = cfg2.GetValues();
+        std::vector<point> cfg2Atoms = mol->GetAtomPositions(cfg2);
 
-    	// we need 3 DOFs (x,y,z) for each atom returned.
-    	unsigned int atomCount = cfg1Atoms.size();
-    	unsigned int dim = atomCount *3;
+        // we need 3 DOFs (x,y,z) for each atom returned.
+        unsigned int atomCount = cfg1Atoms.size();
+        unsigned int dim = atomCount *3;
 
-    	double atomPositionsCfg1[dim];
-    	double atomPositionsCfg2[dim];
-    	for (auto i =0; i < atomCount;++i)
-    	{
-    		atomPositionsCfg1[i*3]      = cfg1Atoms[i].x;
-    		atomPositionsCfg1[i*3 + 1]  = cfg1Atoms[i].y;
-    		atomPositionsCfg1[i*3 + 2]  = cfg1Atoms[i].z;
+        double atomPositionsCfg1[dim];
+        double atomPositionsCfg2[dim];
+        for (auto i =0; i < atomCount;++i)
+        {
+            atomPositionsCfg1[i*3]      = cfg1Atoms[i].x;
+            atomPositionsCfg1[i*3 + 1]  = cfg1Atoms[i].y;
+            atomPositionsCfg1[i*3 + 2]  = cfg1Atoms[i].z;
 
-    		atomPositionsCfg2[i*3]      = cfg2Atoms[i].x;
-    		atomPositionsCfg2[i*3 + 1]  = cfg2Atoms[i].y;
-    		atomPositionsCfg2[i*3 + 2]  = cfg2Atoms[i].z;
-    	}
+            atomPositionsCfg2[i*3]      = cfg2Atoms[i].x;
+            atomPositionsCfg2[i*3 + 1]  = cfg2Atoms[i].y;
+            atomPositionsCfg2[i*3 + 2]  = cfg2Atoms[i].z;
+        }
 
-    	double rmsd = RMSD(atomPositionsCfg1,atomPositionsCfg2,dim);
-    	return (rmsd);
+        double rmsd = RMSD(atomPositionsCfg1,atomPositionsCfg2,dim);
+
+        return (rmsd);
     }
 }

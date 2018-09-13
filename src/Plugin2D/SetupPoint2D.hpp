@@ -29,51 +29,51 @@ namespace Antipatrea
     class SetupPoint2D : public Setup2D
     {
     public:    
-	SetupPoint2D(void) : Setup2D()
-	{
-	}
-	
-	
-	virtual ~SetupPoint2D(void)
-	{
-	}
-	
-	virtual void Prepare(Params & params);
-	
+        SetupPoint2D(void) : Setup2D()
+        {
+        }
+        
+        
+        virtual ~SetupPoint2D(void)
+        {
+        }
+        
+        virtual void Prepare(Params & params);
+        
     protected:
-	virtual void NewCfgAcceptor(Params & params)
-	{
-	    SetCfgAcceptor(new CfgAcceptorPoint2D());
-	    OnNewInstance(GetCfgAcceptor());
-	}
-	
-	virtual void NewCfgSampler(Params & params)
-	{
-	    SetCfgSampler(new CfgSamplerPoint2D());
-	    OnNewInstance(GetCfgSampler());
-	}
-	
-	virtual void NewCfgProjector(Params & params)
-	{
-	    SetCfgProjector(new CfgProjectorPoint2D());
-	    OnNewInstance(GetCfgProjector());
-	}
-	
-	virtual void SetupPointersCfgAcceptor(void)
-	{
-	    Setup::SetupPointersCfgAcceptor();
+        virtual void NewCfgAcceptor(Params & params)
+        {
+            SetCfgAcceptor(new CfgAcceptorPoint2D());
+            OnNewInstance(GetCfgAcceptor());
+        }
+        
+        virtual void NewCfgSampler(Params & params)
+        {
+            SetCfgSampler(new CfgSamplerPoint2D());
+            OnNewInstance(GetCfgSampler());
+        }
+        
+        virtual void NewCfgProjector(Params & params)
+        {
+            SetCfgProjector(new CfgProjectorPoint2D());
+            OnNewInstance(GetCfgProjector());
+        }
+        
+        virtual void SetupPointersCfgAcceptor(void)
+        {
+            Setup::SetupPointersCfgAcceptor();
 
-	    if(dynamic_cast<CfgAcceptorPoint2D*>(GetCfgAcceptor()))
-		dynamic_cast<CfgAcceptorPoint2D*>(GetCfgAcceptor())->SetScene2D(GetScene2D());
-	}
-	
-	virtual void SetupPointersCfgSampler(void)
-	{
-	    Setup::SetupPointersCfgSampler();
-	    if(dynamic_cast<CfgSamplerPoint2D*>(GetCfgSampler()))
-		dynamic_cast<CfgSamplerPoint2D*>(GetCfgSampler())->SetScene2D(GetScene2D());
-	}
-	
+            if(dynamic_cast<CfgAcceptorPoint2D*>(GetCfgAcceptor()))
+                dynamic_cast<CfgAcceptorPoint2D*>(GetCfgAcceptor())->SetScene2D(GetScene2D());
+        }
+        
+        virtual void SetupPointersCfgSampler(void)
+        {
+            Setup::SetupPointersCfgSampler();
+            if(dynamic_cast<CfgSamplerPoint2D*>(GetCfgSampler()))
+                dynamic_cast<CfgSamplerPoint2D*>(GetCfgSampler())->SetScene2D(GetScene2D());
+        }
+        
     };
 
 }
