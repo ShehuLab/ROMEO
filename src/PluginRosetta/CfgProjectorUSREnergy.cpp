@@ -7,7 +7,7 @@ namespace Antipatrea
 {
     void CfgProjectorUSREnergy::SetupFromParams(Params & params)
     {
-            CfgProjector::SetupFromParams(params);
+        CfgProjector::SetupFromParams(params);
 
         auto data = params.GetData(Constants::KW_CfgProjectorUSREnergy);
         if(data && data->m_params)

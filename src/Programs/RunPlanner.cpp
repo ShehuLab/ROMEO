@@ -78,6 +78,7 @@ extern "C" int RunPlanner(int argc, char **argv)
     double      tmax          = Constants::VAL_RunPlanner_MaxRuntime;
     int         tint          = Constants::VAL_RunPlanner_IntervalRuntime;
     auto        data          = params->GetData(Constants::KW_RunPlanner);
+    int         maxTreeSize   = Constants::VAL_RunPlanner_MaxTreeSize;
 
     if(data && data->m_params)
     {
@@ -86,7 +87,8 @@ extern "C" int RunPlanner(int argc, char **argv)
 		maxNrFailures = data->m_params->GetValueAsInt(Constants::KW_MaxNrFailures, maxNrFailures);
 		tmax          = data->m_params->GetValueAsDouble(Constants::KW_MaxRuntime, tmax);
 		tint          = data->m_params->GetValueAsDouble(Constants::KW_IntervalRuntime, tint);
-}
+		maxTreeSize   = data->m_params->GetValueAsInt(Constants::KW_MaxTreeSize, maxTreeSize);
+    }
     
     
     int           nrRuns        = 0;
@@ -105,13 +107,13 @@ extern "C" int RunPlanner(int argc, char **argv)
 
     if(fs.is_open())
     {
-                while(fs >> solved >> trun >> cost)
-                {
-                        ++nrRuns;
-                        if(solved == 0)
-                        ++nrFailures;
-                }
-                fs.close();
+		while(fs >> solved >> trun >> cost)
+		{
+			++nrRuns;
+			if(solved == 0)
+				++nrFailures;
+		}
+		fs.close();
     }
     
     Logger::m_out << "NrRuns         " << nrRuns << std::endl
@@ -120,9 +122,9 @@ extern "C" int RunPlanner(int argc, char **argv)
     if((maxNrRuns >= 0 && nrRuns >= maxNrRuns) || nrFailures >= maxNrFailures)
     {
 		if(nrRuns >= maxNrRuns)
-				Logger::m_out << "...planner has already been run " << nrRuns <<" times" << std::endl;
+			Logger::m_out << "...planner has already been run " << nrRuns <<" times" << std::endl;
 		else
-				Logger::m_out << "...planner has failed to solve " << nrFailures << " instances. What's the point?" << std::endl;
+			Logger::m_out << "...planner has failed to solve " << nrFailures << " instances. What's the point?" << std::endl;
 		return 0;
     }
 
@@ -158,7 +160,8 @@ extern "C" int RunPlanner(int argc, char **argv)
         
 
     Timer::Start(clk);
-    while(Timer::Elapsed(clk) < tmax && planner->IsSolved() == false)
+    while(Timer::Elapsed(clk) < tmax && planner->IsSolved() == false &&
+          planner->GetPlannerGraph()->GetNrVertices() < maxTreeSize)
     {
 		Logger::m_out << "...running planner for " << tint << " seconds [tmax = " << tmax << "]" << std::endl;
 

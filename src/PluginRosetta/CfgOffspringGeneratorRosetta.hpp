@@ -247,6 +247,8 @@ namespace Antipatrea
 
 
 
+
+
     /**
      *@author Kevin Molloy, Erion Plaku, Amarda Shehu
      *@brief Use Rosetta/library to generate an offspring near the parent configuration.
@@ -258,21 +260,6 @@ namespace Antipatrea
                                          public CfgDistanceContainer
     {
     protected:
-        /**
-          *@author Kevin Molloy, Erion Plaku, Amarda Shehu
-          *@brief A map of fragment databases organized by the fragment length.
-          *
-        */
-        std::unordered_map<unsigned int,FragmentDB> m_fragmentMap;
-
-        /**
-          *@author Kevin Molloy, Erion Plaku, Amarda Shehu
-          *@brief Hold a vector of lengths
-        */
-
-        std::vector<double> m_fragmentProbs;
-
-        std::vector<std::string> m_fragmentFileNames;
 
          /**
           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
@@ -286,13 +273,6 @@ namespace Antipatrea
         unsigned int LoadFragmentLibrary(std::string fragmentFile,
          		                         double fragmentProbability);
 
-        /**
-           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
-           *@brief  Number of offspring to evaluate per call. The offspring
-                    that is the closest to the passed to GenerateOffspringCfg
-                    will be accepted.
-           */
-        int m_offspringToGenerate;
 
     public:
         CfgOffspringGeneratorRosetta(void) : CfgOffspringGenerator(),
@@ -300,6 +280,7 @@ namespace Antipatrea
                                              CfgDistanceContainer()
         {
             m_offspringToGenerate=1;
+            m_distanceTol = 0.0;
         }
 
         virtual ~CfgOffspringGeneratorRosetta(void)
@@ -382,7 +363,49 @@ namespace Antipatrea
           */
          const Cfg *m_cfgTarget;
 
+         /**
+            *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+            *@brief  Structure to hold fragment library pointers.
+         *           Allows easy random selection w/respect to
+         *           the libraries weight.
+         */
+
          Selector<int> m_selector;
+
+         /**
+            *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+            *@brief  Threshold for distance of offspring from parent.
+            *        When set to zero, no threshold is enforced.
+            */
+         double m_distanceTol;
+         /**
+           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+           *@brief A map of fragment databases organized by the fragment length.
+           *
+         */
+         std::unordered_map<unsigned int,FragmentDB> m_fragmentMap;
+
+         /**
+           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+           *@brief Set of probabilities for selecting each fragment
+           *       library.
+         */
+
+         std::vector<double> m_fragmentProbs;
+
+         /**
+            *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+            *@brief  File names for the fragment libraries.
+         */
+         std::vector<std::string> m_fragmentFileNames;
+
+         /**
+            *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+            *@brief  Number of offspring to evaluate per call. The offspring
+                     that is the closest to the passed to GenerateOffspringCfg
+                     will be accepted.
+         */
+         int m_offspringToGenerate;
 
     };
 

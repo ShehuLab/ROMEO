@@ -275,11 +275,11 @@ namespace Antipatrea
 
             sol.AddCfg(GetCfgManager()->CopyCfg(*(GetPlannerGraph()->GetVertex(vidFrom)->GetCfg())));
             if(edge->GetVertexId(PlannerEdge::INDEX_FROM) == vidFrom)
-            for(int j = 0; j < nrInter; ++j)
-                    sol.AddCfg(GetCfgManager()->CopyCfg(*(*inter)[j]));
+				for(int j = 0; j < nrInter; ++j)
+					sol.AddCfg(GetCfgManager()->CopyCfg(*(*inter)[j]));
             else
-            for(int j = nrInter - 1; j >= 0; --j)
-                    sol.AddCfg(GetCfgManager()->CopyCfg(*(*inter)[j]));
+				for(int j = nrInter - 1; j >= 0; --j)
+					sol.AddCfg(GetCfgManager()->CopyCfg(*(*inter)[j]));
         }
     }
 }

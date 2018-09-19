@@ -181,6 +181,9 @@ namespace Antipatrea
         const double VAL_EnergyGrid_Max            = 200.0;
         const int    VAL_CellGrid_Granularity      = 30;
 
+        //SPRINT
+        const char   KW_SPRINT[]                    = "Sprint";
+
 
         //RRT
         const char KW_RRT[] = "RRT";
@@ -195,15 +198,15 @@ namespace Antipatrea
         const char KW_MaxRuntime[]      = "MaxRuntime";
         const char KW_MaxNrFailures[]   = "MaxNrFailures";
         const char KW_IntervalRuntime[] = "IntervalRuntime";
-        
+        const char KW_MaxTreeSize[]     = "MaxTreeSize";
         const char KW_ReadInitAndGoalCfgsFromFile[] = "ReadInitAndGoalCfgsFromFile";
         
-        const char   VAL_RunPlanner_StatsFile[]     = "data/planner.stats";
-        const int    VAL_RunPlanner_MaxNrRuns       = 10;
-        const int    VAL_RunPlanner_MaxNrFailures   = 5;
-        const double VAL_RunPlanner_MaxRuntime      = 40.0;
-        const double VAL_RunPlanner_IntervalRuntime = 2.0;
-        
+        const char         VAL_RunPlanner_StatsFile[]     = "data/planner.stats";
+        const int          VAL_RunPlanner_MaxNrRuns       = 10;
+        const int          VAL_RunPlanner_MaxNrFailures   = 5;
+        const double       VAL_RunPlanner_MaxRuntime      = 40.0;
+        const double       VAL_RunPlanner_IntervalRuntime = 30.0;
+        const unsigned int VAL_RunPlanner_MaxTreeSize     = 100000;
         
         //Stats
         const char KW_Runtime_PlannerSolve[]         = "Runtime_PlannerSolve";
@@ -238,11 +241,15 @@ namespace Antipatrea
         const char   KW_CfgProjectorChain2D[] = "CfgProjectorChain2D";
         
         //PluginRosetta
-        const char KW_SetupRosetta[]                      = "SetupRosetta";
-        const char KW_MolecularStructureRosetta[]         = "MolecularStructureRosetta";
-        const char KW_MolecularStructureRosetta_DBDir[]   = "DBDir";
-        const char KW_OffspringRosetta_FragmentFiles[]         = "FragmentFiles";
-        const char KW_OffspringRosetta_FragmentProbabilities[] = "FragmentProbabilities";
+        const char   KW_SetupRosetta[]                      = "SetupRosetta";
+        const char   KW_MolecularStructureRosetta[]         = "MolecularStructureRosetta";
+        const char   KW_MolecularStructureRosetta_DBDir[]   = "DBDir";
+        const char   KW_OffspringRosetta_FragmentFiles[]         = "FragmentFiles";
+        const char   KW_OffspringRosetta_FragmentProbabilities[] = "FragmentProbabilities";
+        const char   KW_OffspringRosetta_NumberToGenerate[]      = "NumberToGenerate";
+        const char   KW_OffspringRosetta_DistanceTol[]      = "DistanceTol";
+        const int    VAL_OffspringRosetta_NumberToGenerate  = 10;
+        const double VAL_OffspringRosetta_DistanceTol       = 0.0;
 
         const char KW_MolecularStructureRosetta_OffspringToGenerate[] = "OffspringToGenerate";
         const char KW_MolecularStructureRosetta_WeightFile[]   = "WeightFile";
@@ -255,6 +262,7 @@ namespace Antipatrea
         const char KW_CfgSamplerRosetta[]            = "CfgSamplerRosetta";
         const char KW_CfgImproverRosetta[]           = "CfgImproverRosetta";
         const char KW_CfgOffspringGeneratorRosetta[] = "CfgOffspringGeneratorRosetta";
+        const char KW_CfgOffspringGeneratorRosettaWBias[] = "CfgOffspringGeneratorRosettaWBias";
         const char KW_CfgOffspringGeneratorRosetta_FragmentLib[] = "FragmentLib";
         const char KW_CfgEnergyEvaluatorRosetta[]    = "CfgEnergyEvaluatorRosetta";
         const char KW_CfgProjectorUSREnergy[]        = "CfgProjectorUSREnergy";

@@ -7,9 +7,9 @@
 namespace Antipatrea
 {
     /**
-     *@author Erion Plaku, Amarda Shehu
+     *@author Kevin Molloy, Erion Plaku, Amarda Shehu
      *@brief The planning problem is defined by the initial configuration and a goal acceptor.
-     * 
+     *
      *@remarks
      * - This class requires access to GoalAcceptor to determine whether or not the goal has been reached.
      */
@@ -68,19 +68,43 @@ namespace Antipatrea
 
         /**
          *@author Erion Plaku, Amarda Shehu
+         *@brief Get a pointer to the initial configuration.
+         */
+        virtual const Cfg* GetGoalCfg(void) const
+        {
+            return m_cfgGoal;
+        }
+
+        /**
+         *@author Erion Plaku, Amarda Shehu
          *@brief Set the initial configuration.
          */
         virtual void SetInitialCfg(Cfg * const cfg)
         {
             m_cfgInit = cfg;
         }
-        
+
+        /**
+         *@author Erion Plaku, Amarda Shehu
+         *@brief Set the initial configuration.
+         */
+        virtual void SetGoalCfg(Cfg * const cfg)
+        {
+            m_cfgGoal = cfg;
+        }
+
     protected:
         /**
          *@author Erion Plaku, Amarda Shehu
          *@brief Pointer to the initial configuration.
          */
         Cfg *m_cfgInit;
+
+        /**
+         *@author Kevin Molloy, Erion Plaku, Amarda Shehu
+         *@brief Pointer to the initial configuration.
+         */
+        Cfg *m_cfgGoal;
     };
 
     /**

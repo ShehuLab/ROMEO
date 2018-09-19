@@ -5,6 +5,7 @@
 #include "PluginRosetta/MolecularStructureRosetta.hpp"
 #include "PluginRosetta/CfgEnergyEvaluatorRosetta.hpp"
 #include "PluginRosetta/CfgImproverRosetta.hpp"
+#include "PluginRosetta/CfgOffspringGeneratorRosettaWBias.hpp"
 #include "PluginRosetta/CfgOffspringGeneratorRosetta.hpp"
 #include "PluginRosetta/CfgSamplerRosetta.hpp"
 #include "PluginRosetta/CfgProjectorUSREnergy.hpp"
@@ -116,7 +117,6 @@ namespace Antipatrea
         virtual void NewCfgOffspringGenerator(Params & params)
         {
             auto name = params.GetValue(Constants::KW_UseCfgOffspringGenerator);
-            std::cout << "NewCfgOffspringGen in SetupRosetta and parm is:" << name << std::endl;
 
             if(StrSameContent(name, Constants::KW_CfgOffspringGeneratorRosetta))
             {
@@ -124,7 +124,13 @@ namespace Antipatrea
                 OnNewInstance(GetCfgOffspringGenerator());
             }
             else
-                Setup::NewCfgOffspringGenerator(params);
+			if(StrSameContent(name, Constants::KW_CfgOffspringGeneratorRosettaWBias))
+			{
+				SetCfgOffspringGenerator(new CfgOffspringGeneratorRosettaWBias());
+				OnNewInstance(GetCfgOffspringGenerator());
+			}
+			else
+				Setup::NewCfgOffspringGenerator(params);
         }
 
         
@@ -192,6 +198,15 @@ namespace Antipatrea
                 std::cout << "Setting CfgDistance to:" << GetCfgDistance() << "\n";
                 dynamic_cast<CfgOffspringGeneratorRosetta*>(GetCfgOffspringGenerator())->SetCfgDistance(GetCfgDistance());
             }
+            if(dynamic_cast<CfgOffspringGeneratorRosettaWBias*>(GetCfgOffspringGenerator()))
+             {
+            	std::cout << "Setting WBias stuff" << std::endl;
+
+                 dynamic_cast<CfgOffspringGeneratorRosettaWBias*>(GetCfgOffspringGenerator())->SetCfgManager(GetCfgManager());
+                 dynamic_cast<CfgOffspringGeneratorRosettaWBias*>(GetCfgOffspringGenerator())->SetMolecularStructureRosetta(GetMolecularStructureRosetta());
+                 std::cout << "Setting CfgDistance to:" << GetCfgDistance() << "\n";
+                 dynamic_cast<CfgOffspringGeneratorRosettaWBias*>(GetCfgOffspringGenerator())->SetCfgDistance(GetCfgDistance());
+             }
         }
 
         virtual void SetupPointersCfgSampler(void)
@@ -217,6 +232,8 @@ namespace Antipatrea
             else if(dynamic_cast<CfgProjectorDeltaR*>(GetCfgProjector()))
             {
                 dynamic_cast<CfgProjectorDeltaR*>(GetCfgProjector())->SetCfgManager(GetCfgManager());
+                dynamic_cast<CfgProjectorDeltaR*>(GetCfgProjector())->SetPlannerProblem(GetPlannerProblem());
+                GetMolecularStructureRosetta()->Info("Kevin");
                 dynamic_cast<CfgProjectorDeltaR*>(GetCfgProjector())->SetMolecularStructureRosetta(GetMolecularStructureRosetta());
             }
         }

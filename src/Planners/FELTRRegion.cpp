@@ -22,6 +22,7 @@ namespace Antipatrea
         auto newNode = m_insideCellSelector.Create();
         newNode->SetKey(vid);
         newNode->SetWeight(1.0);
+
         m_insideCellSelector.Insert(newNode);
         m_cfgs.push_back(cfg);
     }

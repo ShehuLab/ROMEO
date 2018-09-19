@@ -31,6 +31,8 @@
 #include "Planners/EST.hpp"
 #include "Planners/PGT.hpp"
 #include "Planners/FELTR.hpp"
+#include "Planners/Sprint.hpp"
+
 
 namespace Antipatrea
 {    
@@ -57,39 +59,39 @@ namespace Antipatrea
     
     void Setup::NewInstances(Params & params)
     {
-                NewCfgAcceptor(params);
-                NewGoalAcceptor(params);
-                NewCfgManager(params);
-                NewSignedDistanceBetweenTwoValues(params);
-                NewCfgDistance(params);
-                NewCfgEnergyEvaluator(params);
-                NewCfgForwardKinematics(params);
-                NewCfgImprover(params);
-                NewCfgProjector(params);
-                NewCfgSampler(params);
-                NewEdgeCostEvaluator(params);
-                NewCfgOffspringGenerator(params);
-                NewPlannerProblem(params);
-                NewPlannerSolution(params);
-                NewPlannerGraph(params);
-                NewSamplingBasedPlanner(params);
+		NewCfgAcceptor(params);
+		NewGoalAcceptor(params);
+		NewCfgManager(params);
+		NewSignedDistanceBetweenTwoValues(params);
+		NewCfgDistance(params);
+		NewCfgEnergyEvaluator(params);
+		NewCfgForwardKinematics(params);
+		NewCfgImprover(params);
+		NewCfgProjector(params);
+		NewCfgSampler(params);
+		NewEdgeCostEvaluator(params);
+		NewCfgOffspringGenerator(params);
+		NewPlannerProblem(params);
+		NewPlannerSolution(params);
+		NewPlannerGraph(params);
+		NewSamplingBasedPlanner(params);
     }
     
 
     void Setup::NewCfgAcceptor(Params & params)
     {
-                auto name = params.GetValue(Constants::KW_UseCfgAcceptor);
-                if(StrSameContent(name, Constants::KW_CfgAcceptorBasedOnDistance))
-                        SetCfgAcceptor(new CfgAcceptorBasedOnDistance());
-                else
-                if (StrSameContent(name, Constants::KW_CfgAcceptorBasedOnMMC))
-                        SetCfgAcceptor(new CfgAcceptorBasedOnMMC());
-                else
-                if (StrSameContent(name, Constants::KW_CfgAcceptorBasedOnFixedMMC))
-                        SetCfgAcceptor(new CfgAcceptorBasedOnFixedMMC());
-                else
-                        SetCfgAcceptor(new CfgAcceptorBasedOnEnergy());
-                OnNewInstance(GetCfgAcceptor());
+		auto name = params.GetValue(Constants::KW_UseCfgAcceptor);
+		if(StrSameContent(name, Constants::KW_CfgAcceptorBasedOnDistance))
+				SetCfgAcceptor(new CfgAcceptorBasedOnDistance());
+		else
+		if (StrSameContent(name, Constants::KW_CfgAcceptorBasedOnMMC))
+				SetCfgAcceptor(new CfgAcceptorBasedOnMMC());
+		else
+		if (StrSameContent(name, Constants::KW_CfgAcceptorBasedOnFixedMMC))
+				SetCfgAcceptor(new CfgAcceptorBasedOnFixedMMC());
+		else
+				SetCfgAcceptor(new CfgAcceptorBasedOnEnergy());
+		OnNewInstance(GetCfgAcceptor());
     }
     
     void Setup::NewGoalAcceptor(Params & params)
@@ -135,9 +137,9 @@ namespace Antipatrea
     
     void Setup::NewCfgEnergyEvaluator(Params & params)
     {
-            auto name = params.GetValue(Constants::KW_UseCfgEnergyEvaluator);
-            if (StrSameContent(name,Constants::KW_CfgEnergyEvaluatorRosetta))
-                    SetCfgEnergyEvaluator(new CfgEnergyEvaluatorRosetta());
+		auto name = params.GetValue(Constants::KW_UseCfgEnergyEvaluator);
+		if (StrSameContent(name,Constants::KW_CfgEnergyEvaluatorRosetta))
+				SetCfgEnergyEvaluator(new CfgEnergyEvaluatorRosetta());
 
     }
     
@@ -175,13 +177,14 @@ namespace Antipatrea
     
     void Setup::NewCfgOffspringGenerator(Params & params)
     {
-                auto name = params.GetValue(Constants::KW_UseCfgOffspringGenerator);
+		auto name = params.GetValue(Constants::KW_UseCfgOffspringGenerator);
 
-                if(StrSameContent(name, Constants::KW_CfgOffspringGeneratorByGaussianPerturbation))
-                        SetCfgOffspringGenerator(new CfgOffspringGeneratorByGaussianPerturbation());
-                else
-                        SetCfgOffspringGenerator(new CfgOffspringGeneratorToTargetByLinearInterpolation());
-                OnNewInstance(GetCfgOffspringGenerator());
+		if(StrSameContent(name, Constants::KW_CfgOffspringGeneratorByGaussianPerturbation))
+			SetCfgOffspringGenerator(new CfgOffspringGeneratorByGaussianPerturbation());
+		else
+			SetCfgOffspringGenerator(new CfgOffspringGeneratorToTargetByLinearInterpolation());
+
+		OnNewInstance(GetCfgOffspringGenerator());
     }
 
     void Setup::NewPlannerProblem(Params & params)
@@ -214,6 +217,8 @@ namespace Antipatrea
                         SetSamplingBasedPlanner(new PGT());
                 else if(StrSameContent(name, Constants::KW_FELTR))
                         SetSamplingBasedPlanner(new FELTR());
+                else if ((StrSameContent(name, Constants::KW_SPRINT)))
+                		SetSamplingBasedPlanner(new Sprint());
                 else
                   SetSamplingBasedPlanner(new PRM());
                 OnNewInstance(GetSamplingBasedPlanner());
@@ -343,46 +348,50 @@ namespace Antipatrea
 
     void Setup::SetupPointersSamplingBasedPlanner(void)
     {
-                auto planner = GetSamplingBasedPlanner();
+		auto planner = GetSamplingBasedPlanner();
 
-                SetupPointersComponent(planner);
-        
-                planner->SetCfgManager(GetCfgManager());
-                planner->SetPlannerProblem(GetPlannerProblem());
-                planner->SetPlannerGraph(GetPlannerGraph());
-                planner->SetCfgSampler(GetCfgSampler());
-                planner->SetCfgImprover(GetCfgImprover());
-                planner->SetCfgDistance(GetCfgDistance());
-                planner->SetCfgAcceptor(GetCfgAcceptor());
-                planner->SetEdgeCostEvaluator(GetEdgeCostEvaluator());
-                planner->SetCfgOffspringGenerator(GetCfgOffspringGenerator());
-        
-                if(dynamic_cast<PGT*>(planner))
-                        dynamic_cast<PGT*>(planner)->SetCfgProjector(GetCfgProjector());
+		SetupPointersComponent(planner);
 
-                if(dynamic_cast<FELTR*>(planner))
-                                        dynamic_cast<FELTR*>(planner)->SetCfgProjector(GetCfgProjector());
+		planner->SetCfgManager(GetCfgManager());
+		planner->SetPlannerProblem(GetPlannerProblem());
+		planner->SetPlannerGraph(GetPlannerGraph());
+		planner->SetCfgSampler(GetCfgSampler());
+		planner->SetCfgImprover(GetCfgImprover());
+		planner->SetCfgDistance(GetCfgDistance());
+		planner->SetCfgAcceptor(GetCfgAcceptor());
+		planner->SetEdgeCostEvaluator(GetEdgeCostEvaluator());
+		planner->SetCfgOffspringGenerator(GetCfgOffspringGenerator());
+
+		if(dynamic_cast<PGT*>(planner))
+			dynamic_cast<PGT*>(planner)->SetCfgProjector(GetCfgProjector());
+
+		if(dynamic_cast<FELTR*>(planner))
+			dynamic_cast<FELTR*>(planner)->SetCfgProjector(GetCfgProjector());
+
+		if(dynamic_cast<Sprint*>(planner))
+			dynamic_cast<Sprint*>(planner)->SetCfgProjector(GetCfgProjector());
+
     }
 
     void Setup::SetupPointers(void)
     {
-                SetupPointersCfgManager();
-                SetupPointersCfgDistance();
-                SetupPointersCfgAcceptor();
-                SetupPointersGoalAcceptor();
-                SetupPointersSignedDistanceBetweenTwoValues();
-                SetupPointersCfgEnergyEvaluator();
-                SetupPointersCfgForwardKinematics();
-                SetupPointersCfgImprover();
-                SetupPointersCfgProjector();
-                SetupPointersCfgSampler();
-                SetupPointersEdgeCostEvaluator();
-                SetupPointersCfgOffspringGenerator();
-                SetupPointersPlannerProblem();
-                SetupPointersPlannerSolution();
-                SetupPointersPlannerGraph();
+		SetupPointersCfgManager();
+		SetupPointersCfgDistance();
+		SetupPointersCfgAcceptor();
+		SetupPointersGoalAcceptor();
+		SetupPointersSignedDistanceBetweenTwoValues();
+		SetupPointersCfgEnergyEvaluator();
+		SetupPointersCfgForwardKinematics();
+		SetupPointersCfgImprover();
+		SetupPointersCfgProjector();
+		SetupPointersCfgSampler();
+		SetupPointersEdgeCostEvaluator();
+		SetupPointersCfgOffspringGenerator();
+		SetupPointersPlannerProblem();
+		SetupPointersPlannerSolution();
+		SetupPointersPlannerGraph();
 
-                SetupPointersSamplingBasedPlanner();
+		SetupPointersSamplingBasedPlanner();
     }
 
     void Setup::SetupFromParams(Params & params)

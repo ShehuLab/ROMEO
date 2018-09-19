@@ -34,10 +34,12 @@ namespace Antipatrea
                                   newVertex->region,
                                   newVertex->cell);
 
-                projector->DeleteValues(projection);
                 m_selector.Update(regionNode,region->GetWeight());
             }
         }
+
+        projector->DeleteValues(projection);
+
         return (vid);
     }
 

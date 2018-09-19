@@ -78,8 +78,8 @@ namespace Antipatrea
 
         virtual void Info(const char prefix[]) const
         {
-                TreeSamplingBasedPlanner::Info(prefix);
-                Logger::m_out << prefix << " FELTR parms TBD" << std::endl;
+			TreeSamplingBasedPlanner::Info(prefix);
+			Logger::m_out << prefix << " FELTR parms TBD" << std::endl;
         }
 
 

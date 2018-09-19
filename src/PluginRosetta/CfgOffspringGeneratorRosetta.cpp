@@ -14,7 +14,13 @@ namespace Antipatrea
         auto data = params.GetData(Constants::KW_CfgOffspringGeneratorRosetta);
         if(data && data->m_params)
         {
+        	m_offspringToGenerate =
+        	    data->m_params->GetValueAsInt(Constants::KW_OffspringRosetta_NumberToGenerate,
+        	    		                Constants::VAL_OffspringRosetta_NumberToGenerate);
 
+        	m_distanceTol =
+        			data->m_params->GetValueAsInt(Constants::KW_OffspringRosetta_DistanceTol,
+        			        	    		      Constants::VAL_OffspringRosetta_DistanceTol);
         	auto dataFragment
 				= data->m_params->GetData(Constants::KW_OffspringRosetta_FragmentFiles);
         	if(dataFragment && dataFragment->m_values.size() > 0) {
@@ -62,15 +68,15 @@ namespace Antipatrea
         auto fragmentNode = m_selector.Select();
         int fragmentSize = fragmentNode->GetKey();
 
-        if (m_verboseFlag) {
+        if (m_verboseFlag)
+        {
         	std::cout<< "Fragment size selected is:" << fragmentSize << std::endl;
         }
 
         auto &db = m_fragmentMap[fragmentSize];
 
-        // auto sampleAAPosition = RandomUniformInteger(0,db.NumberOfPositions() - 1 - (fragmentSize+1));
         auto sampleAAPosition = RandomUniformInteger(0,db.NumberOfPositions() - 1);
-        auto fragmentIndex = RandomUniformInteger(0,db.NumberOfSamples(sampleAAPosition)-1);
+        auto fragmentIndex    = RandomUniformInteger(0,db.NumberOfSamples(sampleAAPosition)-1);
 
         if (m_verboseFlag)
         {
@@ -126,18 +132,39 @@ namespace Antipatrea
         Cfg *workCfg = cfgManager->NewCfg();
 
         double smallDist = 999999.99;
+        unsigned int distanceTolRejected = 0;
 
-        for (unsigned int i(0);i < 1;++i) {   //KMDEBUG
-                double dist = GenerateAnOffspringCfg(*workCfg);
-                //KMDEBUG std::cout << "offspring:" << i << " dist:" << dist << "\n";
-                if (dist < smallDist) {
-                        cfgManager->CopyCfg(cfg,*workCfg);
-                        smallDist = dist;
-                }
+        for (unsigned int i(0);i < m_offspringToGenerate ;++i)
+        {
+			double distToTarget = GenerateAnOffspringCfg(*workCfg);
+
+			if (distToTarget < smallDist)
+			{
+				bool distanceOK = true;
+				if (m_distanceTol > 0.0)
+				{
+				// measure dist from parent and accept if within tolerance
+					auto d = GetCfgDistance();
+					double distFromParent =
+							d->Distance((*GetParentCfg()),*workCfg);
+
+					if (distFromParent > m_distanceTol)
+					{
+						distanceOK = false;
+						distanceTolRejected++;
+					}
+				}
+				if (distanceOK)
+				{
+					cfgManager->CopyCfg(cfg,*workCfg);
+					smallDist = distToTarget;
+				}
+			}
         }
-        //KMDEBUG std::cout << "using offstring with dist:" << smallDist << "\n";
 
         cfgManager->DeleteCfg(workCfg);
+        std::cout << "OFFSPRING_DISTANCE_TOL_REJECT:" << distanceTolRejected << std::endl;
+
     }
 
     //

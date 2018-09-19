@@ -28,11 +28,11 @@ namespace Antipatrea
     {
         assert(p1 && p2 && size > 0);
 
-            double d = 0.0;
-            for(int i = 0; i < size; ++i)
-                d += fabs(p2[i] - p1[i]); //Manhattan distance
+		double d = 0.0;
+		for(int i = 0; i < size; ++i)
+			d += fabs(p2[i] - p1[i]); //Manhattan distance
 
-            return 1.0/(1.0 + 1.0/size * d);
+		return 1.0/(1.0 + 1.0/size * d);
     }
 
     /*
@@ -55,85 +55,85 @@ namespace Antipatrea
     {
     public:
 
-            USRFactory();
+		USRFactory();
 
-            virtual ~USRFactory(void);
+		virtual ~USRFactory(void);
 
-            int GetCoordsSize()  {return coordsSize;}
+		int GetCoordsSize()  {return coordsSize;}
 
-            point GetPointAtIndex (const int i)
-            {
-                return i >= 0 ? configCoords[i] : undefPoint;
-            }
+		point GetPointAtIndex (const int i)
+		{
+			return i >= 0 ? configCoords[i] : undefPoint;
+		}
 
-            point GetCtd()
-            {
-                return ctd;
-            }
+		point GetCtd()
+		{
+			return ctd;
+		}
 
-            point GetCst()
-            {
-                return GetPointAtIndex(indexOfcst);
-            }
+		point GetCst()
+		{
+			return GetPointAtIndex(indexOfcst);
+		}
 
-            point GetFct()
-            {
-                return GetPointAtIndex(indexOffct);
-            }
+		point GetFct()
+		{
+			return GetPointAtIndex(indexOffct);
+		}
 
-            point GetFtf()
-            {
-                return GetPointAtIndex(indexOfftf);
-            }
+		point GetFtf()
+		{
+			return GetPointAtIndex(indexOfftf);
+		}
 
 
-            void outputReferences(FILE* outFp)
-            {
-                outputCtd(outFp);
-                if(indexOfcst >= 0) outputCst(outFp);
-                if(indexOffct >= 0) outputFct(outFp);
-                if(indexOfftf >= 0) outputFtf(outFp);
-            }
+		void outputReferences(FILE* outFp)
+		{
+			outputCtd(outFp);
+			if(indexOfcst >= 0) outputCst(outFp);
+			if(indexOffct >= 0) outputFct(outFp);
+			if(indexOfftf >= 0) outputFtf(outFp);
+		}
 
-            void outputCtd(FILE* outFp) { outputPoint(outFp, ctd); }
-            void outputCst(FILE* outFp) { outputPoint(outFp, configCoords[indexOfcst]); }
-            void outputFct(FILE* outFp) { outputPoint(outFp, configCoords[indexOffct]); }
-            void outputFtf(FILE* outFp) { outputPoint(outFp, configCoords[indexOfftf]); }
+		void outputCtd(FILE* outFp) { outputPoint(outFp, ctd); }
+		void outputCst(FILE* outFp) { outputPoint(outFp, configCoords[indexOfcst]); }
+		void outputFct(FILE* outFp) { outputPoint(outFp, configCoords[indexOffct]); }
+		void outputFtf(FILE* outFp) { outputPoint(outFp, configCoords[indexOfftf]); }
 
-            //main function
-            bool ProjectConfigCoordsToMomenta(point* configCoords, const int coordsSize,
-                                                              bool usingctd, bool usingcst,
-                                                              bool usingfct, bool usingftf,
-                                                              int nrMomenta,
-                                                              double* projState, int projSize);
+		//main function
+		bool ProjectConfigCoordsToMomenta(point* configCoords, const int coordsSize,
+														  bool usingctd, bool usingcst,
+														  bool usingfct, bool usingftf,
+														  int nrMomenta,
+														  double* projState, int projSize);
 
-            //specialized projection functions
-            bool ProjectConfigCoordsToFirstMomenta(point* configCoords, const int coordsSize,
-                                                                   bool usingctd, bool usingcst,
-                                                                   bool usingfct, bool usingftf,
-                                                                   int nrMomenta,
-                                                                   double* projState, int projSize);
+		//specialized projection functions
+		bool ProjectConfigCoordsToFirstMomenta(point* configCoords, const int coordsSize,
+															   bool usingctd, bool usingcst,
+															   bool usingfct, bool usingftf,
+															   int nrMomenta,
+															   double* projState, int projSize);
 
-        bool ProjectConfigCoordsToMomentaInOrder(point* configCoords, const int coordsSize,
-                                                 bool usingctd, bool usingcst,
-                                                 bool usingfct, bool usingftf,
-                                                 int nrMomenta,
-                                                 double* projState, int projSize);
+	bool ProjectConfigCoordsToMomentaInOrder(point* configCoords, const int coordsSize,
+											 bool usingctd, bool usingcst,
+											 bool usingfct, bool usingftf,
+											 int nrMomenta,
+											 double* projState, int projSize);
 
-        bool appendMomenta(char* outUSRFilename, double* projState, int projSize)
-        {
-            FILE* fp = fopen(outUSRFilename, "a");
-            if(!fp)
-                return false;
+	bool appendMomenta(char* outUSRFilename, double* projState, int projSize)
+	{
+		FILE* fp = fopen(outUSRFilename, "a");
+		if(!fp)
+			return false;
 
-            for(int i = 0; i < projSize; i++)
-                fprintf(fp, "%4.6f ", projState[i]);
-            fprintf(fp, "\n");
+		for(int i = 0; i < projSize; i++)
+			fprintf(fp, "%4.6f ", projState[i]);
+		fprintf(fp, "\n");
 
-            fflush(fp);
-            fclose(fp);
-            return true;
-        }
+		fflush(fp);
+		fclose(fp);
+		return true;
+	}
 
     protected:
 

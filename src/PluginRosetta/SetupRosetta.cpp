@@ -117,6 +117,8 @@ namespace Antipatrea
         }
 
         GetPlannerProblem()->SetInitialCfg(cfgInit);
+        GetPlannerProblem()->SetGoalCfg(cfgGoal);
+
         auto goalAcceptor = dynamic_cast<GoalAcceptorBasedOnDistance*>(GetGoalAcceptor());
         if(goalAcceptor)
             goalAcceptor->SetTargetCfg(cfgGoal);
@@ -134,6 +136,10 @@ namespace Antipatrea
             Logger::m_out << "Distance between start and goal structures is:"
                               << startGoalDistance << std::endl;
         }
+
+        if (dynamic_cast<CfgProjectorDeltaR *>(GetCfgProjector()))
+        	dynamic_cast<CfgProjectorDeltaR *>(GetCfgProjector())->PostSetup();
+
     }
 
     void SetupRosetta::Test(void)

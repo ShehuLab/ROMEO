@@ -1,6 +1,9 @@
 #include "PluginRosetta/CfgProjectorDeltaR.hpp"
 
+
+
 namespace Antipatrea
+
 {
     void CfgProjectorDeltaR::SetupFromParams(Params & params)
     {
@@ -16,14 +19,23 @@ namespace Antipatrea
 
     void CfgProjectorDeltaR::Project(const Cfg & cfg, double proj[])
     {
-        /*
-          auto cfgManager = GetCfgManager();
-          auto mol        = GetMolecularStructureRosetta();
-          const int dim   = cfgManager->GetDim(); //number of configuration dimensions;
-          const double   *vals  = cfg.GetValues(); //values of the configuration
- 
-          //add code to compute the DeltaR projection
-         */
-                
+            // measure distance from start
+    	double distFromStart = distanceRMSD.Distance(*m_initCfg,cfg);
+    	double distFromGoal  = distanceRMSD.Distance(*m_goalCfg,cfg);
+
+    	double deltaR = distFromStart - distFromGoal;
+
+    	proj[0] = deltaR + m_rmsdBetween; // map between 0 and RMSDbetween*2
+
+    	if (m_verboseFlag)
+    	{
+    		std::cout << "deltaR proj:friStart:" << distFromStart << ":distFromGoal:" << distFromGoal
+    			   << "deltaR:" << deltaR << ":proj" << proj[0] << std::endl;
+    	}
+    }
+
+    unsigned int CfgProjectorDeltaR::GetCellCount()
+    {
+    	return(m_cellCount);
     }
 }

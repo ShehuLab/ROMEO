@@ -1,6 +1,7 @@
 #include "Planners/TreeSamplingBasedPlanner.hpp"
 #include "Components/CfgOffspringGenerators/CfgOffspringGeneratorTowardTarget.hpp"
 #include "PluginRosetta/CfgOffspringGeneratorRosetta.hpp"
+#include "PluginRosetta/CfgOffspringGeneratorRosettaWBias.hpp"
 #include "Components/CfgAcceptors/CfgAcceptorBasedOnMMC.hpp"
 #include "Components/CfgAcceptors/CfgAcceptorBasedOnFixedMMC.hpp"
 
@@ -88,10 +89,10 @@ namespace Antipatrea
         int                    vidCurr               = vid;
         double                 d                     = cfgDistance->Distance(*cfgCurr, cfgTo);
 
-        if(dynamic_cast<CfgOffspringGeneratorTowardTarget*>(cfgOffspringGenerator)                                )
+        if(dynamic_cast<CfgOffspringGeneratorTowardTarget*>(cfgOffspringGenerator))
             dynamic_cast<CfgOffspringGeneratorTowardTarget*>(cfgOffspringGenerator)->SetTargetCfg(&cfgTo);
 
-        if(dynamic_cast<CfgOffspringGeneratorRosetta*>(cfgOffspringGenerator)                                )
+        if(dynamic_cast<CfgOffspringGeneratorRosetta*>(cfgOffspringGenerator))
             dynamic_cast<CfgOffspringGeneratorRosetta*>(cfgOffspringGenerator)->SetTargetCfg(&cfgTo);
 
         for(int nrSteps = 0; nrSteps < m_extendMaxNrSteps; ++nrSteps)
