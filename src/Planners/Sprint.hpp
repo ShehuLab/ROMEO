@@ -37,6 +37,7 @@ namespace Antipatrea
     	DeltaRRegion()
         {
     		m_weight = 0.0;
+    		m_power = 2;
         }
 
     	virtual ~DeltaRRegion()
@@ -57,13 +58,15 @@ namespace Antipatrea
     		auto cell = m_selector.Select();
     		return (cell->GetKey());
     	}
+
     	double GetWeight()
     	{
     		if (m_selector.GetNrNodes() == 1) // *first node added
     		{
-    			m_weight = pow(weightId,2);
+    			m_weight = pow(m_weightId,m_power);
     		}
 
+    		// std::cout << "for region:" << m_weightId << " return weight:" << m_weight << std::endl;
     		return m_weight;;
     	}
 
@@ -72,8 +75,14 @@ namespace Antipatrea
     		return (m_selector.GetNrNodes());
     	}
 
+    	void SetPower(unsigned int p)
+    	{
+    		m_power = p;
+    	}
+
     	Selector<unsigned int>::Node *nodePtr;
-    	int weightId;
+    	int m_weightId;
+    	int m_power;
     protected:
         Selector<int> m_selector;
         double m_weight;
@@ -129,9 +138,9 @@ namespace Antipatrea
 
             auto data = params.GetData(Constants::KW_SPRINT);
             if(data && data->m_params)
-            {
-                m_cellGridGranularity = (data->m_params->GetValueAsInt(Constants::KW_FELTR_CELLGRID_GRAN,
-                		                 m_cellGridGranularity));
+            {;
+                m_regionExp = data->m_params->GetValueAsInt(Constants::KW_SPRINT_REGION_EXP,
+                		                                    Constants::VAL_SPRINT_REGION_EXP);
             }
 
 
@@ -215,6 +224,7 @@ namespace Antipatrea
 
         std::vector<DeltaRRegion> m_regions;
         Selector<unsigned int> m_selector;
+        int m_regionExp;
        };
 }
 #endif /* SRC_PLANNERS_SPRINT_HPP_ */

@@ -167,7 +167,7 @@ extern "C" int RunPlanner(int argc, char **argv)
 
 		planner->Solve(tint);
 
-		Logger::m_out << "...not done" << std::endl
+		Logger::m_out << "\n" << std::endl
 						  << "[nrVertices    = " << planner->GetPlannerGraph()->GetNrVertices() << "] " << std::endl
 						  << "[nrEdges       = " << planner->GetPlannerGraph()->GetNrEdges() << "] " << std::endl
 						  << "[nrComponents  = " << planner->GetPlannerGraph()->GetComponents()->GetNrComponents() << "]" << std::endl
@@ -177,7 +177,12 @@ extern "C" int RunPlanner(int argc, char **argv)
 		if (dynamic_cast<CfgAcceptorBasedOnDistance *>(goalAcceptor))
 		{
 			auto distGoalAcceptor = dynamic_cast<CfgAcceptorBasedOnDistance *>(goalAcceptor);
-			Logger::m_out << "[nearestToGoal = " << distGoalAcceptor->GetMinDistanceAboveThresolhold() << std::endl;
+
+			// Since GetMinDistanceAboveThreshold does not update when the goal is met, we want
+			// to skip this step WHEN we have met the goal (since in those cases, the distance
+			// provided would not be true. -- K Molloy Sept 2018
+			if (planner->IsSolved() == false)
+				Logger::m_out << "[nearestToGoal = " << distGoalAcceptor->GetMinDistanceAboveThresolhold() << std::endl;
 		}
 
 		Logger::m_out << std::endl;
@@ -187,14 +192,28 @@ extern "C" int RunPlanner(int argc, char **argv)
 
     if(planner->IsSolved())
     {
-		planner->GetSolution(*(setup->GetPlannerSolution()));
 		solved = 1;
-		cost   = setup->GetPlannerSolution()->GetCost();
     }
     else
     {
-		solved = 0;
-		cost   = -1;
+    	auto goalAcceptor = planner->GetPlannerProblem()->GetGoalAcceptor();
+    	// print out the best available solution (node closest to goal)
+    	if (dynamic_cast<CfgAcceptorBasedOnDistance *>(goalAcceptor))
+    	{
+    		solved = 2;
+    		auto distGoalAcceptor = dynamic_cast<CfgAcceptorBasedOnDistance *>(goalAcceptor);
+    		Cfg *cfg = distGoalAcceptor->GetClosest();
+    		int vid =  planner->GetPlannerGraph()->GetVertexByCfg(cfg);
+    		Logger::m_out << "...WARNING writing out path to vertex:" << vid
+    				      << " (is not a goal state by definition)";
+    		// mark this vertex as the goal state
+    		planner->GetPlannerGraph()->GetVertex(vid)->MarkAsGoal(true);
+    	}
+    }
+    if (solved > 0)
+    {
+		planner->GetSolution(*(setup->GetPlannerSolution()));
+		cost   = setup->GetPlannerSolution()->GetCost();
     }
 
     Logger::m_out << "...done [solved = " << solved <<"] [trun = " << trun << "] [cost = " << cost << "]" << std::endl << std::endl;
@@ -219,10 +238,12 @@ extern "C" int RunPlanner(int argc, char **argv)
     Logger::m_out << "...summary stats written to " <<  statsFileName << std::endl
                   << "...extended stats written to " << cmd << std::endl;
 
-    cmd = ((std::string) statsFileName) + "_sol" + std::to_string(nrRuns);
-    setup->GetPlannerSolution()->PrintToFile(cmd.c_str());
-    
-    Logger::m_out << "...solution written to " << cmd << std::endl;
+    if (solved > 0)
+    {
+		cmd = ((std::string) statsFileName) + "_sol" + std::to_string(nrRuns);
+		setup->GetPlannerSolution()->PrintToFile(cmd.c_str());
+	    Logger::m_out << "...solution written to " << cmd << std::endl;
+    }
 
     if(printGraphWhenPlannerEnds)
     {

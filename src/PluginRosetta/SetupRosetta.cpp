@@ -169,7 +169,7 @@ namespace Antipatrea
         auto goalAcceptor = dynamic_cast<GoalAcceptorBasedOnDistance*>(GetGoalAcceptor());
         if(goalAcceptor)
         {
-            std::vector<Cfg *> closest = goalAcceptor->GetClosest();
+            std::vector<Cfg *> closest = goalAcceptor->GetNClosest();
             auto mol = GetMolecularStructureRosetta();
             unsigned int counter = 0;
             for (auto c : closest)

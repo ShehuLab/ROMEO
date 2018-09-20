@@ -179,8 +179,10 @@ namespace Antipatrea
                 }
                 else
                 {
-                    if (dist < m_minDistanceAboveThreshold)
-                            m_minDistanceAboveThreshold = dist;
+                    if (dist < m_minDistanceAboveThreshold) {
+						m_minDistanceAboveThreshold = dist;
+                        m_minDistanceCfg = &cfg;
+                    }
                 }
                 CheckQueue(cfg,dist);
             }
@@ -195,6 +197,11 @@ namespace Antipatrea
          *@remarks
          * - Function does not perform a copy -- just returns the pointer to target/goal cfg.
          */
+        virtual Cfg* GetClosest(void)
+        {
+        	return m_minDistanceCfg;
+        }
+
         virtual Cfg* GetTargetCfg(void)
         {
             return m_cfgTarget;
@@ -244,7 +251,7 @@ namespace Antipatrea
          *        vector of cfg pointers to these objects
          *        (furthest cfgs first, closest last).
          */
-        std::vector<Cfg *> GetClosest()
+        std::vector<Cfg *> GetNClosest()
         {
             qObj *distCfgPair;
             std::vector<Cfg *> cfgs;
@@ -289,6 +296,7 @@ namespace Antipatrea
          */
         double m_minDistanceAboveThreshold;
 
+        Cfg *m_minDistanceCfg;
         /**
          *@author Kevin Molloy, Erion Plaku, Amarda Shehu
          *@brief  priority queue to keep closest cfgs to goal so they can be

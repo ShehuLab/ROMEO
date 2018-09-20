@@ -14,11 +14,14 @@ namespace Antipatrea
 	  // this can be a BIG problem since selectors point to these positions
 	  m_regions.resize(cellCount);
 
+	  std::cout << "Setting up regions with power for weights:" << m_regionExp << std::endl;
+
 	  for (unsigned int i=0;i< cellCount;++i)
 	  {
-		  std::cout << "Creating region for id:" << i+1 << std::endl;
 		  DeltaRRegion &r = m_regions[i];
-		  r.weightId = i+1;
+		  r.m_weightId = i+1;
+		  r.SetPower(m_regionExp);
+
 		  auto regionNode = m_selector.Create();
 		  regionNode->SetKey(i);
 		  regionNode->SetWeight(0.0);

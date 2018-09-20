@@ -163,7 +163,7 @@ namespace Antipatrea
         }
 
         cfgManager->DeleteCfg(workCfg);
-        std::cout << "OFFSPRING_DISTANCE_TOL_REJECT:" << distanceTolRejected << std::endl;
+        // std::cout << "OFFSPRING_DISTANCE_TOL_REJECT:" << distanceTolRejected << std::endl;
 
     }
 

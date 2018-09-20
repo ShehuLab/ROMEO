@@ -183,7 +183,9 @@ namespace Antipatrea
 
         //SPRINT
         const char   KW_SPRINT[]                    = "Sprint";
+        const char   KW_SPRINT_REGION_EXP[]         = "RegionExp";
 
+        const int    VAL_SPRINT_REGION_EXP          = 2;
 
         //RRT
         const char KW_RRT[] = "RRT";

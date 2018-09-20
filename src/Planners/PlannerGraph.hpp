@@ -77,6 +77,24 @@ namespace Antipatrea
         }
 
         /**
+              *@author Erion Plaku, Amarda Shehu
+              *@brief Get a pointer to by CFG address (yes it is ugly).
+              *
+         */
+
+		 virtual int GetVertexByCfg(const Cfg *cfg)
+		 {
+			 unsigned int vid=0;
+			 for (unsigned int i(0);i< m_vertices.size();++i) {
+				 if (m_vertices[i]->GetCfg() == cfg)
+				 {
+					 vid = i;
+				 	 break;
+				 }
+			 }
+			return vid;
+		 }
+        /**
          *@author Erion Plaku, Amarda Shehu
          *@brief Add the vertex to the graph.
          *
