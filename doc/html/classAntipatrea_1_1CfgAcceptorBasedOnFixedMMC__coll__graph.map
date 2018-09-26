@@ -1,0 +1,6 @@
+<map id="Antipatrea::CfgAcceptorBasedOnFixedMMC" name="Antipatrea::CfgAcceptorBasedOnFixedMMC">
+<area shape="rect" id="node2" href="$classAntipatrea_1_1CfgAcceptor.html" title="Interface for determining whether or not a given configuration is acceptable. " alt="" coords="5,157,168,184"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="9,81,165,108"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="23,5,150,32"/>
+<area shape="rect" id="node6" href="$classAntipatrea_1_1Cfg.html" title="Configuration representation. " alt="" coords="411,157,522,184"/>
+</map>

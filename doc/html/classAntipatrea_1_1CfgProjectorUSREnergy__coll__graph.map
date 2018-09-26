@@ -1,0 +1,8 @@
+<map id="Antipatrea::CfgProjectorUSREnergy" name="Antipatrea::CfgProjectorUSREnergy">
+<area shape="rect" id="node2" href="$classAntipatrea_1_1CfgProjector.html" title="Motion&#45;planning component for managing and defining configuration projections. " alt="" coords="474,35,637,61"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="181,5,337,32"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="5,5,132,32"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1Allocator.html" title="Facilitates creating, deleting, and copying an array of values. " alt="" coords="189,56,329,83"/>
+<area shape="rect" id="node8" href="$classAntipatrea_1_1USRFactory.html" title="Produce the Ultrafast Shape Recognization (USR) coordinates. " alt="" coords="474,203,637,229"/>
+<area shape="rect" id="node9" href="$classAntipatrea_1_1point.html" title="Antipatrea::point" alt="" coords="201,203,318,229"/>
+</map>

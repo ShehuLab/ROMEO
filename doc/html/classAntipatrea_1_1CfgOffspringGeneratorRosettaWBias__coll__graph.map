@@ -1,0 +1,9 @@
+<map id="Antipatrea::CfgOffspringGeneratorRosettaWBias" name="Antipatrea::CfgOffspringGeneratorRosettaWBias">
+<area shape="rect" id="node2" href="$classAntipatrea_1_1CfgOffspringGeneratorRosetta.html" title="Use Rosetta/library to generate an offspring near the parent configuration. " alt="" coords="759,197,921,238"/>
+<area shape="rect" id="node3" href="$classAntipatrea_1_1CfgOffspringGenerator.html" title="Generate an offspring configuration near the parent configuration. " alt="" coords="471,58,634,99"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1Component.html" title="Base class for each motion&#45;planning component. " alt="" coords="181,5,337,32"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="5,5,132,32"/>
+<area shape="rect" id="node7" href="$classAntipatrea_1_1Cfg.html" title="Configuration representation. " alt="" coords="204,120,315,147"/>
+<area shape="rect" id="node10" href="$classAntipatrea_1_1Selector.html" title="Antipatrea::Selector\l\&lt; int \&gt;" alt="" coords="484,314,621,355"/>
+<area shape="rect" id="node11" href="$classAntipatrea_1_1Selector_1_1Node.html" title="Contains item key and weight as well as left, right, and parent pointers. " alt="" coords="191,314,328,355"/>
+</map>

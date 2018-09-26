@@ -1,0 +1,12 @@
+<map id="Antipatrea::FELTRVertex" name="Antipatrea::FELTRVertex">
+<area shape="rect" id="node2" href="$classAntipatrea_1_1PlannerVertex.html" title="Vertex representation in the graph (roadmap or tree) constructed by a sampling&#45;based motion planner..." alt="" coords="595,103,766,129"/>
+<area shape="rect" id="node3" href="$structAntipatrea_1_1DisjointSet_1_1Elem.html" title="Antipatrea::DisjointSet\l::Elem" alt="" coords="251,95,404,137"/>
+<area shape="rect" id="node4" href="$classAntipatrea_1_1Cfg.html" title="Configuration representation. " alt="" coords="272,5,383,32"/>
+<area shape="rect" id="node5" href="$classAntipatrea_1_1FELTRRegion.html" title="Antipatrea::FELTRRegion" alt="" coords="595,263,767,289"/>
+<area shape="rect" id="node11" href="$classAntipatrea_1_1FELTRCell.html" title="Implement the FELTR algorithm. See IJRR (2010) Shehu, Olson Guiding the Search for Native&#45;like Protei..." alt="" coords="603,201,758,228"/>
+<area shape="rect" id="node7" href="$classAntipatrea_1_1Selector.html" title="Antipatrea::Selector\l\&lt; Antipatrea::FELTRCell *\&gt;" alt="" coords="236,278,419,319"/>
+<area shape="rect" id="node8" href="$classAntipatrea_1_1Selector_1_1Node.html" title="Contains item key and weight as well as left, right, and parent pointers. " alt="" coords="5,238,143,279"/>
+<area shape="rect" id="node12" href="$classAntipatrea_1_1Selector.html" title="Antipatrea::Selector\l\&lt; int \&gt;" alt="" coords="259,161,396,202"/>
+<area shape="rect" id="node9" href="$classAntipatrea_1_1Grid.html" title="Antipatrea::Grid" alt="" coords="271,344,384,371"/>
+<area shape="rect" id="node10" href="$classAntipatrea_1_1Object.html" title="Antipatrea::Object" alt="" coords="11,344,137,371"/>
+</map>
