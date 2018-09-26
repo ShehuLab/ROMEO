@@ -49,9 +49,9 @@ ADD_DEFINITIONS(-D_USE_MATH_DEFINES)
 INCLUDE_DIRECTORIES(src)
 
 # 
-# IF RUNNER_ROSETTA_DIR is set, include Rosetta software package
+# IF ROMEO_ROSETTA_DIR is set, include Rosetta software package
 #
-if (DEFINED ENV{RUNNER_ROSETTA_DIR})
+if (DEFINED ENV{ROMEO_ROSETTA_DIR})
   message(STATUS "Rosetta plugin will be compiled.")
   set (USE_ROSETTA true)
   ## ADD_DEFINITIONS(-DPTR_BOOST)
@@ -60,7 +60,7 @@ if (DEFINED ENV{RUNNER_ROSETTA_DIR})
   include_directories(${ROSETTA_INCLUDE_DIRS})
   message(STATUS "Rosetta include dirs: ${ROSETTA_INCLUDE_DIRS}")
   link_directories(${ROSETTA_LIBRARY_DIR})
-else(DEFINED ENV{RUNNER_ROSETTA_DIR})
+else(DEFINED ENV{ROMEO_ROSETTA_DIR})
   set (USE_ROSETTA 0)
 endif()
 
