@@ -25,10 +25,15 @@ ROMEO_ROSETTA_DIR -- points to the base directory where Rosetta
                       is installed.  For example:
      export ROMEO_ROSETTA_DIR=/home/kmolloy/rosetta_src_2017.08.59291_bundle
 
-You can then run CMake to build ROMEO.  Normally, the build directory
-is kept separate from the source directory.  So, lets assume that the
-following directories have been created for the source code and build area
-respectively:
+You can then run CMake to build ROMEO.  If Rosetta is configured properly, 
+you should see a line in the cmake output that looks like:
+
+Rosetta plugin will be compiled.
+
+Normally, the build directory is kept separate from the source 
+directory.  So, lets assume that the following directories have been 
+created for the source code and build area respectively:
+
         unzip/git clone ROMEO into /home/myuser which will create
                the /home/myuser/ROMEO directory.
 	/home/myuser/ROMEO_bin will be used for building the exes.

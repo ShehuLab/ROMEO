@@ -6,7 +6,7 @@
 cmake_policy(SET CMP0009 NEW)
 cmake_policy(SET CMP0011 NEW)
 
-set (ROSETTA_DIR $ENV{RUNNER_ROSETTA_DIR})
+set (ROSETTA_DIR $ENV{ROMEO_ROSETTA_DIR})
 message(STATUS "Rosetta root directory is ${ROSETTA_DIR}" )
 
 ## verify that an include file we need exists
