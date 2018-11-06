@@ -1,6 +1,7 @@
 #include <Planners/FELTR.hpp>
 #include <Components/CfgAcceptors/CfgAcceptorBasedOnMMC.hpp>
 #include <Components/CfgAcceptors/CfgAcceptorBasedOnFixedMMC.hpp>
+#include <math.h>
 
 #include <iostream>
 
@@ -33,7 +34,9 @@ namespace Antipatrea
                 region->AddVertex(vid,cfg,projection,
                                   newVertex->region,
                                   newVertex->cell);
-
+                m_totalEnergy        += cfg->GetEnergy();
+                m_totalEnergySquared += pow(cfg->GetEnergy(),2);
+                m_nodeCount++;
                 m_selector.Update(regionNode,region->GetWeight());
             }
         }
@@ -42,6 +45,7 @@ namespace Antipatrea
 
         return (vid);
     }
+
 
     Selector<FELTRRegion *>::Node * FELTR::GetEnergyRegion(double projection[])
     {
@@ -70,7 +74,7 @@ namespace Antipatrea
             }
             cfgDims = cfgDims/3;
 
-            region = new FELTRRegion(regionID,m_cellGridGranularity,cfgDims);
+            region = new FELTRRegion(regionID,m_cellGridGranularity,cfgDims,m_weightScheme);
             region->SetCfgDistance(GetCfgDistance());
 
             regionNode = m_selector.Create();
@@ -86,9 +90,57 @@ namespace Antipatrea
         return(regionNode);
     }
 
+    Selector<FELTRRegion *>::Node * FELTR::SelectNORM(void)
+    {
+    	double mu = m_totalEnergy/m_nodeCount;
+    	double stdDev = sqrt(m_totalEnergySquared/m_nodeCount - pow(mu,2));
+    	std::normal_distribution<double> d(mu,stdDev);
+
+    	double sampledEnergy = d(generator);
+
+    	double thisProjection[4] = {1, 1, 1, sampledEnergy};
+
+    	int regionID = m_energyGrid.GetCellIdFromPoint(thisProjection);
+    	auto iter = m_FELTRRegionToSelectorMap.find(regionID);
+    	Selector<FELTRRegion*>::Node * nodeRegion;
+
+    	if (iter == m_FELTRRegionToSelectorMap.end())
+    	{
+
+    		double minDist = 999999999999.99;
+    		for (auto iter2 = m_FELTRRegionToSelectorMap.begin();iter2 != m_FELTRRegionToSelectorMap.end();iter2++)
+    		{
+    			if (iter2->second->GetKey()->GetMinE() < minDist)
+    			{
+    				minDist = iter2->second->GetKey()->GetMinE();
+    				nodeRegion = iter2->second;
+    			}
+    		}
+    	}
+    	else
+    	{
+    		nodeRegion = iter->second;
+    	}
+
+    	/* std::cout << "Norm mu:" << mu << " std:" << stdDev << " selected energy level:" << sampledEnergy
+    			  << " energy of region:" << nodeRegion->GetKey()->GetMinE() << "\n"; */
+
+    	return nodeRegion;
+    }
+
+
+
     int FELTR::SelectVertex(void)
     {
-        auto regionNode = m_selector.Select();
+    	Selector<FELTRRegion *>::Node * regionNode;
+
+    	if (m_weightScheme == NORM) {
+    		regionNode = SelectNORM();
+    	}
+    	else
+    	{
+    		regionNode = m_selector.Select();
+    	}
 
         auto region = regionNode->GetKey();
 

@@ -180,7 +180,10 @@ namespace Antipatrea
         const double VAL_EnergyGrid_Min            = -50.0;
         const double VAL_EnergyGrid_Max            = 200.0;
         const int    VAL_CellGrid_Granularity      = 30;
-
+        const char   KW_FELTR_ENERGYWEIGHT_SCHEME[] = "EnergyWeightScheme";
+        const char   VAL_FELTR_ENERGY_QUAD[]        = "QUAD";
+        const char   VAL_FELTR_ENERGY_LINEAR[]      = "LINEAR";
+        const char   VAL_FELTR_ENERGY_NORM[]        = "NORM";
         //SPRINT
         const char   KW_SPRINT[]                    = "Sprint";
         const char   KW_SPRINT_REGION_EXP[]         = "RegionExp";

@@ -15,6 +15,7 @@
 #include "Planners/FELTRRegion.hpp"
 #include "Utils/Grid.hpp"
 
+#include <random>
 
 namespace Antipatrea
 {
@@ -62,12 +63,17 @@ namespace Antipatrea
     class FELTR : public TreeSamplingBasedPlanner,
                   public CfgProjectorContainer
     {
+    	 enum WeightFunc {LINEAR=1, QUAD=2,NORM=3};
+    	 typedef enum WeightFunc WeightFunc;
     public:
         FELTR(void) : TreeSamplingBasedPlanner(),
                      m_energyGridGranularity(Constants::VAL_EnergyGrid_Granularity),
                      m_energyGridMin(Constants::VAL_EnergyGrid_Min),
                      m_energyGridMax(Constants::VAL_EnergyGrid_Max),
-                     m_cellGridGranularity(Constants::VAL_CellGrid_Granularity)
+                     m_cellGridGranularity(Constants::VAL_CellGrid_Granularity),
+					 m_totalEnergy(0.0),
+					 m_totalEnergySquared(0.0),
+					 m_nodeCount(0)
         {
         }
 
@@ -109,6 +115,20 @@ namespace Antipatrea
                                                                     m_energyGridMin));
                 m_energyGridMax = (data->m_params->GetValueAsDouble(Constants::KW_FELTR_ENERGYGRID_MAX,
                                                                     m_energyGridMax));
+                auto weightScheme = data->m_params->GetValue(Constants::KW_FELTR_ENERGYWEIGHT_SCHEME);
+
+                if (StrSameContent(weightScheme, Constants::VAL_FELTR_ENERGY_QUAD))
+                	m_weightScheme = QUAD;
+                else if (StrSameContent(weightScheme, Constants::VAL_FELTR_ENERGY_LINEAR))
+                    m_weightScheme = LINEAR;
+                else if (StrSameContent(weightScheme, Constants::VAL_FELTR_ENERGY_NORM))
+                	m_weightScheme = NORM;
+                else {
+
+                	m_weightScheme = QUAD;
+
+                }
+
             }
 
             // initialize 1st level projection coordinates, which ignore
@@ -128,6 +148,9 @@ namespace Antipatrea
 
             gMin[FELTR_ENERGY_COORD_OFFSET] = m_energyGridMin;
             gMax[FELTR_ENERGY_COORD_OFFSET] = m_energyGridMax;
+
+            // determine energy cell size
+            m_energyCellSize = (m_energyGridMax - m_energyGridMin) / m_energyGridGranularity;
 
             Logger::m_out << "Making energy grid with min:" << m_energyGridMin
                           << " and max:" << m_energyGridMax << "\n";
@@ -179,6 +202,8 @@ namespace Antipatrea
          */
         virtual int SelectVertex(void);
 
+        virtual Selector<FELTRRegion *>::Node *  SelectNORM(void);
+
         /**
           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
           *@brief  The granularity (number of cells in each dimension)
@@ -209,6 +234,8 @@ namespace Antipatrea
 
         double m_energyGridMax;
 
+        int m_weightScheme;
+
         /**
           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
           *@brief  Object that accepts the 4 projection coordinates and
@@ -220,7 +247,7 @@ namespace Antipatrea
 
         /**
           *@author Kevin Molloy, Erion Plaku, Amarda Shehu
-          *@brief  Allow for efficient probabilistic selection for an
+          *@brief  Allow for efficient probintabilistic selection for an
           *        energy region (stores pointers to energy regions and
           *        their associated weight).
           */
@@ -234,6 +261,13 @@ namespace Antipatrea
           */
 
         std::map<int,Selector<FELTRRegion*>::Node *> m_FELTRRegionToSelectorMap;
+
+        int    m_nodeCount;
+        double m_totalEnergy;
+        double m_totalEnergySquared;
+        double m_energyCellSize;
+
+        std::default_random_engine generator;
        };
 }
 #endif /* SRC_PLANNERS_FELTR_HPP_ */
