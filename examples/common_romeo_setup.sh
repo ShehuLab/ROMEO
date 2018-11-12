@@ -20,7 +20,7 @@ export ROMEO_BIN=~/code/ROMEO/build/bin
 ## Lines below should NOT need to be changed
 ##
 
-export RP=${ROMEO_BIN}/Runner
+export RP=${ROMEO_BIN}/romeo
 export MAKEPDB=${ROMEO_BIN}/MakePDBsFromSolution
 export WORKDIR=`pwd`
 export PDBDIR=~/code/ROMEO/ROMEO/examples/pdbs
