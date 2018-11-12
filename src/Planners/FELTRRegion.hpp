@@ -198,6 +198,7 @@ namespace Antipatrea
             {
                 case LINEAR:
                 	UpdateWeightP(1);
+                	break;
                 case QUAD:
                 default:
                     UpdateWeightP(2);

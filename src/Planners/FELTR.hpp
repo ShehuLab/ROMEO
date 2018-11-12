@@ -118,15 +118,20 @@ namespace Antipatrea
                 auto weightScheme = data->m_params->GetValue(Constants::KW_FELTR_ENERGYWEIGHT_SCHEME);
 
                 if (StrSameContent(weightScheme, Constants::VAL_FELTR_ENERGY_QUAD))
+                {
                 	m_weightScheme = QUAD;
+                }
                 else if (StrSameContent(weightScheme, Constants::VAL_FELTR_ENERGY_LINEAR))
+                {
                     m_weightScheme = LINEAR;
+                }
                 else if (StrSameContent(weightScheme, Constants::VAL_FELTR_ENERGY_NORM))
+                {
                 	m_weightScheme = NORM;
-                else {
-
+                }
+                else
+                {
                 	m_weightScheme = QUAD;
-
                 }
 
             }

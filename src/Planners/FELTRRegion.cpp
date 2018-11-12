@@ -75,7 +75,7 @@ namespace Antipatrea
         }
         else
         {
-            std::cout << "Found cell with id:" << cellId << "\n";
+            // std::cout << "Found cell with id:" << cellId << "\n";
             cellNode = iter->second;
             cell = cellNode->GetKey();
         }
